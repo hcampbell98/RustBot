@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Discord;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 
 // Keep in mind your module **must** be public and inherit ModuleBase.
 // If it isn't, it will not be discovered by AddModulesAsync!
@@ -16,6 +17,9 @@ public class Help : ModuleBase<SocketCommandContext>
     [Summary("Sends help info")]
     public async Task SendHelpMessage()
     {
+        Stopwatch sw = new Stopwatch();
+        sw.Start();
+
         Program p = new Program();
 
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
@@ -27,11 +31,11 @@ public class Help : ModuleBase<SocketCommandContext>
         EmbedFooterBuilder fb = new EmbedFooterBuilder();
 
 
-        fb.WithText($"Called by {Context.Message.Author.Username}");
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
 
         eb.WithTitle($"Help");
         eb.WithColor(Color.Red);
+        eb.WithFooter(fb);
 
         foreach (CommandInfo command in commands)
         {
@@ -48,7 +52,10 @@ public class Help : ModuleBase<SocketCommandContext>
             }
         }
 
-        await Context.Message.Channel.SendMessageAsync($"{Context.Message.Author.Mention}\n", false, eb.Build());
+        sw.Stop();
+        fb.WithText($"Called by {Context.Message.Author.Username} | Completed in {sw.ElapsedMilliseconds}ms");
+
+        await ReplyAsync($"{Context.Message.Author.Mention}\n", false, eb.Build());
 
         await Utilities.StatusMessage("help", Context);
     }

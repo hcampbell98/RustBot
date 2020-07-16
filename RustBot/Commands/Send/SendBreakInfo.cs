@@ -7,17 +7,20 @@ using System.Collections.Generic;
 using Discord;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 
 // Keep in mind your module **must** be public and inherit ModuleBase.
 // If it isn't, it will not be discovered by AddModulesAsync!
 public class Break : ModuleBase<SocketCommandContext>
 {
     string[] attackTypes = { "explosive", "melee", "guns", "throw" };
+    Stopwatch sw = new Stopwatch();
 
     [Command("break", RunMode = RunMode.Async)]
     [Summary("Sends structure breaking info. Valid parameters are as follows: \n*[targetType] - block/structure/building*\n*[attackType] - placeable/item/door*")]
     public async Task SendBreakInfo(string targetType, string attackType, [Remainder]string item)
     {
+        sw.Start();
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
 
         SearchBreakable sb;
@@ -54,12 +57,13 @@ public class Break : ModuleBase<SocketCommandContext>
         EmbedBuilder eb = new EmbedBuilder();
         EmbedFooterBuilder fb = new EmbedFooterBuilder();
 
-
-        fb.WithText($"Called by {Context.Message.Author.Username}");
+        sw.Stop();
+        fb.WithText($"Called by {Context.Message.Author.Username} | Completed in {sw.ElapsedMilliseconds}ms");
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
         eb.WithColor(Color.Red);
         eb.WithThumbnailUrl(breakable.Icon);
         eb.WithTitle($"{breakable.ItemName}");
+        eb.WithFooter(fb);
 
         eb.AddField("Information", $"HP: {breakable.HP}");
 

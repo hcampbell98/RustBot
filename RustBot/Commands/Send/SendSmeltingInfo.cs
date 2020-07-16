@@ -282,8 +282,8 @@ public class Smelting : InteractiveBase
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
         eb.WithColor(Color.Red);
 
-        eb.WithThumbnailUrl("https://rustlabs.com/img/items180/furnace.png");
-        eb.WithTitle($"Small Furnace");
+        eb.WithThumbnailUrl("https://rustlabs.com/img/items180/furnace.large.png");
+        eb.WithTitle($"Large Furnace");
         eb.AddField(oreType, $"Time: {formattedTime}\nWood Required: {totalWood}\nCharcoal Produced: {totalWood}");
         eb.AddField("Efficient Slot Numbers", $"{oddSlot} - {oddSlot} - {oddSlot} - {oddSlot} - {oddSlot} - {otherSlots} - {otherSlots} - {otherSlots} - {otherSlots} - {otherSlots} - {otherSlots} - {otherSlots} - {otherSlots} - {otherSlots} - {otherSlots}");
 

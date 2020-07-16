@@ -8,15 +8,19 @@ using Discord;
 using System.Linq;
 using System.Text;
 using Discord.Addons.Interactive;
+using System.Diagnostics;
 
 // Keep in mind your module **must** be public and inherit ModuleBase.
 // If it isn't, it will not be discovered by AddModulesAsync!
 public class ItemInfo : InteractiveBase
 {
+    Stopwatch sw = new Stopwatch();
+
     [Command("item", RunMode = RunMode.Async)]
     [Summary("Sends item info")]
     public async Task SendItemInfo([Remainder]string item)
     {
+        sw.Start();
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
 
         //Stops people spamming characters as to lag the bot
@@ -41,11 +45,13 @@ public class ItemInfo : InteractiveBase
                 }
 
                 si.Append("\n**Please type the number of the item you are looking for.**");
+                sw.Stop();
 
                 await ReplyAsync("", false, Utilities.GetEmbedMessage("Search Results", "Multiple Results", si.ToString(), Context.Message.Author, Color.Red));
 
                 
                 var response = await NextMessageAsync();
+                sw.Start();
 
                 if(response != null)
                 {
@@ -72,7 +78,6 @@ public class ItemInfo : InteractiveBase
         EmbedFooterBuilder fb = new EmbedFooterBuilder();
 
 
-        fb.WithText($"Called by {Context.Message.Author.Username}");
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
 
         eb.WithThumbnailUrl(i.Icon);
@@ -119,6 +124,9 @@ public class ItemInfo : InteractiveBase
 
             eb.AddField("Ingredients", $"{sb.ToString()}", false);
         }
+
+        sw.Stop();
+        fb.WithText($"Called by {Context.Message.Author.Username} | Completed in {sw.ElapsedMilliseconds}ms");
 
         eb.WithColor(Color.Red);
         eb.WithFooter(fb);
