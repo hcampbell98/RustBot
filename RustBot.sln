@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RustBot", "RustBot\RustBot.csproj", "{7110887C-FE3E-4948-9AA4-343BA98DCD4E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7110887C-FE3E-4948-9AA4-343BA98DCD4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7110887C-FE3E-4948-9AA4-343BA98DCD4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7110887C-FE3E-4948-9AA4-343BA98DCD4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7110887C-FE3E-4948-9AA4-343BA98DCD4E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D929B2C1-81FF-4CA3-A6E3-B1DEAF78322F}
+	EndGlobalSection
+EndGlobal
