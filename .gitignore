@@ -1,0 +1,7 @@
+bin
+obj
+Properties
+.vs
+*.csproj.user
+Config/token.cfg
+RustBot/Config/token.cfg
