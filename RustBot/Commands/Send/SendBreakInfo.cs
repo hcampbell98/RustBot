@@ -15,8 +15,8 @@ public class Break : ModuleBase<SocketCommandContext>
     string[] attackTypes = { "explosive", "melee", "guns", "throw" };
 
     [Command("break", RunMode = RunMode.Async)]
-    [Summary("Sends structure breaking info")]
-    public async Task SendBreakInfo(string type, string attackType, [Remainder]string item)
+    [Summary("Sends structure breaking info. Valid parameters are as follows: \n*[targetType] - block/structure/building*\n*[attackType] - placeable/item/door*")]
+    public async Task SendBreakInfo(string targetType, string attackType, [Remainder]string item)
     {
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
 
@@ -24,9 +24,9 @@ public class Break : ModuleBase<SocketCommandContext>
         bool attackCorrect = false;
 
         //If structure
-        if (type == "structure" || type == "block" || type == "building" || type == "build") { sb = await Utilities.SearchForBreakable("block", item); }
+        if (targetType == "structure" || targetType == "block" || targetType == "building" || targetType == "build") { sb = await Utilities.SearchForBreakable("block", item); }
         //If placeable
-        else if (type == "placeable" || type == "item" || type == "door") { sb = await Utilities.SearchForBreakable("placeable", item); }
+        else if (targetType == "placeable" || targetType == "item" || targetType == "door") { sb = await Utilities.SearchForBreakable("placeable", item); }
         //If anything else
         else { await ReplyAsync("Type can either be *structure* or *placeable*."); return; }
 
@@ -57,7 +57,7 @@ public class Break : ModuleBase<SocketCommandContext>
 
         fb.WithText($"Called by {Context.Message.Author.Username}");
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
-
+        eb.WithColor(Color.Red);
         eb.WithThumbnailUrl(breakable.Icon);
         eb.WithTitle($"{breakable.ItemName}");
 
@@ -65,9 +65,11 @@ public class Break : ModuleBase<SocketCommandContext>
 
         StringBuilder sb = new StringBuilder();
 
-        foreach (AttackDurability ab in breakable.DurabilityInfo)
+        List<AttackDurability> sortedList = breakable.DurabilityInfo.OrderBy(x => Convert.ToInt32(x.Sulfur.Replace("-", "0").Replace("\n", "").Replace(",", "").Replace("×", ""))).ToList();
+
+        foreach (AttackDurability ab in sortedList)
         {
-            sb.Append($"**{ab.Tool}**\n*Quantity:* {ab.Quantity}    *Time:* {ab.Time}\n*Fuel:* {ab.Fuel.Replace("-", "0").Replace("\n", "")}    *Sulfur:* {ab.Sulfur.Replace("-", "0").Replace("\n", "")}\n");
+            sb.Append($"**{ab.Tool}**\n*Quantity:* {ab.Quantity}    *Time:* {ab.Time}s\n*Fuel:* {ab.Fuel.Replace("-", "0").Replace("\n", "")}    *Sulfur:* {ab.Sulfur.Replace("-", "0").Replace("\n", "")}\n\n");
         }
 
         eb.WithDescription(sb.ToString());

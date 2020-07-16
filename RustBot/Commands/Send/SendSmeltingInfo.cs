@@ -262,6 +262,7 @@ public class Smelting : InteractiveBase
 
         fb.WithText($"Called by {Context.Message.Author.Username}");
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
+        eb.WithColor(Color.Red);
 
         eb.WithThumbnailUrl("https://rustlabs.com/img/items180/furnace.png");
         eb.WithTitle($"Small Furnace");
@@ -279,6 +280,7 @@ public class Smelting : InteractiveBase
 
         fb.WithText($"Called by {Context.Message.Author.Username}");
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
+        eb.WithColor(Color.Red);
 
         eb.WithThumbnailUrl("https://rustlabs.com/img/items180/furnace.png");
         eb.WithTitle($"Small Furnace");

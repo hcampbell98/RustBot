@@ -23,38 +23,30 @@ public class Help : ModuleBase<SocketCommandContext>
         List<CommandInfo> commands = Program._commands.Commands.ToList();
         commands = commands.OrderBy(x => x.Name).ToList();
 
-        StringBuilder helpMessage = new StringBuilder();
-        StringBuilder individualCMDs = new StringBuilder();
+        EmbedBuilder eb = new EmbedBuilder();
+        EmbedFooterBuilder fb = new EmbedFooterBuilder();
 
-        helpMessage.Append("```");
+
+        fb.WithText($"Called by {Context.Message.Author.Username}");
+        fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
+
+        eb.WithTitle($"Help");
+        eb.WithColor(Color.Red);
 
         foreach (CommandInfo command in commands)
         {
             if (command.Module.Group != "admin")
             {
-                //Name of command - Example, !help
-                individualCMDs.Append(Program.prefix + command.Name);
-
-                //Appends all parameters - Example, [item]
+                StringBuilder args = new StringBuilder();
                 foreach (ParameterInfo param in command.Parameters)
                 {
-                    individualCMDs.Append($" [{param.Name}]");
+                    args.Append($" [{param.Name}]");
                 }
-                //Appends the command summary, Example - Sends help information
-                individualCMDs.Append($" - {command.Summary}\n");
 
-                helpMessage.Append(individualCMDs.ToString() + "\n");
-                individualCMDs.Clear();
+                //Name of command - Example, !help
+                eb.AddField($"{Program.prefix}{command.Name}{args.ToString()}", $"{command.Summary}");
             }
         }
-        helpMessage.Append("```");
-
-        EmbedBuilder eb = new EmbedBuilder();
-        eb.WithTitle("Help");
-        eb.WithDescription(helpMessage.ToString());
-        eb.WithUrl("https://nickgor.com");
-        eb.WithCurrentTimestamp();
-        eb.WithColor(Color.Green);
 
         await Context.Message.Channel.SendMessageAsync($"{Context.Message.Author.Mention}\n", false, eb.Build());
 
