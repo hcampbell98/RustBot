@@ -56,9 +56,9 @@ public class Break : InteractiveBase
         BreakableInfo bi = await Utilities.GetBreakableInfo(sb, attack);
 
         //Removes the attack info message
-        //await aInfoMsg.DeleteAsync();
+        await aInfoMsg.DeleteAsync();
         //Removes the structure info message
-        //await sInfoMsg.DeleteAsync();
+        await sInfoMsg.DeleteAsync();
 
         await ReplyAsync("", false, GetEmbed(bi));
         Console.WriteLine(8);
@@ -68,11 +68,9 @@ public class Break : InteractiveBase
 
     public Embed GetEmbed(BreakableInfo breakable)
     {
-        Console.WriteLine(1);
         EmbedBuilder eb = new EmbedBuilder();
         EmbedFooterBuilder fb = new EmbedFooterBuilder();
 
-        Console.WriteLine(2);
         sw.Stop();
         fb.WithText($"Called by {Context.Message.Author.Username} | Completed in {sw.ElapsedMilliseconds}ms");
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
@@ -80,25 +78,19 @@ public class Break : InteractiveBase
         eb.WithThumbnailUrl(breakable.Icon);
         eb.WithTitle($"{breakable.ItemName}");
         eb.WithFooter(fb);
-        Console.WriteLine(3);
 
         eb.AddField("Information", $"HP: {breakable.HP}");
-        Console.WriteLine(4);
 
         StringBuilder sb = new StringBuilder();
 
-        List<AttackDurability> sortedList = breakable.DurabilityInfo.OrderBy(x => Convert.ToInt32(x.Sulfur.Replace("-", "0").Replace("\n", "").Replace(",", "").Replace("×", ""))).ToList();
-        Console.WriteLine(5);
+        List<AttackDurability> sortedList = breakable.DurabilityInfo.OrderBy(x => Convert.ToInt32(Utilities.GetDID(x.Sulfur))).ToList();
 
         foreach (AttackDurability ab in sortedList)
         {
             sb.Append($"**{ab.Tool}**\n*Quantity:* {ab.Quantity}    *Time:* {ab.Time}s\n*Fuel:* {Utilities.GetDID(ab.Fuel)}    *Sulfur:* {Utilities.GetDID(ab.Sulfur)}\n\n");
-            Console.WriteLine(5.5);
         }
-        Console.WriteLine(6);
 
         eb.WithDescription(sb.ToString());
-        Console.WriteLine(7);
 
         return eb.Build();
     }
