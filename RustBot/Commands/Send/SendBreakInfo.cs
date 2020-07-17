@@ -17,7 +17,7 @@ public class Break : InteractiveBase
     string[] attackTypes = { "explosive", "melee", "guns", "throw" };
     Stopwatch sw = new Stopwatch();
 
-    [Command("break", RunMode = RunMode.Async)]
+    [Command("break")]
     [Summary("Sends structure breaking info.")]
     public async Task SendBreakInfo([Remainder]string item)
     {
