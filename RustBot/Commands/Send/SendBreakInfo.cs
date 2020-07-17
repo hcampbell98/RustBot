@@ -14,10 +14,9 @@ using System.Diagnostics;
 // If it isn't, it will not be discovered by AddModulesAsync!
 public class Break : InteractiveBase
 {
-    string[] attackTypes = { "explosive", "melee", "guns", "throw" };
     Stopwatch sw = new Stopwatch();
 
-    [Command("break")]
+    [Command("break", RunMode = RunMode.Async)]
     [Summary("Sends structure breaking info.")]
     public async Task SendBreakInfo([Remainder]string item)
     {
