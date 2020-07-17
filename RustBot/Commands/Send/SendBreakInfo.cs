@@ -56,9 +56,9 @@ public class Break : InteractiveBase
         BreakableInfo bi = await Utilities.GetBreakableInfo(sb, attack);
 
         //Removes the attack info message
-        await aInfoMsg.DeleteAsync();
+        //await aInfoMsg.DeleteAsync();
         //Removes the structure info message
-        await sInfoMsg.DeleteAsync();
+        //await sInfoMsg.DeleteAsync();
 
 
         await ReplyAsync("", false, GetEmbed(bi));
