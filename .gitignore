@@ -8,3 +8,4 @@ RustBot/Config/token.cfg
 RustBot/obj/Debug/netcoreapp3.1/RustBot.pdb
 RustBot/obj/Debug/netcoreapp3.1/RustBot.dll
 RustBot/obj/Debug/netcoreapp3.1/RustBot.csproj.CoreCompileInputs.cache
+RustBot/Config/token.cfg
