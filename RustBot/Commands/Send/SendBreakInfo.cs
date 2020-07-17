@@ -42,7 +42,6 @@ public class Break : InteractiveBase
         var attackType = await NextMessageAsync();
         sw.Start();
 
-        Console.WriteLine("1");
         string attack;
 
         if (attackType.Content == "1") { attack = "explosive"; }
@@ -50,19 +49,17 @@ public class Break : InteractiveBase
         else if (attackType.Content == "3") { attack = "guns"; }
         else if (attackType.Content == "4") { attack = "throw"; }
         else { await ReplyAsync("Please type the number of the attack type. Run the command again."); return; }
-        Console.WriteLine("2");
+
         //If item is not found, reply with an error message and return
         if (sb == null) { await ReplyAsync("Structure/Placeable not found."); return; }
 
-        Console.WriteLine("3");
         BreakableInfo bi = await Utilities.GetBreakableInfo(sb, attack);
-        Console.WriteLine("4");
+
         //Removes the attack info message
         //await aInfoMsg.DeleteAsync();
         //Removes the structure info message
         //await sInfoMsg.DeleteAsync();
 
-        Console.WriteLine("5");
         await ReplyAsync("", false, GetEmbed(bi));
         await Utilities.StatusMessage("break", Context);
     }
@@ -88,7 +85,7 @@ public class Break : InteractiveBase
 
         foreach (AttackDurability ab in sortedList)
         {
-            sb.Append($"**{ab.Tool}**\n*Quantity:* {ab.Quantity}    *Time:* {ab.Time}s\n*Fuel:* {ab.Fuel.Replace("-", "0").Replace("\n", "")}    *Sulfur:* {ab.Sulfur.Replace("-", "0").Replace("\n", "")}\n\n");
+            sb.Append($"**{ab.Tool}**\n*Quantity:* {ab.Quantity}    *Time:* {ab.Time}s\n*Fuel:* {Utilities.GetDID(ab.Fuel)}    *Sulfur:* {Utilities.GetDID(ab.Sulfur)}\n\n");
         }
 
         eb.WithDescription(sb.ToString());
