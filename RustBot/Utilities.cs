@@ -306,6 +306,37 @@ namespace SSRPBalanceBot
             }
         }
 
+        //Item Store Info
+        public static async Task<List<ItemStoreItem>> GetItemStore()
+        {
+            using (WebClient wc = new WebClient())
+            {
+                string page = await wc.DownloadStringTaskAsync(new Uri("https://store.steampowered.com/itemstore/252490/"));
+
+                var parsePage = new HtmlDocument();
+                parsePage.LoadHtml(page);
+
+                List<ItemStoreItem> storeList = new List<ItemStoreItem> { };
+
+                try
+                {
+                    foreach (var itemRow in parsePage.DocumentNode.SelectNodes("/html/body/div[1]/div[7]/div[4]/div/div[4]/div/div[1]/a"))
+                    {
+                        string itemLink = itemRow.GetAttributeValue("href", "");
+                        string itemName = itemRow.SelectSingleNode("div/div[2]/div[1]").InnerText;
+                        string itemPrice = itemRow.SelectSingleNode("div/div[2]/div[2]").InnerText;
+                        string itemIcon = itemRow.SelectSingleNode("div/div[1]/img").GetAttributeValue("src", "");
+
+                        storeList.Add(new ItemStoreItem() { ItemName = itemName, ItemPrice = itemPrice, ItemURL = itemLink, ItemIcon = itemIcon });
+                    }
+                    return storeList;
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
+        }
 
 
         public static Embed GetEmbedMessage(string messageTitle, string fieldTitle, string fieldContents, SocketUser user, Color messageColor)
@@ -346,6 +377,14 @@ namespace SSRPBalanceBot
             text = text ?? string.Empty;
             return new string(text.Where(p => char.IsDigit(p)).ToArray());
         }
+    }
+
+    public class ItemStoreItem
+    {
+        public string ItemName { get; set; }
+        public string ItemURL { get; set; }
+        public string ItemPrice { get; set; }
+        public string ItemIcon { get; set; }
     }
 
     public class Item
