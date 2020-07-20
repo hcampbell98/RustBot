@@ -39,7 +39,7 @@ public class Help : ModuleBase<SocketCommandContext>
 
         foreach (CommandInfo command in commands)
         {
-            if (command.Module.Group != "admin" || command.Module.Group != "wip")
+            if (command.Module.Group != "admin" && command.Module.Group != "wip")
             {
                 StringBuilder args = new StringBuilder();
                 foreach (ParameterInfo param in command.Parameters)
