@@ -21,7 +21,7 @@ public class SetNextRoll : ModuleBase<SocketCommandContext>
         if(mention != null)
         {
             ulong dID;
-            ulong.TryParse(Utilities.GetDID(mention), out dID);
+            ulong.TryParse(Utilities.GetNumbers(mention), out dID);
 
             Program.nextRolls.Add(new NextRoll { userID = dID, nextRoll = nextRoll });
         }

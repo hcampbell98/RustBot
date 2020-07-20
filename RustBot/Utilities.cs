@@ -338,6 +338,36 @@ namespace SSRPBalanceBot
             }
         }
 
+        //Skin Price Info
+        public static async Task<List<SkinInfo>> GetSkinInfo(string skinName, string orderBy, string orderDirection)
+        {
+            using (WebClient wc = new WebClient())
+            {
+                string page = await wc.DownloadStringTaskAsync(new Uri($"https://rustlabs.com/skins#search={skinName};order={orderBy},{orderDirection}"));
+
+                var parsePage = new HtmlDocument();
+                parsePage.LoadHtml(page);
+
+                List<SkinInfo> skinList = new List<SkinInfo> { };
+
+                foreach (var searchResult in parsePage.DocumentNode.SelectNodes("/html/body/div[1]/div[1]/div[1]/a"))
+                {
+                    if (IsNodeVisible(searchResult))
+                    {
+                        string sName = searchResult.GetAttributeValue("data-name", "");
+                        string sURL = searchResult.GetAttributeValue("href", "").Replace("//rustlabs.com/", "https://rustlabs.com/");
+                        string sPrice = searchResult.GetAttributeValue("data-price", "");
+                        string sUsualPrice = searchResult.GetAttributeValue("data-price-2", "");
+
+                        skinList.Add(new SkinInfo() { SkinName = sName, SkinPrice = sPrice, SkinURL = sURL, SkinUsualPrice = sUsualPrice });
+                    }
+                }
+                
+
+                return skinList;
+            }
+        }
+
 
         public static Embed GetEmbedMessage(string messageTitle, string fieldTitle, string fieldContents, SocketUser user, Color messageColor)
         {
@@ -372,11 +402,79 @@ namespace SSRPBalanceBot
               .Select(s => s[randomStr.Next(s.Length)]).ToArray());
         }
 
-        public static string GetDID(string text)
+        public static string GetNumbers(string text)
         {
             text = text ?? string.Empty;
             return new string(text.Where(p => char.IsDigit(p)).ToArray());
         }
+
+        //Check node visibility
+        private static bool IsNodeVisible(HtmlAgilityPack.HtmlNode node)
+        {
+            var attribute = node.Attributes["style"];
+
+            bool thisVisible = false;
+
+            if (attribute == null || CheckStyleVisibility(attribute.Value))
+                thisVisible = true;
+
+            if (thisVisible && node.ParentNode != null)
+                return IsNodeVisible(node.ParentNode);
+
+            return thisVisible;
+        }
+
+        private static bool CheckStyleVisibility(string style)
+        {
+            if (string.IsNullOrWhiteSpace(style))
+                return true;
+
+            var keys = ParseHtmlStyleString(style);
+
+            if (keys.Keys.Contains("display"))
+            {
+                string display = keys["display"];
+                if (display != null && display == "none;")
+                    return false;
+            }
+
+            if (keys.Keys.Contains("visibility"))
+            {
+                string visibility = keys["visibility"];
+                if (visibility != null && visibility == "hidden")
+                    return false;
+            }
+
+            return true;
+        }
+
+        public static Dictionary<string, string> ParseHtmlStyleString(string style)
+        {
+            Dictionary<string, string> result = new Dictionary<string, string>();
+
+            style = style.Replace(" ", "").ToLowerInvariant();
+
+            string[] settings = style.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (string s in settings)
+            {
+                if (!s.Contains(':'))
+                    continue;
+                string[] data = s.Split(':');
+                result.Add(data[0], data[1]);
+            }
+
+            return result;
+        }
+
+    }
+
+    public class SkinInfo
+    {
+        public string SkinName { get; set; }
+        public string SkinURL { get; set; }
+        public string SkinPrice { get; set; }
+        public string SkinUsualPrice { get; set; }
     }
 
     public class ItemStoreItem

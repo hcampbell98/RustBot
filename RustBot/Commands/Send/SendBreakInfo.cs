@@ -83,11 +83,11 @@ public class Break : InteractiveBase
 
         StringBuilder sb = new StringBuilder();
 
-        //List<AttackDurability> sortedList = breakable.DurabilityInfo.OrderBy(x => Convert.ToInt32(Utilities.GetDID(x.Sulfur))).ToList();
+        //List<AttackDurability> sortedList = breakable.DurabilityInfo.OrderBy(x => Convert.ToInt32(Utilities.GetNumbers(x.Sulfur))).ToList();
 
         foreach (AttackDurability ab in breakable.DurabilityInfo)
         {
-            sb.Append($"**{ab.Tool}**\n*Quantity:* {ab.Quantity}    *Time:* {ab.Time}s\n*Fuel:* {Utilities.GetDID(ab.Fuel)}    *Sulfur:* {Utilities.GetDID(ab.Sulfur)}\n\n");
+            sb.Append($"**{ab.Tool}**\n*Quantity:* {ab.Quantity}    *Time:* {ab.Time}s\n*Fuel:* {Utilities.GetNumbers(ab.Fuel)}    *Sulfur:* {Utilities.GetNumbers(ab.Sulfur)}\n\n");
         }
 
         eb.WithDescription(sb.ToString());

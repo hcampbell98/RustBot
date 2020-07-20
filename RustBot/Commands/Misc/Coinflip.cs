@@ -18,7 +18,7 @@ public class Coinflip : ModuleBase<SocketCommandContext>
 
         Random rnd = new Random();
 
-        string oppID = Utilities.GetDID(opponent);
+        string oppID = Utilities.GetNumbers(opponent);
 
         //Checks if the user was mentioned correctly. If not, displays an error message and returns.
         if (Context.Guild.Users.FirstOrDefault(user => user.Id.ToString() == oppID) == null) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Coinflip", "Error", "You need to @mention your opponent.", Context.Message.Author, Color.Blue)); return; }

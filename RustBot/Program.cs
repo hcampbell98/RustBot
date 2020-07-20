@@ -24,7 +24,7 @@ namespace SSRPBalanceBot
         public static List<SocketGuildUser> stackCooldownTarget = new List<SocketGuildUser>();
 
         public static int messageCooldown = 2;
-        public static string prefix = "r/";
+        public static string prefix = "r!";
 
         public static List<NextRoll> nextRolls = new List<NextRoll> { };
 
@@ -101,7 +101,7 @@ namespace SSRPBalanceBot
 
         private async Task SetGame()
         {
-            await _client.SetGameAsync("r/help");
+            await _client.SetGameAsync($"{prefix}help");
         }
 
         private async Task<bool> CheckCooldown(SocketUserMessage message)
