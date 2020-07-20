@@ -66,7 +66,7 @@ public class Refinery : InteractiveBase
 
         eb.WithThumbnailUrl("https://rustlabs.com/img/items180/small.oil.refinery.png");
         eb.WithTitle($"Small Oil Refinery");
-        eb.AddField(oreType, $"Time: {formattedTime}\nWood Required: {Math.Floor(totalWood)}\nCharcoal Produced: {Math.Floor(totalWood)}");
+        eb.AddField(oreType, $"Time: {formattedTime}\nWood Required: {Math.Floor(totalWood)}\nCharcoal Produced: {Math.Floor(totalWood * 0.75)}");
         eb.AddField("Efficient Slot Numbers", $"{oddSlot} - {otherSlots} - {otherSlots}");
 
         return eb.Build();
