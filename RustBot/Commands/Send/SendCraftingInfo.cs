@@ -18,7 +18,7 @@ public class Craft : InteractiveBase
 
     [Command("craft", RunMode = RunMode.Async)]
     [Summary("Sends crafting info")]
-    public async Task SendCraftingInfo(int number, [Remainder] string item)
+    public async Task SendCraftingInfo(Int64 number, [Remainder] string item)
     {
         sw.Start();
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
@@ -85,7 +85,7 @@ public class Craft : InteractiveBase
 
     }
 
-    private Embed GenMessage(Item i, int amount)
+    private Embed GenMessage(Item i, Int64 amount)
     {
         EmbedBuilder eb = new EmbedBuilder();
         EmbedFooterBuilder fb = new EmbedFooterBuilder();
@@ -105,7 +105,7 @@ public class Craft : InteractiveBase
 
             foreach (var d in i.Ingredients)
             {
-                if (Int32.TryParse(d.IngredientAmount.Replace("×", ""), out int defAmount))
+                if (Int32.TryParse(Utilities.CleanInput(d.IngredientAmount), out int defAmount))
                 {
                     sb.Append($"{d.IngredientName} x{((Int64)defAmount * amount).ToString("#,##0")}\n");
                 }
