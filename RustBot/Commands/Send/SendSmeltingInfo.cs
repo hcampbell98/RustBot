@@ -266,7 +266,7 @@ public class Smelting : InteractiveBase
 
         eb.WithThumbnailUrl("https://rustlabs.com/img/items180/furnace.png");
         eb.WithTitle($"Small Furnace");
-        eb.AddField(oreType, $"Time: {formattedTime}\nWood Required: {totalWood}\nCharcoal Produced: {totalWood}");
+        eb.AddField(oreType, $"Time: {formattedTime}\nWood Required: {totalWood}\nCharcoal Produced: {Math.Floor(totalWood * 0.75)}");
         eb.AddField("Efficient Slot Numbers", $"{oddSlot} - {otherSlots} - {otherSlots}");
 
         return eb.Build();
@@ -284,7 +284,7 @@ public class Smelting : InteractiveBase
 
         eb.WithThumbnailUrl("https://rustlabs.com/img/items180/furnace.large.png");
         eb.WithTitle($"Large Furnace");
-        eb.AddField(oreType, $"Time: {formattedTime}\nWood Required: {totalWood}\nCharcoal Produced: {totalWood}");
+        eb.AddField(oreType, $"Time: {formattedTime}\nWood Required: {totalWood}\nCharcoal Produced: {Math.Floor(totalWood * 0.75)}");
         eb.AddField("Efficient Slot Numbers", $"{oddSlot} - {oddSlot} - {oddSlot} - {oddSlot} - {oddSlot} - {otherSlots} - {otherSlots} - {otherSlots} - {otherSlots} - {otherSlots} - {otherSlots} - {otherSlots} - {otherSlots} - {otherSlots} - {otherSlots}");
 
         return eb.Build();
