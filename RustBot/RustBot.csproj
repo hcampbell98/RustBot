@@ -20,6 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Aliases\itemAliases.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Config\token.cfg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

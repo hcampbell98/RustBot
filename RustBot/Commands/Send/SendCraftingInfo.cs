@@ -9,6 +9,7 @@ using Discord.Addons.Interactive;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using RustBot.Aliases;
 
 // Keep in mind your module **must** be public and inherit ModuleBase.
 // If it isn't, it will not be discovered by AddModulesAsync!
@@ -27,6 +28,8 @@ public class Craft : InteractiveBase
         if (item.Length > 100) { await ReplyAsync("Please use a shorter item name."); return; }
         if (item.Length < 3) { await ReplyAsync("Please use a longer item name."); return; }
         if (number < 0) { await ReplyAsync("Input must be larger than 0."); return; }
+
+        if (AliasManager.GetItemName(item) != null) { item = AliasManager.GetItemName(item); }
 
         //Grabbing item info
         var itemInfo = await Utilities.SearchForItem(item);

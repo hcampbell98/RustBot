@@ -9,6 +9,7 @@ using Discord.Addons.Interactive;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using RustBot.Aliases;
 
 // Keep in mind your module **must** be public and inherit ModuleBase.
 // If it isn't, it will not be discovered by AddModulesAsync!
@@ -24,6 +25,8 @@ public class Break : InteractiveBase
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
 
         SearchBreakable sb;
+
+        if (AliasManager.GetItemName(item) != null) { item = AliasManager.GetItemName(item); }
 
         sw.Stop();
         var sInfoMsg = await ReplyAsync("", false, Utilities.GetEmbedMessage("Break Info", "Structure Type", "1. Building Block\n2. Placeable/Door/Window\n\n**Please type the number of the structure type.**", Context.Message.Author, Color.Red));
