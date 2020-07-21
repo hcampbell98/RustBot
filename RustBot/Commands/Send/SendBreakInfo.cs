@@ -30,9 +30,9 @@ public class Break : InteractiveBase
         var response = await NextMessageAsync();
         sw.Start();
         //If structure
-        if (response.Content == "1") { sb = await Utilities.SearchForBreakable("block", item); }
+        if (response.Content == "1") { sb = await Utilities.SearchForBreakable("block", item.ToLower()); }
         //If placeable
-        else if (response.Content == "2") { sb = await Utilities.SearchForBreakable("placeable", item); }
+        else if (response.Content == "2") { sb = await Utilities.SearchForBreakable("placeable", item.ToLower()); }
         //If anything else
         else { await ReplyAsync("Please type the number of the structure type. Run the command again."); return; }
 
