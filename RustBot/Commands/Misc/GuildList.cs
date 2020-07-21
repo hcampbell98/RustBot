@@ -20,10 +20,12 @@ public class GuildList : ModuleBase<SocketCommandContext>
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
 
         StringBuilder sb = new StringBuilder();
+        int totalMembers = 0;
 
         foreach(var guild in Program._client.Guilds)
         {
-            sb.Append($"{guild.Name} | {guild.Id}\n");
+            sb.Append($"{guild.Name} | {guild.MemberCount} | {guild.Id}\n");
+            totalMembers += guild.MemberCount;
         }
 
 
@@ -35,7 +37,7 @@ public class GuildList : ModuleBase<SocketCommandContext>
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
 
         eb.WithTitle($"Guild List");
-        eb.AddField($"{Program._client.Guilds.Count}", sb.ToString());
+        eb.AddField($"{Program._client.Guilds.Count} | {totalMembers}", sb.ToString());
         eb.WithColor(Color.Blue);
         eb.WithFooter(fb);
 
@@ -51,7 +53,7 @@ public class GuildList : ModuleBase<SocketCommandContext>
     {
         StringBuilder sb = new StringBuilder();
         string gName = "";
-
+        int gMembers = 0;
 
         foreach (var guild in Program._client.Guilds)
         {
@@ -62,6 +64,7 @@ public class GuildList : ModuleBase<SocketCommandContext>
                     sb.Append(member.Username + "\n");
                 }
                 gName = guild.Name;
+                gMembers += guild.MemberCount;
             }
         }
 
@@ -74,7 +77,7 @@ public class GuildList : ModuleBase<SocketCommandContext>
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
 
         eb.WithTitle($"Guild List");
-        eb.AddField($"{gName}", sb.ToString());
+        eb.AddField($"{gName} | {gMembers}", sb.ToString());
         eb.WithColor(Color.Blue);
         eb.WithFooter(fb);
 
