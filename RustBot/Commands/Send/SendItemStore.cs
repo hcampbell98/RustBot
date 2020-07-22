@@ -44,6 +44,5 @@ public class ItemStore : ModuleBase<SocketCommandContext>
         fb.WithText($"Called by {Context.Message.Author.Username} | Completed in {sw.ElapsedMilliseconds}ms");
 
         await ReplyAsync("", false, eb.Build());
-        await Utilities.StatusMessage("help", Context);
     }
 }

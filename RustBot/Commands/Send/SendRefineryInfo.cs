@@ -50,8 +50,6 @@ public class Refinery : InteractiveBase
         }
 
         await ReplyAsync("", false, GetSmallFurnEmbed("Crude Oil", totalTime, totalWood, oddSlot, otherSlots, formattedTime));
-
-        await Utilities.StatusMessage("help", Context);
     }
 
     public Embed GetSmallFurnEmbed(string oreType, double totalTime, double totalWood, double oddSlot, double otherSlots, string formattedTime)

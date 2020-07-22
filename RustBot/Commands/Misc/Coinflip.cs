@@ -26,6 +26,5 @@ public class Coinflip : ModuleBase<SocketCommandContext>
         string[] players = { Context.Message.Author.Id.ToString(), oppID };
 
         await ReplyAsync("", false, Utilities.GetEmbedMessage("Coinflip", "Outcome", $"<@!{players[rnd.Next(0,2)]}> wins!", Context.Message.Author, Color.Blue));
-        await Utilities.StatusMessage("roll", Context);
     }
 }

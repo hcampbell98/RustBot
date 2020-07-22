@@ -39,6 +39,5 @@ public class RandomName : ModuleBase<SocketCommandContext>
 
 
         await ReplyAsync("", false, eb.Build());
-        await Utilities.StatusMessage("randomname", Context);
     }
 }

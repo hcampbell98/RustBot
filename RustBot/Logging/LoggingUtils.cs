@@ -4,13 +4,15 @@ using System.Text;
 using System.IO;
 using Discord.WebSocket;
 using System.Threading.Tasks;
+using Discord;
 
 namespace SSRPBalanceBot
 {
     class LoggingUtils
     {
-        public static async Task Log(SocketUserMessage message, DateTime date)
+        public static async Task Log(SocketUserMessage message, DateTime date, bool isPrivate)
         {
+            if (isPrivate) { return; }
 
             var chnl = message.Channel as SocketGuildChannel;
 

@@ -72,7 +72,6 @@ public class Break : InteractiveBase
             await ReplyAsync("", false, Utilities.GetEmbedMessage("Break Info", "Error", $"There are too many results to fit into a Discord Embed, please click [here]({bi.URL}) to see your results.", Context.Message.Author, Color.Red));
         }
 
-        await Utilities.StatusMessage("break", Context);
     }
 
     public Embed GetEmbed(BreakableInfo breakable)

@@ -38,6 +38,7 @@ namespace SSRPBalanceBot
             _client.JoinedGuild += GuildHandler;
             _client.LeftGuild += GuildHandler;
             _client.Ready += _client_Ready;
+            _commands.CommandExecuted += _commands_CommandExecuted;
 
             await InstallCommandsAsync();
             var token = File.ReadAllText("Config/token.cfg");
@@ -46,6 +47,22 @@ namespace SSRPBalanceBot
             await _client.StartAsync();
 
             await Task.Delay(-1);
+        }
+
+        private Task _commands_CommandExecuted(Optional<CommandInfo> command, ICommandContext context, IResult arg3)
+        {
+            SocketCommandContext cntxt = context as SocketCommandContext;
+            string serverName;
+
+            //Ff the source channel is a DM
+            if (cntxt.IsPrivate) { serverName = "Private Channel"; }
+            else { serverName = context.Guild.Name; }
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"Time: {DateTime.Now} | Ran command: [{command.Value.Name}] | Called by: {context.Message.Author} | Server: {serverName}");
+            Console.ForegroundColor = ConsoleColor.Gray;
+
+            return Task.CompletedTask;
         }
 
         private async Task<Task> _client_Ready()
@@ -80,7 +97,9 @@ namespace SSRPBalanceBot
             if (message.Author.IsBot) { return; }
             int argPos = 0;
 
-            await LoggingUtils.Log(message, DateTime.Now);
+            
+
+            await LoggingUtils.Log(message, DateTime.Now, context.IsPrivate);
 
             if (!(message.HasStringPrefix(prefix, ref argPos) ||
                 message.HasMentionPrefix(_client.CurrentUser, ref argPos)))
@@ -93,9 +112,8 @@ namespace SSRPBalanceBot
                     argPos: argPos,
                     services: _services);
 
-                Console.WriteLine(result.ErrorReason);
                 //If the command run doesn't exist, the error message won't be thrown.
-                if (!result.IsSuccess && result.ErrorReason != "Unknown command.") { await context.Channel.SendMessageAsync($"Check the syntax of your command and try again. Try the {prefix}help docs"); await Utilities.StatusMessage("error", context); }
+                if (!result.IsSuccess && result.ErrorReason != "Unknown command.") { await context.Channel.SendMessageAsync($"Check the syntax of your command and try again. Try the {prefix}help docs."); Console.WriteLine(result.ErrorReason); }
             }
         }
 
@@ -123,7 +141,7 @@ namespace SSRPBalanceBot
                     //If enough time hasn't passed, reply letting them know how much longer they need to wait, and end the code.
                     int secondsLeft = (int)(Program.stackCooldownTimer[Program.stackCooldownTarget.IndexOf(message.Author as SocketGuildUser)].AddSeconds(messageCooldown) - DateTimeOffset.Now).TotalSeconds;
 
-                    if (secondsLeft > messageCooldown - 1) { await message.Author.SendMessageAsync($"You have to wait at least {secondsLeft} seconds before you can use that command again!"); }
+                    if (secondsLeft > 0) { await message.Author.SendMessageAsync($"You have to wait {secondsLeft} seconds before you can use that command again!"); }
                     cooldown = true;
                 }
                 else

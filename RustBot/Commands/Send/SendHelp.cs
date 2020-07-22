@@ -30,12 +30,12 @@ public class Help : ModuleBase<SocketCommandContext>
         EmbedBuilder eb = new EmbedBuilder();
         EmbedFooterBuilder fb = new EmbedFooterBuilder();
 
-
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
 
         eb.WithTitle($"Help");
         eb.WithColor(Color.Red);
         eb.WithFooter(fb);
+
 
         foreach (CommandInfo command in commands)
         {
@@ -57,6 +57,6 @@ public class Help : ModuleBase<SocketCommandContext>
 
         await ReplyAsync($"{Context.Message.Author.Mention}\n", false, eb.Build());
 
-        await Utilities.StatusMessage("help", Context);
+        //await Utilities.StatusMessage("help", Context);
     }
 }

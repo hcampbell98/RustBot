@@ -35,7 +35,7 @@ public class Craft : InteractiveBase
         var itemInfo = await Utilities.SearchForItem(item);
 
         //If item not found
-        if (itemInfo == null) { await ReplyAsync($"Item `{item}` not found."); await Utilities.StatusMessage("item", Context); return; }
+        if (itemInfo == null) { await ReplyAsync($"Item `{item}` not found."); return; }
         //If item found
         else
         {
@@ -82,8 +82,6 @@ public class Craft : InteractiveBase
 
                 await ReplyAsync("", false, GenMessage(i, number));
             }
-
-            await Utilities.StatusMessage("craft", Context);
         }
 
     }

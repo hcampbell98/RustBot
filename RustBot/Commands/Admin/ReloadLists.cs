@@ -19,6 +19,5 @@ public class ReloadLists : ModuleBase<SocketCommandContext>
 
         AliasManager.itemAliases = Utilities.FillList<ItemAlias>("Aliases/itemAliases.json");
 
-        await Utilities.StatusMessage("reloadlists", Context);
     }
 }

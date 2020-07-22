@@ -24,6 +24,5 @@ public class Purge : ModuleBase<SocketCommandContext>
         var messages = await Context.Channel.GetMessagesAsync(toDelete).FlattenAsync();
         await (Context.Channel as SocketTextChannel).DeleteMessagesAsync(messages);
 
-        await Utilities.StatusMessage("leaveserver", Context);
     }
 }

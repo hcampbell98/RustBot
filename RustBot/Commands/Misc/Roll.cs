@@ -32,6 +32,5 @@ public class Roll : ModuleBase<SocketCommandContext>
             await Context.Channel.SendMessageAsync($"{Context.Message.Author.Mention} rolled `{rollData.nextRoll}`");
         }
 
-        await Utilities.StatusMessage("roll", Context);
     }
 }

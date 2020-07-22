@@ -133,10 +133,6 @@ public class Smelting : InteractiveBase
                 break;
             }
         }
-
-
-
-        await Utilities.StatusMessage("help", Context);
     }
 
     [Command("furnl", RunMode = RunMode.Async)]
@@ -250,8 +246,6 @@ public class Smelting : InteractiveBase
                 break;
             }
         }
-
-        await Utilities.StatusMessage("help", Context);
     }
 
     public Embed GetSmallFurnEmbed(string oreType, double totalTime, double totalWood, double oddSlot, double otherSlots, string formattedTime)

@@ -33,6 +33,5 @@ public class Calculator : ModuleBase<SocketCommandContext>
 
 
         await ReplyAsync("", false, eb.Build());
-        await Utilities.StatusMessage("roll", Context);
     }
 }

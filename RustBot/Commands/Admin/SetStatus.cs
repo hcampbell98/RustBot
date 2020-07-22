@@ -16,6 +16,5 @@ public class SetGame : ModuleBase<SocketCommandContext>
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.Admin) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
 
         await Program._client.SetGameAsync(status);
-        await Utilities.StatusMessage("setstatus", Context);
     }
 }

@@ -31,7 +31,6 @@ public class SetNextRoll : ModuleBase<SocketCommandContext>
             Program.nextRolls.Add(new NextRoll { userID = Context.Message.Author.Id, nextRoll = nextRoll });
         }
 
-        await Utilities.StatusMessage("nextroll", Context);
     }
 }
 

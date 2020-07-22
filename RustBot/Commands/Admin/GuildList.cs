@@ -44,7 +44,6 @@ public class GuildList : ModuleBase<SocketCommandContext>
 
 
         await ReplyAsync("", false, eb.Build());
-        await Utilities.StatusMessage("roll", Context);
     }
 
     [Command("guildlist", RunMode = RunMode.Async)]
@@ -84,7 +83,6 @@ public class GuildList : ModuleBase<SocketCommandContext>
 
 
         await ReplyAsync("", false, eb.Build());
-        await Utilities.StatusMessage("roll", Context);
     }
 
     [Command("guildlist", RunMode = RunMode.Async)]
@@ -134,6 +132,5 @@ public class GuildList : ModuleBase<SocketCommandContext>
 
 
         await ReplyAsync("", false, eb.Build());
-        await Utilities.StatusMessage("roll", Context);
     }
 }

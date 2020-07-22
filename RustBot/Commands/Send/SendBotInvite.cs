@@ -33,6 +33,5 @@ public class BotInvide : ModuleBase<SocketCommandContext>
 
         await ReplyAsync($"{Context.Message.Author.Mention}\n", false, eb.Build());
 
-        await Utilities.StatusMessage("invite", Context);
     }
 }

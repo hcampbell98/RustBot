@@ -22,6 +22,5 @@ public class Leave : ModuleBase<SocketCommandContext>
         SocketGuild g = guildList.FirstOrDefault(i => i.Id.ToString() == serverID);
         await g.LeaveAsync();
 
-        await Utilities.StatusMessage("leaveserver", Context);
     }
 }

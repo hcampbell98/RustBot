@@ -71,6 +71,5 @@ public class Skin : InteractiveBase
 
 
         await ReplyAsync("", false, eb.Build());
-        await Utilities.StatusMessage("help", Context);
     }
 }

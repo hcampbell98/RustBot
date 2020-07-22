@@ -33,7 +33,7 @@ public class ItemInfo : InteractiveBase
         //Grabbing item info
         var itemInfo = await Utilities.SearchForItem(item);
 
-        if (itemInfo == null) { await ReplyAsync($"Item `{item}` not found."); await Utilities.StatusMessage("item", Context); return; }
+        if (itemInfo == null) { await ReplyAsync($"Item `{item}` not found."); return; }
         else
         {
             if(itemInfo.Count > 1)
@@ -71,7 +71,6 @@ public class ItemInfo : InteractiveBase
                 await ReplyAsync("", false, GenMessage(i));
             }
 
-            await Utilities.StatusMessage("item", Context);
         }
     }
 
