@@ -63,10 +63,16 @@ public class Break : InteractiveBase
         //Removes the structure info message
         await sInfoMsg.DeleteAsync();
 
-        await ReplyAsync("", false, GetEmbed(bi));
-        Console.WriteLine(8);
+        try
+        {
+            await ReplyAsync("", false, GetEmbed(bi));
+        }
+        catch (Exception)
+        {
+            await ReplyAsync("", false, Utilities.GetEmbedMessage("Break Info", "Error", $"There are too many results to fit into a Discord Embed, please click [here]({bi.URL}) to see your results.", Context.Message.Author, Color.Red));
+        }
+
         await Utilities.StatusMessage("break", Context);
-        Console.WriteLine(8);
     }
 
     public Embed GetEmbed(BreakableInfo breakable)

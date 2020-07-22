@@ -16,12 +16,13 @@ namespace SSRPBalanceBot
 
             string sourceGuild = chnl.Guild.Name;
 
-            string log = $"{date} | Channel: {message.Channel.Name} | Username/ID: {message.Author.Username}/{message.Author.Id} | Message: \"{message.Content.Replace("\n", "\\n")}\"";
+            string log = $"{date} | Username/ID: {message.Author.Username}/{message.Author.Id} | Message: \"{message.Content.Replace("\n", "\\n")}\"";
 
             if (!Directory.Exists("Logging")) { Directory.CreateDirectory("Logging"); }
-            if (!File.Exists($"Logging/{sourceGuild}.log")) { File.Create($"Logging/{sourceGuild}.log").Close(); }
+            if (!Directory.Exists($"Logging/{sourceGuild}")) { Directory.CreateDirectory($"Logging/{sourceGuild}"); }
+            if (!File.Exists($"Logging/{sourceGuild}/{message.Channel.Name}.log")) { File.Create($"Logging/{sourceGuild}/{message.Channel.Name}.log").Close(); }
 
-            await FileWriteAsync($"Logging/{sourceGuild}.log", log, true);
+            await FileWriteAsync($"Logging/{sourceGuild}/{message.Channel.Name}.log", log, true);
         }
 
         public static async Task FileWriteAsync(string filePath, string messaage, bool append = true)

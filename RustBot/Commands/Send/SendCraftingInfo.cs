@@ -26,7 +26,7 @@ public class Craft : InteractiveBase
 
         //Stops people spamming characters as to lag the bot
         if (item.Length > 100) { await ReplyAsync("Please use a shorter item name."); return; }
-        if (item.Length < 3) { await ReplyAsync("Please use a longer item name."); return; }
+        if (item.Length < 2) { await ReplyAsync("Please use a longer item name."); return; }
         if (number < 0) { await ReplyAsync("Input must be larger than 0."); return; }
 
         if (AliasManager.GetItemName(item) != null) { item = AliasManager.GetItemName(item); }
