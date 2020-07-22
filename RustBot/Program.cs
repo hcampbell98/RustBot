@@ -35,6 +35,9 @@ namespace SSRPBalanceBot
             _services = ConfigureServices();
 
             _client.Log += Log;
+            _client.JoinedGuild += GuildHandler;
+            _client.LeftGuild += GuildHandler;
+            _client.Ready += _client_Ready;
 
             await InstallCommandsAsync();
             var token = File.ReadAllText("Config/token.cfg");
@@ -42,8 +45,13 @@ namespace SSRPBalanceBot
             await _client.LoginAsync(TokenType.Bot, token);
             await _client.StartAsync();
 
-            await SetGame();
             await Task.Delay(-1);
+        }
+
+        private async Task<Task> _client_Ready()
+        {
+            await _client.SetGameAsync($"{prefix}help | {_client.Guilds.Count} Servers");
+            return Task.CompletedTask;
         }
 
         public async Task InstallCommandsAsync()
@@ -52,8 +60,6 @@ namespace SSRPBalanceBot
 
             await _commands.AddModulesAsync(assembly: Assembly.GetEntryAssembly(),
                                             services: _services);
-
-            
         }
 
         private IServiceProvider ConfigureServices()
@@ -99,9 +105,10 @@ namespace SSRPBalanceBot
             return Task.CompletedTask;
         }
 
-        private async Task SetGame()
+        private async Task<Task> GuildHandler(SocketGuild g)
         {
-            await _client.SetGameAsync($"{prefix}help");
+            await _client.SetGameAsync($"{prefix}help | {_client.Guilds.Count} Servers");
+            return Task.CompletedTask;
         }
 
         private async Task<bool> CheckCooldown(SocketUserMessage message)
