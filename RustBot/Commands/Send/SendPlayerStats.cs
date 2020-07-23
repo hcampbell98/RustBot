@@ -15,8 +15,8 @@ using RustBot;
 public class Stats : ModuleBase<SocketCommandContext>
 {
     [Command("stats", RunMode = RunMode.Async)]
-    [Summary("Sends player info")]
-    public async Task SendPlayerStats(string profile = null)
+    [Summary("Sends player info. Use their SteamID/SteamID64")]
+    public async Task SendPlayerStats(string steamID = null)
     {
         Stopwatch sw = new Stopwatch();
         sw.Start();
@@ -27,22 +27,22 @@ public class Stats : ModuleBase<SocketCommandContext>
 
 
 
-        if (profile == null)
+        if (steamID == null)
         {
             string steamID64 = SteamLink.GetSteam(Context.User.Id.ToString());
             playerStats = await Utilities.GetPlayerInfo(steamID64);
         }
-        else if (profile.StartsWith("<"))
+        else if (steamID.StartsWith("<"))
         {
-            string steamID64 = SteamLink.GetSteam(Utilities.GetNumbers(profile));
+            string steamID64 = SteamLink.GetSteam(Utilities.GetNumbers(steamID));
             playerStats = await Utilities.GetPlayerInfo(steamID64);
         }
         else
         {
             string steamID64;
 
-            if (profile.Contains("https://steamcommunity.com")) { steamID64 = Utilities.GetNumbers(profile); }
-            else if (profile.Contains("STEAM") || profile.StartsWith("7656119")) { steamID64 = SteamIDUtils.RetrieveID(profile); }
+            if (steamID.Contains("https://steamcommunity.com")) { steamID64 = Utilities.GetNumbers(steamID); }
+            else if (steamID.Contains("STEAM") || steamID.StartsWith("7656119")) { steamID64 = SteamIDUtils.RetrieveID(steamID); }
             else { await ReplyAsync("Make sure the input is either a Steam Community URL (numbers at the end) or a valid SteamID/SteamID64."); return; }
 
             playerStats = await Utilities.GetPlayerInfo(steamID64);
