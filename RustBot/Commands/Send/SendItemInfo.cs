@@ -131,7 +131,7 @@ public class ItemInfo : InteractiveBase
         fb.WithText($"Called by {Context.Message.Author.Username} | Completed in {sw.ElapsedMilliseconds}ms");
 
         eb.WithColor(Color.Red);
-        eb.WithFooter(fb);
+        eb.WithFooter(Utilities.GetFooter(Context.User, sw));
 
         return eb.Build();
     }

@@ -5,16 +5,21 @@ using HtmlAgilityPack;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace SSRPBalanceBot
 {
     class Utilities
     {
+        public static string apiKey = File.ReadAllText("Config/steamApiKey.cfg");
+
         public static void WriteToJsonFile<T>(string filePath, T objectToWrite, bool append = false) where T : new()
         {
             TextWriter writer = null;
@@ -367,6 +372,33 @@ namespace SSRPBalanceBot
             }
         }
 
+        //Player Info
+        public static async Task<List<PlayerStat>> GetPlayerInfo(string steamID64)
+        {
+            using (WebClient wc = new WebClient())
+            {
+                string page = await wc.DownloadStringTaskAsync(new Uri($"http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=252490&key={apiKey}&steamid={steamID64}&include_appinfo=1&format=xml"));
+
+                if (page.Contains("Internal Server Error")) { return null; }
+
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.LoadXml(page);
+                XmlNodeList stats = xmlDoc.SelectNodes("/playerstats/stats/stat");
+
+                List<PlayerStat> playerStats = new List<PlayerStat> { };
+
+                foreach(XmlNode stat in stats)
+                {
+                    string name = stat.SelectSingleNode("name").InnerText;
+                    string value = stat.SelectSingleNode("value").InnerText;
+
+                    playerStats.Add(new PlayerStat() { Name = name, Value = value });
+                }
+
+                return playerStats;
+            }
+        }
+
 
         public static Embed GetEmbedMessage(string messageTitle, string fieldTitle, string fieldContents, SocketUser user, Color messageColor)
         {
@@ -382,6 +414,16 @@ namespace SSRPBalanceBot
             eb.WithFooter(fb);
 
             return eb.Build();
+        }
+
+        public static EmbedFooterBuilder GetFooter(SocketUser user, Stopwatch sw)
+        {
+            EmbedFooterBuilder fb = new EmbedFooterBuilder();
+
+            fb.WithText($"Called by {user.Username} | Completed in {sw.ElapsedMilliseconds}ms");
+            fb.WithIconUrl(user.GetAvatarUrl());
+
+            return fb;
         }
 
         private static Random randomStr = new Random(DateTime.Now.Millisecond);
@@ -414,6 +456,12 @@ namespace SSRPBalanceBot
                 return String.Empty;
             }
         }
+    }
+
+    public class PlayerStat
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
     }
 
     public class SkinInfo

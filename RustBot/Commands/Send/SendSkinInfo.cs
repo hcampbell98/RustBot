@@ -52,12 +52,8 @@ public class Skin : InteractiveBase
         List<SkinInfo> skinList = await Utilities.GetSkinInfo(searchQueryResponse.Content, orderBy, orderDirection);
 
         EmbedBuilder eb = new EmbedBuilder();
-        EmbedFooterBuilder fb = new EmbedFooterBuilder();
-
-        fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
-        eb.WithColor(Color.Red);
+        
         eb.WithTitle($"Search Results");
-        eb.WithFooter(fb);
 
         if (skinList.Count > 10) { eb.WithDescription($"Showing 10 of {skinList.Count} results. Narrow your search to view other results."); }
 
@@ -69,7 +65,8 @@ public class Skin : InteractiveBase
             else { eb.AddField($"{si.SkinName}", $"Current Price: {si.SkinPrice}\n Non-Discounted Price: {si.SkinUsualPrice}\n Link: [{si.SkinName}]({si.SkinURL})"); }
         }
 
-
+        sw.Stop();
+        eb.WithFooter(Utilities.GetFooter(Context.User, sw));
         await ReplyAsync("", false, eb.Build());
     }
 }

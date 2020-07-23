@@ -51,6 +51,8 @@ namespace SSRPBalanceBot
 
         private Task _commands_CommandExecuted(Optional<CommandInfo> command, ICommandContext context, IResult arg3)
         {
+            if (!arg3.IsSuccess) { Console.WriteLine($"{arg3.ErrorReason}"); return Task.CompletedTask; }
+
             SocketCommandContext cntxt = context as SocketCommandContext;
             string serverName;
 
