@@ -8,6 +8,7 @@ using Discord;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using RustBot;
 
 // Keep in mind your module **must** be public and inherit ModuleBase.
 // If it isn't, it will not be discovered by AddModulesAsync!
@@ -24,7 +25,18 @@ public class Stats : ModuleBase<SocketCommandContext>
 
         List<PlayerStat> playerStats;
 
-        if (profile == null) { playerStats = new List<PlayerStat>{ }; }
+
+
+        if (profile == null)
+        {
+            string steamID64 = SteamLink.GetSteam(Context.User.Id.ToString());
+            playerStats = await Utilities.GetPlayerInfo(steamID64);
+        }
+        else if (profile.StartsWith("<"))
+        {
+            string steamID64 = SteamLink.GetSteam(Utilities.GetNumbers(profile));
+            playerStats = await Utilities.GetPlayerInfo(steamID64);
+        }
         else
         {
             string steamID64;
@@ -69,7 +81,7 @@ public class Stats : ModuleBase<SocketCommandContext>
         double harvest_wood = int.Parse(playerStats.First(x => x.Name == "harvest.wood").Value);
 
         //Misc info
-        double rocket_fired = int.Parse(playerStats.First(x => x.Name == "rocket_fired").Value);
+        //double rocket_fired = int.Parse(playerStats.First(x => x.Name == "rocket_fired").Value);
         double item_drop = int.Parse(playerStats.First(x => x.Name == "item_drop").Value);
         double blueprint_studied = int.Parse(playerStats.First(x => x.Name == "blueprint_studied").Value);
         double death_suicide = int.Parse(playerStats.First(x => x.Name == "death_suicide").Value);
@@ -90,7 +102,7 @@ public class Stats : ModuleBase<SocketCommandContext>
         eb.AddField("PvP Info", $"Kills: {kill_player}\nDeaths: {deaths}\nK/D Ratio: {Math.Round(kdRatio, 2)}\nHeadshots: {Math.Round(headshotPercentage * 100, 2)}%\nAccuracy: {Math.Round(rifleAccuracy * 100, 2)}%", true);
         eb.AddField("Weapon Hits", $"Building Hits: {bullet_hit_building}\nBear Hits: {bullet_hit_bear}\nHorse Hits: {bullet_hit_horse}\nStag Hits: {bullet_hit_stag}\nWolf Hits: {bullet_hit_wolf}\nBoar Hits: {bullet_hit_boar}", true);
         eb.AddField("Harvested", $"Stone: {harvest_stones}\nWood: {harvest_wood}\nCloth: {harvest_cloth}", true);
-        eb.AddField("Misc", $"Rockets Fired: {rocket_fired}\nItems Dropped: {item_drop}\nBlueprints Studied: {blueprint_studied}\nSuicides: {death_suicide}\nInventory Opened: {inventory_opened}\nTime Speaking: {Math.Round(seconds_speaking, 2)}s\nCalories Consumed: {calories_consumed}\nBlocks Placed: {placed_blocks}");
+        eb.AddField("Misc", $"Items Dropped: {item_drop}\nBlueprints Studied: {blueprint_studied}\nSuicides: {death_suicide}\nInventory Opened: {inventory_opened}\nTime Speaking: {Math.Round(seconds_speaking, 2)}s\nCalories Consumed: {calories_consumed}\nBlocks Placed: {placed_blocks}");
 
         sw.Stop();
         eb.WithFooter(Utilities.GetFooter(Context.User, sw));
