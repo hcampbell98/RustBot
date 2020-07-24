@@ -132,9 +132,10 @@ namespace SSRPBalanceBot
 
                 var infoTable = parsePage.DocumentNode.SelectSingleNode("/html/body/div[1]/div[1]/div[1]/div[1]/table/tbody");
                 itemDesc = parsePage.DocumentNode.SelectSingleNode("/html/body/div[1]/div[1]/div[1]/div[1]/p/text()").InnerText;
+                var infoTabs = parsePage.DocumentNode.SelectNodes("/html/body/div[1]/div[1]/div[2]/div[1]/table/tbody/tr");
 
                 //If the item has an info table, grab the data from it and store in infoTableStats
-                if(infoTable != null)
+                if (infoTable != null)
                 {
                     foreach (HtmlNode row in parsePage.DocumentNode.SelectNodes("/html/body/div[1]/div[1]/div[1]/div[1]/table/tbody/tr"))
                     {
@@ -143,14 +144,16 @@ namespace SSRPBalanceBot
                         infoTableStats.Add(new ItemInfoRow() { Stat = cells[0].InnerText, Value = cells[1].InnerText});
                     }
                 }
-
-                //Gets the drop chance statistics for the item.
-                foreach(var rows in parsePage.DocumentNode.SelectNodes("/html/body/div[1]/div[1]/div[2]/div[1]/table/tbody/tr"))
+                if(infoTable != null)
                 {
-                    HtmlNodeCollection cells = rows.SelectNodes("td");
+                    //Gets the drop chance statistics for the item.
+                    foreach (var rows in infoTabs)
+                    {
+                        HtmlNodeCollection cells = rows.SelectNodes("td");
 
-                    dc.Add(new DropChance() { Container = cells[0].GetAttributeValue("data-value", ""), Chance = cells[3].GetAttributeValue("data-value", ""), Amount = cells[2].InnerText });
-                    
+                        dc.Add(new DropChance() { Container = cells[0].GetAttributeValue("data-value", ""), Chance = cells[3].GetAttributeValue("data-value", ""), Amount = cells[2].InnerText });
+
+                    }
                 }
 
                 //Gets crafting info for the item.
