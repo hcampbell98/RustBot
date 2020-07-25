@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.Extensions.DependencyInjection;
+using RustBot.Logging;
 
 namespace SSRPBalanceBot
 {
@@ -27,6 +28,7 @@ namespace SSRPBalanceBot
         public static string prefix = "r!";
 
         public static List<NextRoll> nextRolls = new List<NextRoll> { };
+
 
         public async Task MainAsync()
         {
@@ -91,7 +93,7 @@ namespace SSRPBalanceBot
 
         private async Task HandleCommandAsync(SocketMessage messageParam)
         {
-
+            Statistics.messagesRead += 1;
             var message = messageParam as SocketUserMessage;
 
             var context = new SocketCommandContext(_client, message);
@@ -109,6 +111,8 @@ namespace SSRPBalanceBot
 
             if (!await CheckCooldown(message))
             {
+                Statistics.runCommands += 1;
+
                 var result = await _commands.ExecuteAsync(
                     context: context,
                     argPos: argPos,
@@ -127,6 +131,7 @@ namespace SSRPBalanceBot
 
         private async Task<Task> GuildHandler(SocketGuild g)
         {
+            Statistics.guildChanges += 1;
             await _client.SetGameAsync($"{prefix}help | {_client.Guilds.Count} Servers");
             return Task.CompletedTask;
         }

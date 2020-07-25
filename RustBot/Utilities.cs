@@ -403,13 +403,15 @@ namespace SSRPBalanceBot
         }
 
 
-        public static Embed GetEmbedMessage(string messageTitle, string fieldTitle, string fieldContents, SocketUser user, Color messageColor)
+        public static Embed GetEmbedMessage(string messageTitle, string fieldTitle, string fieldContents, SocketUser user, Color messageColor, EmbedFooterBuilder fb = null)
         {
             EmbedBuilder eb = new EmbedBuilder();
-            EmbedFooterBuilder fb = new EmbedFooterBuilder();
 
-            fb.WithText($"Called by {user.Username}");
-            fb.WithIconUrl(user.GetAvatarUrl());
+            if(fb == null)
+            {
+                fb.WithText($"Called by {user.Username}");
+                fb.WithIconUrl(user.GetAvatarUrl());
+            }
 
             eb.WithTitle($"{messageTitle}");
             eb.AddField($"{fieldTitle}", $"{fieldContents}");

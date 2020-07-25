@@ -99,10 +99,10 @@ public class Stats : ModuleBase<SocketCommandContext>
 
         eb.WithTitle($"Player Statistics");
         eb.WithColor(Color.Red);
-        eb.AddField("PvP Info", $"Kills: {kill_player}\nDeaths: {deaths}\nK/D Ratio: {Math.Round(kdRatio, 2)}\nHeadshots: {Math.Round(headshotPercentage * 100, 2)}%\nAccuracy: {Math.Round(rifleAccuracy * 100, 2)}%", true);
-        eb.AddField("Weapon Hits", $"Building Hits: {bullet_hit_building}\nBear Hits: {bullet_hit_bear}\nHorse Hits: {bullet_hit_horse}\nStag Hits: {bullet_hit_stag}\nWolf Hits: {bullet_hit_wolf}\nBoar Hits: {bullet_hit_boar}", true);
-        eb.AddField("Harvested", $"Stone: {harvest_stones}\nWood: {harvest_wood}\nCloth: {harvest_cloth}", true);
-        eb.AddField("Misc", $"Items Dropped: {item_drop}\nBlueprints Studied: {blueprint_studied}\nSuicides: {death_suicide}\nInventory Opened: {inventory_opened}\nTime Speaking: {Math.Round(seconds_speaking, 2)}s\nCalories Consumed: {calories_consumed}\nBlocks Placed: {placed_blocks}");
+        eb.AddField("PvP Info", $"```css\nKills: {kill_player}\nDeaths: {deaths}\nK/D Ratio: {Math.Round(kdRatio, 2)}\nHeadshots: {Math.Round(headshotPercentage * 100, 2)}%\nAccuracy: {Math.Round(rifleAccuracy * 100, 2)}%```", true);
+        eb.AddField("Weapon Hits", $"```css\nBuilding Hits: {bullet_hit_building}\nBear Hits: {bullet_hit_bear}\nHorse Hits: {bullet_hit_horse}\nStag Hits: {bullet_hit_stag}\nWolf Hits: {bullet_hit_wolf}\nBoar Hits: {bullet_hit_boar}```", true);
+        eb.AddField("Harvested", $"```css\nStone: {harvest_stones}\nWood: {harvest_wood}\nCloth: {harvest_cloth}```", true);
+        eb.AddField("Misc", $"```css\nItems Dropped: {item_drop}\nBlueprints Studied: {blueprint_studied}\nSuicides: {death_suicide}\nInventory Opened: {inventory_opened}\nTime Speaking: {Math.Round(seconds_speaking, 2)}s\nCalories Consumed: {calories_consumed}\nBlocks Placed: {placed_blocks}```");
 
         sw.Stop();
         eb.WithFooter(Utilities.GetFooter(Context.User, sw));

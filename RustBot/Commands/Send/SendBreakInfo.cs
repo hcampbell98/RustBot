@@ -95,10 +95,10 @@ public class Break : InteractiveBase
 
         foreach (AttackDurability ab in breakable.DurabilityInfo)
         {
-            sb.Append($"**{ab.Tool}**\n*Quantity:* {ab.Quantity}    *Time:* {ab.Time}s\n*Fuel:* {Utilities.GetNumbers(ab.Fuel)}    *Sulfur:* {Utilities.GetNumbers(ab.Sulfur)}\n\n");
+            sb.Append($"//{ab.Tool}\\\\ \nQuantity: {ab.Quantity} Time: {ab.Time}s\nFuel: {Utilities.GetNumbers(ab.Fuel)} Sulfur: {Utilities.GetNumbers(ab.Sulfur)}\n\n");
         }
 
-        eb.WithDescription(sb.ToString());
+        eb.WithDescription("```css\n" + sb.ToString() + "```");
 
         return eb.Build();
     }
