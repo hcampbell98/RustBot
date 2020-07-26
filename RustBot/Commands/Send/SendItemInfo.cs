@@ -19,6 +19,7 @@ public class ItemInfo : InteractiveBase
 
     [Command("item", RunMode = RunMode.Async)]
     [Summary("Sends item info")]
+    [Remarks("Tools")]
     public async Task SendItemInfo([Remainder]string item)
     {
         sw.Start();

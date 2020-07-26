@@ -11,6 +11,7 @@ public class Roll : ModuleBase<SocketCommandContext>
 {
     [Command("roll", RunMode = RunMode.Async)]
     [Summary("Randomly picks a winner")]
+    [Remarks("Fun")]
     public async Task SendRoll(int max)
     {
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }

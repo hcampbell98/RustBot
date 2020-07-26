@@ -18,6 +18,7 @@ public class Refinery : InteractiveBase
 
     [Command("refine", RunMode = RunMode.Async)]
     [Summary("Sends small refinery info")]
+    [Remarks("Tools")]
     public async Task SendRefinery(int amount)
     {
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }

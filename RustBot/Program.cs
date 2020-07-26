@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using RustBot.Logging;
+using System.Diagnostics;
 
 namespace SSRPBalanceBot
 {
@@ -53,7 +54,18 @@ namespace SSRPBalanceBot
 
         private Task _commands_CommandExecuted(Optional<CommandInfo> command, ICommandContext context, IResult arg3)
         {
-            if (!arg3.IsSuccess) { Console.WriteLine($"{arg3.ErrorReason}"); return Task.CompletedTask; }
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
+            if (!arg3.IsSuccess && arg3.ErrorReason != "Unknown command.") 
+            { 
+                Console.WriteLine($"{arg3.ErrorReason}");
+
+                Embed eb = Utilities.GetEmbedMessage("Error", "Reason", $"{arg3.ErrorReason} Try r!help.", (SocketUser)context.User, Color.Red, Utilities.GetFooter((SocketUser)context.User, sw));
+
+                context.Channel.SendMessageAsync("", false, eb); 
+                return Task.CompletedTask; 
+            }
 
             SocketCommandContext cntxt = context as SocketCommandContext;
             string serverName;
@@ -119,7 +131,7 @@ namespace SSRPBalanceBot
                     services: _services);
 
                 //If the command run doesn't exist, the error message won't be thrown.
-                if (!result.IsSuccess && result.ErrorReason != "Unknown command.") { await context.Channel.SendMessageAsync($"Check the syntax of your command and try again. Try the {prefix}help docs."); Console.WriteLine(result.ErrorReason); }
+                //if (!result.IsSuccess && result.ErrorReason != "Unknown command.") { await context.Channel.SendMessageAsync($"Check the syntax of your command and try again. Try the {prefix}help docs."); Console.WriteLine(result.ErrorReason); }
             }
         }
 
@@ -132,6 +144,8 @@ namespace SSRPBalanceBot
         private async Task<Task> GuildHandler(SocketGuild g)
         {
             Statistics.guildChanges += 1;
+            Statistics.lastGuildJoined = g.Name;
+
             await _client.SetGameAsync($"{prefix}help | {_client.Guilds.Count} Servers");
             return Task.CompletedTask;
         }

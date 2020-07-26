@@ -15,6 +15,7 @@ public class BotInvide : ModuleBase<SocketCommandContext>
 {
     [Command("invite", RunMode = RunMode.Async)]
     [Summary("Sends a link to invite the bot.")]
+    [Remarks("Misc")]
     public async Task SendHSendBotInvite()
     {
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }

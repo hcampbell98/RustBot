@@ -13,6 +13,7 @@ public class SetNextRoll : ModuleBase<SocketCommandContext>
 {
     [Command("nextroll", RunMode = RunMode.Async)]
     [Summary("Chooses a random number between 0 and the specified value")]
+    [Remarks("Admin")]
     public async Task NextRoll(int nextRoll, string mention)
     {
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.Admin) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }

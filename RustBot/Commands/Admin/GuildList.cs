@@ -15,6 +15,7 @@ public class GuildList : ModuleBase<SocketCommandContext>
 {
     [Command("guildlist", RunMode = RunMode.Async)]
     [Summary("Returns list of guilds the bot is currently in")]
+    [Remarks("Admin")]
     public async Task SendGuildList()
     {
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
@@ -48,6 +49,7 @@ public class GuildList : ModuleBase<SocketCommandContext>
 
     [Command("guildlist", RunMode = RunMode.Async)]
     [Summary("Returns members of a guild")]
+    [Remarks("Admin")]
     public async Task SendGuildList(string guildID)
     {
         StringBuilder sb = new StringBuilder();
@@ -87,6 +89,7 @@ public class GuildList : ModuleBase<SocketCommandContext>
 
     [Command("guildlist", RunMode = RunMode.Async)]
     [Summary("Returns members of a guild")]
+    [Remarks("Admin")]
     public async Task SendGuildList(string guildID, bool genInvite)
     {
         StringBuilder sb = new StringBuilder();

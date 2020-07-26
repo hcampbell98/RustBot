@@ -15,6 +15,7 @@ public class BotStats : ModuleBase<SocketCommandContext>
 {
     [Command("botstats", RunMode = RunMode.Async)]
     [Summary("Returns various bot statistics.")]
+    [Remarks("Misc")]
     public async Task SendBotStats()
     {
         Stopwatch sw = new Stopwatch();
@@ -34,6 +35,7 @@ public class BotStats : ModuleBase<SocketCommandContext>
             $"Messages Handled: {Statistics.messagesRead}\n" +
             $"Commands Executed: {Statistics.runCommands}\n" +
             $"Guilds Since Boot: {Statistics.guildChanges}\n" +
+            $"Last Guild Joined: {Statistics.lastGuildJoined}\n" +
             $"Latency: {Program._client.Latency}ms\n" +
             $"```", Context.User, Color.Red, Utilities.GetFooter(Context.User, sw));
 

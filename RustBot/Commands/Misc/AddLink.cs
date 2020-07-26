@@ -11,6 +11,7 @@ public class AddLink : ModuleBase<SocketCommandContext>
 {
     [Command("link", RunMode = RunMode.Async)]
     [Summary("Links a users Discord and Steam")]
+    [Remarks("Misc")]
     public async Task LinkAccount()
     {
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }

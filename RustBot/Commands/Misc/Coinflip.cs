@@ -12,6 +12,7 @@ public class Coinflip : ModuleBase<SocketCommandContext>
 {
     [Command("coinflip", RunMode = RunMode.Async)]
     [Summary("Coinflips a mentioned user.")]
+    [Remarks("Fun")]
     public async Task SendRoll(string opponent)
     {
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }

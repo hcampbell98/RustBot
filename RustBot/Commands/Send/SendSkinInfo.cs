@@ -20,7 +20,7 @@ public class Skin : InteractiveBase
 
     [Command("skin", RunMode = RunMode.Async)]
     [Summary("Sends skin info | Currently not working correctly")]
-
+    [Remarks("Admin")]
     public async Task SendHelpMessage()
     {
         Stopwatch sw = new Stopwatch();

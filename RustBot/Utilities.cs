@@ -409,6 +409,7 @@ namespace SSRPBalanceBot
 
             if(fb == null)
             {
+                fb = new EmbedFooterBuilder();
                 fb.WithText($"Called by {user.Username}");
                 fb.WithIconUrl(user.GetAvatarUrl());
             }

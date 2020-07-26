@@ -19,6 +19,7 @@ public class Craft : InteractiveBase
 
     [Command("craft", RunMode = RunMode.Async)]
     [Summary("Sends crafting info")]
+    [Remarks("Tools")]
     public async Task SendCraftingInfo(Int64 number, [Remainder] string item)
     {
         sw.Start();

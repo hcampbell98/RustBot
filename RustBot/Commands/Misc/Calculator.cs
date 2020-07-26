@@ -13,6 +13,7 @@ public class Calculator : ModuleBase<SocketCommandContext>
     [Command("calculate", RunMode = RunMode.Async)]
     [Alias("calc")]
     [Summary("Returns the value of the calculation specified")]
+    [Remarks("Misc")]
     public async Task SendCalc([Remainder]string math)
     {
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }

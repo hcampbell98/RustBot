@@ -13,6 +13,7 @@ namespace RustBot.Logging
         public static int runCommands = 0;
         public static int messagesRead = 0;
         public static int guildChanges = 0;
+        public static string lastGuildJoined = "";
 
         public static int GetTotalUsers()
         {

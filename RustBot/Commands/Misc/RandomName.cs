@@ -12,6 +12,7 @@ public class RandomName : ModuleBase<SocketCommandContext>
 {
     [Command("randomname", RunMode = RunMode.Async)]
     [Summary("Randomly picks a name from a comma separated list")]
+    [Remarks("Fun")]
     public async Task SendRandomName([Remainder]string input)
     {
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }

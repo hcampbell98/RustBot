@@ -14,6 +14,7 @@ public class Leave : ModuleBase<SocketCommandContext>
 {
     [Command("leaveserver", RunMode = RunMode.Async)]
     [Summary("Leaves the specified server")]
+    [Remarks("Admin")]
     public async Task LeaveServer(string serverID)
     {
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.Admin) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }

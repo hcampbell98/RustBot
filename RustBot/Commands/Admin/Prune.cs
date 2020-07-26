@@ -15,6 +15,8 @@ public class Purge : ModuleBase<SocketCommandContext>
 {
     [Command("purge", RunMode = RunMode.Async)]
     [Summary("Deletes messages.")]
+    [Remarks("Admin")]
+    [RequireBotPermission(ChannelPermission.ManageMessages)]
     public async Task PurgeChannel(int toDelete = -1)
     {
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.Admin) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }

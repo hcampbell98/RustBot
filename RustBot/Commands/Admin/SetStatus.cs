@@ -11,6 +11,7 @@ public class SetGame : ModuleBase<SocketCommandContext>
 {
     [Command("setgame", RunMode = RunMode.Async)]
     [Summary("Sets the bots game")]
+    [Remarks("Admin")]
     public async Task SetGameAsync(string status)
     {
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.Admin) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }

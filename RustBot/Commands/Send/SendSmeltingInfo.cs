@@ -24,6 +24,7 @@ public class Smelting : InteractiveBase
 
     [Command("furn", RunMode = RunMode.Async)]
     [Summary("Sends small furnace info")]
+    [Remarks("Tools")]
     public async Task SendFurnace(string oreType, int amount)
     {
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
@@ -137,6 +138,7 @@ public class Smelting : InteractiveBase
 
     [Command("furnl", RunMode = RunMode.Async)]
     [Summary("Sends large furnace info")]
+    [Remarks("Tools")]
     public async Task SendLFurnace(string oreType, int amount)
     {
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }

@@ -19,6 +19,7 @@ public class Break : InteractiveBase
 
     [Command("break", RunMode = RunMode.Async)]
     [Summary("Sends structure breaking info.")]
+    [Remarks("Tools")]
     public async Task SendBreakInfo([Remainder]string item)
     {
         sw.Start();

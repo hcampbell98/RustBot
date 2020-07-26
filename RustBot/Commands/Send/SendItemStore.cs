@@ -16,6 +16,7 @@ public class ItemStore : ModuleBase<SocketCommandContext>
 {
     [Command("itemstore", RunMode = RunMode.Async)]
     [Summary("Sends the current item store")]
+    [Remarks("Tools")]
     public async Task SendITemStore()
     {
         Stopwatch sw = new Stopwatch();

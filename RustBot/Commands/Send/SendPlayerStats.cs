@@ -16,6 +16,7 @@ public class Stats : ModuleBase<SocketCommandContext>
 {
     [Command("stats", RunMode = RunMode.Async)]
     [Summary("Sends player info. Use their SteamID/SteamID64")]
+    [Remarks("Tools")]
     public async Task SendPlayerStats(string steamID = null)
     {
         Stopwatch sw = new Stopwatch();
