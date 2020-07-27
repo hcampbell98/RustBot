@@ -25,6 +25,7 @@ public class Help : ModuleBase<SocketCommandContext>
 
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
 
+        //Grabs a list of all commands and sorts them alphabetically by name
         List<CommandInfo> commands = Program._commands.Commands.ToList();
         commands = commands.OrderBy(x => x.Name).ToList();
 
@@ -38,7 +39,6 @@ public class Help : ModuleBase<SocketCommandContext>
         eb.WithFooter(fb);
         eb.AddField("Info", "Type r!help and then the name of the command to see information about each individual command.");
 
-
         foreach(var c in commands.GroupBy(x => x.Remarks).Select(x => x))
         {
             //If the command is admin related, continue. We don't want admin commands mixed in with non-admin commands
@@ -46,13 +46,14 @@ public class Help : ModuleBase<SocketCommandContext>
 
             //Used for preventing the same command being added twice in situations where overloads are specified
             string prevCommandName = "";
+            int removedCommands = 0;
 
             StringBuilder args = new StringBuilder();
             StringBuilder sb = new StringBuilder();
             foreach (CommandInfo command in c)
             {
                 //Used for preventing the same command being added twice in situations where overloads are specified
-                if (prevCommandName == command.Name) { continue; }
+                if (prevCommandName == command.Name) { removedCommands++; continue; }
                 prevCommandName = command.Name;
 
                 foreach (ParameterInfo param in command.Parameters)
@@ -64,7 +65,7 @@ public class Help : ModuleBase<SocketCommandContext>
             //Checks for missing remarks. If one is found, it prints an error message in the console.
             if (c.ElementAt(0).Remarks == "" || c.ElementAt(0).Remarks == null) { Console.WriteLine($"Missing Remark: {c.ElementAt(0).Name}"); }
 
-            eb.AddField($"{c.ElementAt(0).Remarks} - {c.Count()}", $"```css\n{sb.ToString()}```", true);
+            eb.AddField($"{c.ElementAt(0).Remarks} - {c.Count() - removedCommands}", $"```css\n{sb.ToString()}```", true);
         }
 
         eb.AddField("Links", $"[Invite](https://discord.com/oauth2/authorize?client_id=732215647135727716&scope=bot&permissions=207873) | [GitHub](https://github.com/bunnyslippers69/RustBot)");
