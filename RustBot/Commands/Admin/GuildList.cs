@@ -3,7 +3,6 @@ using System;
 using System.Threading.Tasks;
 using SSRPBalanceBot;
 using SSRPBalanceBot.Permissions;
-using System.Data;
 using Discord;
 using System.Text;
 using System.Linq;
@@ -41,8 +40,6 @@ public class GuildList : ModuleBase<SocketCommandContext>
         eb.AddField($"{Program._client.Guilds.Count} | {totalMembers}", sb.ToString());
         eb.WithColor(Color.Blue);
         eb.WithFooter(fb);
-
-
 
         await ReplyAsync("", false, eb.Build());
     }

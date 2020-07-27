@@ -67,6 +67,7 @@ public class Help : ModuleBase<SocketCommandContext>
             eb.AddField($"{c.ElementAt(0).Remarks} - {c.Count()}", $"```css\n{sb.ToString()}```", true);
         }
 
+        eb.AddField("Links", $"[Invite](https://discord.com/oauth2/authorize?client_id=732215647135727716&scope=bot&permissions=207873) | [GitHub](https://github.com/bunnyslippers69/RustBot)");
         sw.Stop();
         fb.WithText($"Called by {Context.Message.Author.Username} | Completed in {sw.ElapsedMilliseconds}ms");
 

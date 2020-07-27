@@ -20,7 +20,7 @@ namespace RustBot.Logging
             int totalUsers = 0;
             foreach (var guild in Program._client.Guilds)
             {
-                totalUsers += guild.Users.Count;
+                totalUsers += guild.MemberCount;
             }
 
             return totalUsers;

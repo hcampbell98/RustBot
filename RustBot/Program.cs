@@ -61,7 +61,7 @@ namespace SSRPBalanceBot
             { 
                 Console.WriteLine($"{arg3.ErrorReason}");
 
-                Embed eb = Utilities.GetEmbedMessage("Error", "Reason", $"{arg3.ErrorReason} Try r!help.", (SocketUser)context.User, Color.Red, Utilities.GetFooter((SocketUser)context.User, sw));
+                Embed eb = Utilities.GetEmbedMessage("Error", "Reason", $"{arg3.ErrorReason} Try r!help {command.Value.Name}.", (SocketUser)context.User, Color.Red, Utilities.GetFooter((SocketUser)context.User, sw));
 
                 context.Channel.SendMessageAsync("", false, eb); 
                 return Task.CompletedTask; 
