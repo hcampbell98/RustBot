@@ -380,9 +380,16 @@ namespace SSRPBalanceBot
         {
             using (WebClient wc = new WebClient())
             {
-                string page = await wc.DownloadStringTaskAsync(new Uri($"http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v2/?appid=252490&key={apiKey}&steamid={steamID64}&include_appinfo=1&format=xml"));
+                string page;
 
-                if (page.Contains("Internal Server Error")) { return null; }
+                try
+                {
+                    page = await wc.DownloadStringTaskAsync(new Uri($"http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v2/?appid=252490&key={apiKey}&steamid={steamID64}&include_appinfo=1&format=xml"));
+                }
+                catch (WebException e)
+                {
+                    return null;
+                }
 
                 XmlDocument xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml(page);

@@ -42,12 +42,15 @@ public class Stats : ModuleBase<SocketCommandContext>
         {
             if (steamID.Contains("https://steamcommunity.com")) { steamID64 = Utilities.GetNumbers(steamID); }
             else if (steamID.Contains("STEAM") || steamID.StartsWith("7656119")) { steamID64 = SteamIDUtils.RetrieveID(steamID); }
-            else { await ReplyAsync("Make sure the input is a valid SteamID/SteamID64 (e.g. 76561198254673414). Please also check that the profile is public."); return; }
+            else { await ReplyAsync("Make sure the input is a valid SteamID/SteamID64 (e.g. 76561198254673414)."); return; }
 
             playerStats = await Utilities.GetPlayerInfo(steamID64);
         }
 
-        ProfileInfo profileInfo = SteamIDUtils.GetProfileInfo(steamID64);
+        //If the profile is private, handle the exception.
+        if (playerStats == null) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Player Stats", "Error", "The profile specified may be private. If this profile is yours, please change to public and try again.", Context.User, Color.Red, Utilities.GetFooter(Context.User, sw))); return; }
+
+        ProfileInfo profileInfo = await SteamIDUtils.GetProfileInfo(steamID64);
 
         //PvP Statistics
         double deaths = int.Parse(playerStats.First(x => x.Name == "deaths").Value);

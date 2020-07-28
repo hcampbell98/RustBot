@@ -4,6 +4,7 @@ using System.Net;
 using System.Xml;
 using Newtonsoft.Json;
 using System.Collections;
+using System.Threading.Tasks;
 
 namespace SSRPBalanceBot
 {
@@ -24,12 +25,12 @@ namespace SSRPBalanceBot
 
         }
 
-        public static ProfileInfo GetProfileInfo(string steamID64)
+        public static async Task<ProfileInfo> GetProfileInfo(string steamID64)
         {
             try
             {
                 WebClient wc = new WebClient();
-                string xml = wc.DownloadString($"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key={Utilities.apiKey}&format=xml&steamids={steamID64}");
+                string xml = await wc.DownloadStringTaskAsync(new Uri($"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key={Utilities.apiKey}&format=xml&steamids={steamID64}"));
                 XmlDocument doc = new XmlDocument();
                 doc.LoadXml(xml);
                 XmlNodeList nodeList = doc.SelectNodes("/response/players/player");
@@ -43,7 +44,7 @@ namespace SSRPBalanceBot
 
                 return new ProfileInfo() { SteamID64 = steamID64, ProfileName = profileName, ProfileURL = profileurl, AvatarSmall = avatarsmall, AvatarMedium = avatarmedium, AvatarLarge = avatarlarge, ProfileCreated = profilecreated };
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }
