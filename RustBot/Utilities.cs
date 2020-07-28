@@ -258,7 +258,7 @@ namespace SSRPBalanceBot
             }
         }
 
-        public static async Task<BreakableInfo> GetBreakableInfo(SearchBreakable item, string attackType)
+        public static async Task<BreakableInfo> GetBreakableInfo(SearchBreakable item, string attackType, string side)
         {
             using (WebClient wc = new WebClient())
             {
@@ -289,18 +289,35 @@ namespace SSRPBalanceBot
 
                         foreach(var attack in durabilityTab.DocumentNode.SelectNodes("/table/tbody/tr"))
                         {
-
-                            if(attack.GetAttributeValue("data-group", "") == attackType)
+                            if(side == null)
                             {
-                                HtmlNodeCollection cells = attack.SelectNodes("td");
+                                if (attack.GetAttributeValue("data-group", "") == attackType)
+                                {
+                                    HtmlNodeCollection cells = attack.SelectNodes("td");
 
-                                string wepName = cells[1].GetAttributeValue("data-value", "");
-                                string quantity = cells[2].GetAttributeValue("data-value", "");
-                                string time = cells[3].GetAttributeValue("data-value", "");
-                                string fuel = cells[4].InnerText;
-                                string sulfur = cells[5].InnerText;
+                                    string wepName = cells[1].GetAttributeValue("data-value", "");
+                                    string quantity = cells[2].GetAttributeValue("data-value", "");
+                                    string time = cells[3].GetAttributeValue("data-value", "");
+                                    string fuel = cells[4].InnerText;
+                                    string sulfur = cells[5].InnerText;
 
-                                attacksList.Add(new AttackDurability() { Tool = wepName, Quantity = quantity, Time = time, Fuel = fuel, Sulfur = sulfur });
+                                    attacksList.Add(new AttackDurability() { Tool = wepName, Quantity = quantity, Time = time, Fuel = fuel, Sulfur = sulfur });
+                                }
+                            }
+                            else
+                            {
+                                if (attack.GetAttributeValue("data-group", "") == attackType && attack.GetAttributeValue("data-group2", "") == side)
+                                {
+                                    HtmlNodeCollection cells = attack.SelectNodes("td");
+
+                                    string wepName = cells[1].GetAttributeValue("data-value", "");
+                                    string quantity = cells[2].GetAttributeValue("data-value", "");
+                                    string time = cells[3].GetAttributeValue("data-value", "");
+                                    string fuel = cells[4].InnerText;
+                                    string sulfur = cells[5].InnerText;
+
+                                    attacksList.Add(new AttackDurability() { Tool = wepName, Quantity = quantity, Time = time, Fuel = fuel, Sulfur = sulfur });
+                                }
                             }
                         }
                     }
