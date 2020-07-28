@@ -25,29 +25,29 @@ public class Stats : ModuleBase<SocketCommandContext>
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
 
         List<PlayerStat> playerStats;
-
+        string steamID64;
 
 
         if (steamID == null)
         {
-            string steamID64 = SteamLink.GetSteam(Context.User.Id.ToString());
+            steamID64 = SteamLink.GetSteam(Context.User.Id.ToString());
             playerStats = await Utilities.GetPlayerInfo(steamID64);
         }
         else if (steamID.StartsWith("<"))
         {
-            string steamID64 = SteamLink.GetSteam(Utilities.GetNumbers(steamID));
+            steamID64 = SteamLink.GetSteam(Utilities.GetNumbers(steamID));
             playerStats = await Utilities.GetPlayerInfo(steamID64);
         }
         else
         {
-            string steamID64;
-
             if (steamID.Contains("https://steamcommunity.com")) { steamID64 = Utilities.GetNumbers(steamID); }
             else if (steamID.Contains("STEAM") || steamID.StartsWith("7656119")) { steamID64 = SteamIDUtils.RetrieveID(steamID); }
-            else { await ReplyAsync("Make sure the input is either a Steam Community URL (numbers at the end) or a valid SteamID/SteamID64."); return; }
+            else { await ReplyAsync("Make sure the input is a valid SteamID/SteamID64 (e.g. 76561198254673414). Please also check that the profile is public."); return; }
 
             playerStats = await Utilities.GetPlayerInfo(steamID64);
         }
+
+        ProfileInfo profileInfo = SteamIDUtils.GetProfileInfo(steamID64);
 
         //PvP Statistics
         double deaths = int.Parse(playerStats.First(x => x.Name == "deaths").Value);
@@ -98,7 +98,9 @@ public class Stats : ModuleBase<SocketCommandContext>
 
         EmbedBuilder eb = new EmbedBuilder();
 
-        eb.WithTitle($"Player Statistics");
+        eb.WithTitle($"{profileInfo.ProfileName}");
+        eb.WithUrl($"{profileInfo.ProfileURL}");
+        eb.WithThumbnailUrl(profileInfo.AvatarMedium);
         eb.WithColor(Color.Red);
         eb.AddField("PvP Info", $"```css\nKills: {kill_player}\nDeaths: {deaths}\nK/D Ratio: {Math.Round(kdRatio, 2)}\nHeadshots: {Math.Round(headshotPercentage * 100, 2)}%\nAccuracy: {Math.Round(rifleAccuracy * 100, 2)}%```", true);
         eb.AddField("Weapon Hits", $"```css\nBuilding Hits: {bullet_hit_building}\nBear Hits: {bullet_hit_bear}\nHorse Hits: {bullet_hit_horse}\nStag Hits: {bullet_hit_stag}\nWolf Hits: {bullet_hit_wolf}\nBoar Hits: {bullet_hit_boar}```", true);

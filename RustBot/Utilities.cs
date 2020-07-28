@@ -380,7 +380,7 @@ namespace SSRPBalanceBot
         {
             using (WebClient wc = new WebClient())
             {
-                string page = await wc.DownloadStringTaskAsync(new Uri($"http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=252490&key={apiKey}&steamid={steamID64}&include_appinfo=1&format=xml"));
+                string page = await wc.DownloadStringTaskAsync(new Uri($"http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v2/?appid=252490&key={apiKey}&steamid={steamID64}&include_appinfo=1&format=xml"));
 
                 if (page.Contains("Internal Server Error")) { return null; }
 
