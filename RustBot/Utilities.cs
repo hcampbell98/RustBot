@@ -431,7 +431,7 @@ namespace SSRPBalanceBot
         {
             EmbedBuilder eb = new EmbedBuilder();
 
-            if(fb == null)
+            if(fb == null && user != null)
             {
                 fb = new EmbedFooterBuilder();
                 fb.WithText($"Called by {user.Username}");

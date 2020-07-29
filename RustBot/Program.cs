@@ -38,8 +38,8 @@ namespace SSRPBalanceBot
             _services = ConfigureServices();
 
             _client.Log += Log;
-            _client.JoinedGuild += GuildHandler;
-            _client.LeftGuild += GuildHandler;
+            _client.JoinedGuild += GuildJoinedHandler;
+            _client.LeftGuild += GuildLeftHandler;
             _client.Ready += _client_Ready;
             _commands.CommandExecuted += _commands_CommandExecuted;
 
@@ -141,10 +141,20 @@ namespace SSRPBalanceBot
             return Task.CompletedTask;
         }
 
-        private async Task<Task> GuildHandler(SocketGuild g)
+        private async Task<Task> GuildJoinedHandler(SocketGuild g)
         {
             Statistics.guildChanges += 1;
             Statistics.lastGuildJoined = g.Name;
+
+            await LoggingUtils.GuildJoinedAlert(g);
+
+            await _client.SetGameAsync($"{prefix}help | {_client.Guilds.Count} Servers");
+            return Task.CompletedTask;
+        }
+
+        private async Task<Task> GuildLeftHandler(SocketGuild g)
+        {
+            Statistics.guildChanges -= 1;
 
             await _client.SetGameAsync($"{prefix}help | {_client.Guilds.Count} Servers");
             return Task.CompletedTask;
