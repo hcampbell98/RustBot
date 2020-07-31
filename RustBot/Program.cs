@@ -10,6 +10,7 @@ using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using RustBot.Logging;
 using System.Diagnostics;
+using System.Linq;
 
 namespace SSRPBalanceBot
 {
@@ -54,6 +55,7 @@ namespace SSRPBalanceBot
 
         private Task _commands_CommandExecuted(Optional<CommandInfo> command, ICommandContext context, IResult arg3)
         {
+            Statistics.runCommands += 1;
             Stopwatch sw = new Stopwatch();
             sw.Start();
 
@@ -113,7 +115,7 @@ namespace SSRPBalanceBot
             if (message.Author.IsBot) { return; }
             int argPos = 0;
 
-            
+            await LiveLog(message);
 
             await LoggingUtils.Log(message, DateTime.Now, context.IsPrivate);
 
@@ -123,8 +125,6 @@ namespace SSRPBalanceBot
 
             if (!await CheckCooldown(message))
             {
-                Statistics.runCommands += 1;
-
                 var result = await _commands.ExecuteAsync(
                     context: context,
                     argPos: argPos,
@@ -138,6 +138,22 @@ namespace SSRPBalanceBot
         private Task Log(LogMessage msg)
         {
             Console.WriteLine(msg.ToString());
+            return Task.CompletedTask;
+        }
+
+        private async Task<Task> LiveLog(SocketMessage message)
+        {
+            var context = new SocketCommandContext(_client, (SocketUserMessage)message);
+
+            if (LoggingUtils.livelogGuild != null && LoggingUtils.livelogOutput != null)
+            {
+                if (context.Guild == LoggingUtils.livelogGuild) 
+                {
+                    if (message.Content == "") { await LoggingUtils.livelogOutput.SendMessageAsync($"*[{message.Channel.Name}]* **{message.Author.Username}** - {message.Attachments.First().Url}"); }
+                    else{ await LoggingUtils.livelogOutput.SendMessageAsync($"*[{message.Channel.Name}]* **{message.Author.Username}** - {message.Content}"); }
+                }
+            }
+
             return Task.CompletedTask;
         }
 

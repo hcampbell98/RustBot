@@ -11,6 +11,8 @@ namespace SSRPBalanceBot
     class LoggingUtils
     {
         static SocketGuild destGuild = Program._client.GetGuild(701178110485463152);
+        public static SocketGuild livelogGuild;
+        public static SocketTextChannel livelogOutput;
 
         public static async Task Log(SocketUserMessage message, DateTime date, bool isPrivate)
         {

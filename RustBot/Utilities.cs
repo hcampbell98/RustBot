@@ -486,6 +486,13 @@ namespace SSRPBalanceBot
                 return String.Empty;
             }
         }
+
+        //Schedule a task for a certain time
+        public async void ScheduleAction(Action action, DateTime ExecutionTime)
+        {
+            await Task.Delay(ExecutionTime.Subtract(DateTime.Now));
+            action();
+        }
     }
 
     public class PlayerStat
