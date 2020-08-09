@@ -59,7 +59,10 @@ public class ItemInfo : InteractiveBase
 
                 if(response != null)
                 {
-                    Item i = await Utilities.GetItemInfo(itemInfo[Convert.ToInt32(response.Content) - 1]);
+                    Item i;
+
+                    if (Utilities.itemCache.ContainsKey(itemInfo[Convert.ToInt32(response.Content) - 1].ItemName)) { i = Utilities.itemCache[itemInfo[Convert.ToInt32(response.Content) - 1].ItemName]; }
+                    else { i = await Utilities.GetItemInfo(itemInfo[Convert.ToInt32(response.Content) - 1]); }
 
                     await ReplyAsync("", false, GenMessage(i));
                 }
@@ -67,7 +70,10 @@ public class ItemInfo : InteractiveBase
             }
             else
             {
-                Item i = await Utilities.GetItemInfo(itemInfo[0]);
+                Item i;
+
+                if (Utilities.itemCache.ContainsKey(itemInfo[0].ItemName)) { i = Utilities.itemCache[itemInfo[0].ItemName]; }
+                else { i = await Utilities.GetItemInfo(itemInfo[0]); }
 
                 await ReplyAsync("", false, GenMessage(i));
             }

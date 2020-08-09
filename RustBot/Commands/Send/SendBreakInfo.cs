@@ -69,12 +69,14 @@ public class Break : InteractiveBase
             else { await ReplyAsync("Please type the number of the block side. Run the command again."); return; }
         }
 
-
+        BreakableInfo bi;
 
         //If item is not found, reply with an error message and return
         if (sb == null) { await ReplyAsync("Structure/Placeable not found."); return; }
 
-        BreakableInfo bi = await Utilities.GetBreakableInfo(sb, attack, side);
+        //If the item is in the cache, don't search for it.
+        if (Utilities.breakCache.ContainsKey(sb.ItemName)) { bi = Utilities.breakCache[sb.ItemName]; }
+        else { bi = await Utilities.GetBreakableInfo(sb, attack, side); }
 
         //Removes the attack info message
         await aInfoMsg.DeleteAsync();

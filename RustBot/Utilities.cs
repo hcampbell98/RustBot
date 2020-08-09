@@ -19,6 +19,11 @@ namespace SSRPBalanceBot
     class Utilities
     {
         public static string apiKey = File.ReadAllText("Config/steamApiKey.cfg");
+        public static Dictionary<string, BreakableInfo> breakCache = new Dictionary<string, BreakableInfo> { };
+        public static Dictionary<string, Item> itemCache = new Dictionary<string, Item> { };
+
+        public static string searchPlaceCache;
+        public static string searchBlockCache;
 
         public static void WriteToJsonFile<T>(string filePath, T objectToWrite, bool append = false) where T : new()
         {
@@ -186,6 +191,8 @@ namespace SSRPBalanceBot
 
 
                 Item item1 = new Item() { ItemName = item.ItemName, Icon = item.Icon, URL = item.URL, DropChances = dc, ItemInfoTable = infoTableStats, Description = itemDesc, Ingredients = ingredients };
+                itemCache.Add(item.ItemName, item1);
+                ScheduleAction(delegate () { itemCache.Remove(item1.ItemName); }, DateTime.Now.AddHours(12));
 
                 return item1;
             }
@@ -201,8 +208,9 @@ namespace SSRPBalanceBot
 
                 //Building Blocks
                 if (itemType == "block") 
-                { 
-                    page = await wc.DownloadStringTaskAsync(new Uri("https://rustlabs.com/group=building-blocks"));
+                {
+                    if (searchBlockCache == null) { page = await wc.DownloadStringTaskAsync(new Uri("https://rustlabs.com/group=building-blocks")); searchBlockCache = page; ScheduleAction(delegate () { searchBlockCache = null; }, DateTime.Now.AddHours(12)); }
+                    else { page = searchBlockCache; }
 
                     var parsePage = new HtmlDocument();
                     parsePage.LoadHtml(page);
@@ -230,12 +238,11 @@ namespace SSRPBalanceBot
                 //Placeable items
                 else 
                 {
-                    page = await wc.DownloadStringTaskAsync(new Uri("https://rustlabs.com/group=build"));
+                    if (searchPlaceCache == null) { page = await wc.DownloadStringTaskAsync(new Uri("https://rustlabs.com/group=build")); searchPlaceCache = page; ScheduleAction(delegate () { searchBlockCache = null; }, DateTime.Now.AddHours(12)); }
+                    else { page = searchPlaceCache; }
 
                     var parsePage = new HtmlDocument();
                     parsePage.LoadHtml(page);
-
-
 
                     foreach (var placeable in parsePage.DocumentNode.SelectNodes("/html/body/div[1]/div/a"))
                     {
@@ -325,8 +332,12 @@ namespace SSRPBalanceBot
 
                 //Obtains the item icon
                 string iconURL = parsePage.DocumentNode.SelectSingleNode("/html/body/div[1]/div[1]/div[1]/div[2]/img").GetAttributeValue("src", "").Replace("//rustlabs.com/", "https://rustlabs.com/");
+                BreakableInfo bi = new BreakableInfo() { ItemName = item.ItemName, DurabilityInfo = attacksList, HP = itemHP, Icon = iconURL, URL = item.URL };
 
-                return new BreakableInfo() { ItemName = item.ItemName, DurabilityInfo = attacksList, HP = itemHP, Icon = iconURL, URL = item.URL};
+                breakCache.Add(bi.ItemName, bi);
+                ScheduleAction(delegate() { breakCache.Remove(bi.ItemName); }, DateTime.Now.AddHours(12));
+
+                return bi;
             }
         }
 
@@ -488,7 +499,7 @@ namespace SSRPBalanceBot
         }
 
         //Schedule a task for a certain time
-        public async void ScheduleAction(Action action, DateTime ExecutionTime)
+        public static async void ScheduleAction(Action action, DateTime ExecutionTime)
         {
             await Task.Delay(ExecutionTime.Subtract(DateTime.Now));
             action();
