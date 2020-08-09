@@ -27,6 +27,8 @@ namespace SSRPBalanceBot
 
         public static async Task<ProfileInfo> GetProfileInfo(string steamID64)
         {
+            if (Utilities.profileInfoCache.ContainsKey(steamID64)) { return Utilities.profileInfoCache[steamID64]; }
+
             try
             {
                 WebClient wc = new WebClient();
@@ -42,7 +44,11 @@ namespace SSRPBalanceBot
                 string avatarlarge = nodeList[0].SelectSingleNode("avatarfull").InnerText;
                 string profilecreated = nodeList[0].SelectSingleNode("timecreated").InnerText;
 
-                return new ProfileInfo() { SteamID64 = steamID64, ProfileName = profileName, ProfileURL = profileurl, AvatarSmall = avatarsmall, AvatarMedium = avatarmedium, AvatarLarge = avatarlarge, ProfileCreated = profilecreated };
+                ProfileInfo pi = new ProfileInfo() { SteamID64 = steamID64, ProfileName = profileName, ProfileURL = profileurl, AvatarSmall = avatarsmall, AvatarMedium = avatarmedium, AvatarLarge = avatarlarge, ProfileCreated = profilecreated };
+                Utilities.profileInfoCache.Add(steamID64, pi);
+                Utilities.ScheduleAction(delegate () { Utilities.profileInfoCache.Remove(steamID64); }, DateTime.Now.AddHours(2));
+
+                return pi;
             }
             catch (Exception)
             {

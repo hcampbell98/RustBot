@@ -24,9 +24,8 @@ public class Stats : ModuleBase<SocketCommandContext>
 
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
 
-        List<PlayerStat> playerStats;
+        Dictionary<string, string> playerStats;
         string steamID64;
-
 
         if (steamID == null)
         {
@@ -51,48 +50,48 @@ public class Stats : ModuleBase<SocketCommandContext>
         if (playerStats == null) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Player Stats", "Error", "The profile specified may be private. If this profile is yours, please change to public and try again.", Context.User, Color.Red, Utilities.GetFooter(Context.User, sw))); return; }
 
         ProfileInfo profileInfo = await SteamIDUtils.GetProfileInfo(steamID64);
+        PlayerStat defStat = new PlayerStat { Name = "Default", Value = "0" };
 
         //PvP Statistics
-        double deaths = int.Parse(playerStats.First(x => x.Name == "deaths").Value);
-        double kill_player = int.Parse(playerStats.First(x => x.Name == "kill_player").Value);
-        double headshot = int.Parse(playerStats.First(x => x.Name == "headshot").Value);
-
+        double deaths = int.Parse(playerStats.GetValueOrDefault("deaths", "0"));
+        double kill_player = int.Parse(playerStats.GetValueOrDefault("kill_player", "0"));
+        double headshot = int.Parse(playerStats.GetValueOrDefault("headshot", "0"));
 
         //Rifle statistics
-        int bullet_fired = int.Parse(playerStats.First(x => x.Name == "bullet_fired").Value);
-        int bullet_hit_player = int.Parse(playerStats.First(x => x.Name == "bullet_hit_player").Value);
-        int bullet_hit_building = int.Parse(playerStats.First(x => x.Name == "bullet_hit_building").Value);
-        int bullet_hit_entity = int.Parse(playerStats.First(x => x.Name == "bullet_hit_entity").Value);
-        int bullet_hit_sign = int.Parse(playerStats.First(x => x.Name == "bullet_hit_sign").Value);
+        int bullet_fired = int.Parse(playerStats.GetValueOrDefault("bullet_fired", "0"));
+        int bullet_hit_player = int.Parse(playerStats.GetValueOrDefault("bullet_hit_player", "0"));
+        int bullet_hit_building = int.Parse(playerStats.GetValueOrDefault("bullet_hit_building", "0"));
+        int bullet_hit_entity = int.Parse(playerStats.GetValueOrDefault("bullet_hit_entity", "0"));
+        int bullet_hit_sign = int.Parse(playerStats.GetValueOrDefault("bullet_hit_sign", "0"));
         //Animal Hits
-        double bullet_hit_bear = int.Parse(playerStats.First(x => x.Name == "bullet_hit_bear").Value);
-        double bullet_hit_horse = int.Parse(playerStats.First(x => x.Name == "bullet_hit_horse").Value);
-        double bullet_hit_stag = int.Parse(playerStats.First(x => x.Name == "bullet_hit_stag").Value);
-        double bullet_hit_wolf = int.Parse(playerStats.First(x => x.Name == "bullet_hit_wolf").Value);
-        double bullet_hit_boar = int.Parse(playerStats.First(x => x.Name == "bullet_hit_boar").Value);
-        double bullet_hit_playercorpse = int.Parse(playerStats.First(x => x.Name == "bullet_hit_playercorpse").Value);
-        double bullet_hit_corpse = int.Parse(playerStats.First(x => x.Name == "bullet_hit_corpse").Value);
+        double bullet_hit_bear = int.Parse(playerStats.GetValueOrDefault("bullet_hit_bear", "0"));
+        double bullet_hit_horse = int.Parse(playerStats.GetValueOrDefault("bullet_hit_horse", "0"));
+        double bullet_hit_stag = int.Parse(playerStats.GetValueOrDefault("bullet_hit_stag", "0"));
+        double bullet_hit_wolf = int.Parse(playerStats.GetValueOrDefault("bullet_hit_wolf", "0"));
+        double bullet_hit_boar = int.Parse(playerStats.GetValueOrDefault("bullet_hit_boar", "0"));
+        double bullet_hit_playercorpse = int.Parse(playerStats.GetValueOrDefault("bullet_hit_playercorpse", "0"));
+        double bullet_hit_corpse = int.Parse(playerStats.GetValueOrDefault("bullet_hit_corpse", "0"));
         double animalTotal = bullet_hit_bear + bullet_hit_boar + bullet_hit_horse + bullet_hit_stag + bullet_hit_wolf + bullet_hit_corpse + bullet_hit_playercorpse;
 
         //Bow statistics
-        int arrow_fired = int.Parse(playerStats.First(x => x.Name == "arrow_fired").Value);
-        int arrow_hit_player = int.Parse(playerStats.First(x => x.Name == "arrow_hit_player").Value);
-        int arrow_hit_building = int.Parse(playerStats.First(x => x.Name == "arrow_hit_building").Value);
+        int arrow_fired = int.Parse(playerStats.GetValueOrDefault("arrow_fired", "0"));
+        int arrow_hit_player = int.Parse(playerStats.GetValueOrDefault("arrow_hit_player", "0"));
+        int arrow_hit_building = int.Parse(playerStats.GetValueOrDefault("arrow_hit_building", "0"));
 
         //Harvest info
-        double harvest_stones = int.Parse(playerStats.First(x => x.Name == "harvest.stones").Value);
-        double harvest_cloth = int.Parse(playerStats.First(x => x.Name == "harvest.cloth").Value);
-        double harvest_wood = int.Parse(playerStats.First(x => x.Name == "harvest.wood").Value);
+        double harvest_stones = int.Parse(playerStats.GetValueOrDefault("harvest.stones", "0"));
+        double harvest_cloth = int.Parse(playerStats.GetValueOrDefault("harvest.cloth", "0"));
+        double harvest_wood = int.Parse(playerStats.GetValueOrDefault("harvest.wood", "0"));
 
         //Misc info
-        //double rocket_fired = int.Parse(playerStats.First(x => x.Name == "rocket_fired").Value);
-        double item_drop = int.Parse(playerStats.First(x => x.Name == "item_drop").Value);
-        double blueprint_studied = int.Parse(playerStats.First(x => x.Name == "blueprint_studied").Value);
-        double death_suicide = int.Parse(playerStats.First(x => x.Name == "death_suicide").Value);
-        double inventory_opened = double.Parse(playerStats.First(x => x.Name == "INVENTORY_OPENED").Value);
-        double seconds_speaking = double.Parse(playerStats.First(x => x.Name == "seconds_speaking").Value);
-        double calories_consumed = double.Parse(playerStats.First(x => x.Name == "calories_consumed").Value);
-        double placed_blocks = double.Parse(playerStats.First(x => x.Name == "placed_blocks").Value);
+        double rocket_fired = int.Parse(playerStats.GetValueOrDefault("rocket_fired", "0"));
+        double item_drop = int.Parse(playerStats.GetValueOrDefault("item_drop", "0"));
+        double blueprint_studied = int.Parse(playerStats.GetValueOrDefault("blueprint_studied", "0"));
+        double death_suicide = int.Parse(playerStats.GetValueOrDefault("death_suicide", "0"));
+        double inventory_opened = double.Parse(playerStats.GetValueOrDefault("INVENTORY_OPENED", "0"));
+        double seconds_speaking = double.Parse(playerStats.GetValueOrDefault("seconds_speaking", "0"));
+        double calories_consumed = double.Parse(playerStats.GetValueOrDefault("calories_consumed", "0"));
+        double placed_blocks = double.Parse(playerStats.GetValueOrDefault("placed_blocks", "0"));
 
         //Calculated statistics
         double rifleAccuracy = (bullet_hit_player + bullet_hit_sign + animalTotal + bullet_hit_entity) / (bullet_fired);
@@ -108,10 +107,11 @@ public class Stats : ModuleBase<SocketCommandContext>
         eb.AddField("PvP Info", $"```css\nKills: {kill_player}\nDeaths: {deaths}\nK/D Ratio: {Math.Round(kdRatio, 2)}\nHeadshots: {Math.Round(headshotPercentage * 100, 2)}%\nAccuracy: {Math.Round(rifleAccuracy * 100, 2)}%```", true);
         eb.AddField("Weapon Hits", $"```css\nBuilding Hits: {bullet_hit_building}\nBear Hits: {bullet_hit_bear}\nHorse Hits: {bullet_hit_horse}\nStag Hits: {bullet_hit_stag}\nWolf Hits: {bullet_hit_wolf}\nBoar Hits: {bullet_hit_boar}```", true);
         eb.AddField("Harvested", $"```css\nStone: {harvest_stones}\nWood: {harvest_wood}\nCloth: {harvest_cloth}```", true);
-        eb.AddField("Misc", $"```css\nItems Dropped: {item_drop}\nBlueprints Studied: {blueprint_studied}\nSuicides: {death_suicide}\nInventory Opened: {inventory_opened}\nTime Speaking: {Math.Round(seconds_speaking, 2)}s\nCalories Consumed: {calories_consumed}\nBlocks Placed: {placed_blocks}```");
+        eb.AddField("Misc", $"```css\nItems Dropped: {item_drop}\nBlueprints Studied: {blueprint_studied}\nSuicides: {death_suicide}\nInventory Opened: {inventory_opened}\nTime Speaking: {Math.Round(seconds_speaking, 2)}s\nCalories Consumed: {calories_consumed}\nBlocks Placed: {placed_blocks}\nRockets Fired: {rocket_fired}```");
 
         sw.Stop();
         eb.WithFooter(Utilities.GetFooter(Context.User, sw));
         await ReplyAsync("", false, eb.Build());
     }
 }
+

@@ -21,6 +21,8 @@ namespace SSRPBalanceBot
         public static string apiKey = File.ReadAllText("Config/steamApiKey.cfg");
         public static Dictionary<string, BreakableInfo> breakCache = new Dictionary<string, BreakableInfo> { };
         public static Dictionary<string, Item> itemCache = new Dictionary<string, Item> { };
+        public static Dictionary<string, Dictionary<string, string>> statCache = new Dictionary<string, Dictionary<string, string>> { };
+        public static Dictionary<string, ProfileInfo> profileInfoCache = new Dictionary<string, ProfileInfo> { };
 
         public static string searchPlaceCache;
         public static string searchBlockCache;
@@ -404,8 +406,10 @@ namespace SSRPBalanceBot
         }
 
         //Player Info
-        public static async Task<List<PlayerStat>> GetPlayerInfo(string steamID64)
+        public static async Task<Dictionary<string, string>> GetPlayerInfo(string steamID64)
         {
+            if (statCache.ContainsKey(steamID64)) { return statCache[steamID64]; }
+
             using (WebClient wc = new WebClient())
             {
                 string page;
@@ -423,14 +427,16 @@ namespace SSRPBalanceBot
                 xmlDoc.LoadXml(page);
                 XmlNodeList stats = xmlDoc.SelectNodes("/playerstats/stats/stat");
 
-                List<PlayerStat> playerStats = new List<PlayerStat> { };
+                Dictionary<string, string> playerStats = new Dictionary<string, string> { };
+                statCache.Add(steamID64, playerStats);
+                ScheduleAction(delegate () { statCache.Remove(steamID64); }, DateTime.Now.AddHours(2));
 
                 foreach(XmlNode stat in stats)
                 {
                     string name = stat.SelectSingleNode("name").InnerText;
                     string value = stat.SelectSingleNode("value").InnerText;
 
-                    playerStats.Add(new PlayerStat() { Name = name, Value = value });
+                    playerStats.Add(name, value);
                 }
 
                 return playerStats;
@@ -509,7 +515,8 @@ namespace SSRPBalanceBot
     public class PlayerStat
     {
         public string Name { get; set; }
-        public string Value { get; set; }
+
+        public string Value { get; set; } = "0";
     }
 
     public class SkinInfo
@@ -588,5 +595,17 @@ namespace SSRPBalanceBot
         public string Time { get; set; }
         public string Fuel { get; set; }
         public string Sulfur { get; set; }
+    }
+}
+
+public static class DictExtensions
+{
+    public static TValue GetValueOrDefault<TKey, TValue>
+(this IDictionary<TKey, TValue> dictionary,
+ TKey key,
+ TValue defaultValue)
+    {
+        TValue value;
+        return dictionary.TryGetValue(key, out value) ? value : defaultValue;
     }
 }
