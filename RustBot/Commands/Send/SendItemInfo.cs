@@ -18,7 +18,7 @@ public class ItemInfo : InteractiveBase
     Stopwatch sw = new Stopwatch();
 
     [Command("item", RunMode = RunMode.Async)]
-    [Summary("Sends item info")]
+    [Summary("Displays item info such as its RustLabs.com description, drop rates and crafting information. Example usage: r!item rocket")]
     [Remarks("Tools")]
     public async Task SendItemInfo([Remainder]string item)
     {
