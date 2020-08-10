@@ -6,6 +6,7 @@ using SSRPBalanceBot.Permissions;
 using Discord;
 using System.Text;
 using System.Linq;
+using Discord.WebSocket;
 
 // Keep in mind your module **must** be public and inherit ModuleBase.
 // If it isn't, it will not be discovered by AddModulesAsync!
@@ -24,7 +25,7 @@ public class GuildList : ModuleBase<SocketCommandContext>
 
         foreach(var guild in Program._client.Guilds)
         {
-            sb.Append($"{guild.Name} | {guild.MemberCount} | {guild.Id}\n");
+            sb.Append($"{guild.Name} | {guild.MemberCount}\n");
             totalMembers += guild.MemberCount;
         }
 
@@ -47,25 +48,21 @@ public class GuildList : ModuleBase<SocketCommandContext>
     [Command("guildlist", RunMode = RunMode.Async)]
     [Summary("Returns members of a guild")]
     [Remarks("Admin")]
-    public async Task SendGuildList(string guildID)
+    public async Task SendGuildList(string guildName)
     {
         StringBuilder sb = new StringBuilder();
-        string gName = "";
-        int gMembers = 0;
+        SocketGuild g = Program._client.Guilds.FirstOrDefault(x => x.Name.ToLower() == guildName.ToLower());
 
-        foreach (var guild in Program._client.Guilds)
+        if (g != null)
         {
-            if (guild.Id.ToString() == guildID)
+            foreach (var member in g.Users)
             {
-                foreach (var member in guild.Users)
-                {
-                    sb.Append(member.Username + "\n");
-                }
-                gName = guild.Name;
-                gMembers += guild.MemberCount;
+                sb.Append(member.Username + "\n");
             }
         }
+        else { throw new Exception("Specified guild not found."); }
 
+        if (sb.ToString().Count() > 1024) { sb.Clear().Append("Too many users to display."); }
 
         EmbedBuilder eb = new EmbedBuilder();
         EmbedFooterBuilder fb = new EmbedFooterBuilder();
@@ -75,7 +72,7 @@ public class GuildList : ModuleBase<SocketCommandContext>
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
 
         eb.WithTitle($"Guild List");
-        eb.AddField($"{gName} | {gMembers}", sb.ToString());
+        eb.AddField($"{g.Name} | {g.MemberCount}", sb.ToString());
         eb.WithColor(Color.Blue);
         eb.WithFooter(fb);
 
@@ -87,33 +84,26 @@ public class GuildList : ModuleBase<SocketCommandContext>
     [Command("guildlist", RunMode = RunMode.Async)]
     [Summary("Returns members of a guild")]
     [Remarks("Admin")]
-    public async Task SendGuildList(string guildID, bool genInvite)
+    public async Task SendGuildList(string guildName, bool genInvite)
     {
         StringBuilder sb = new StringBuilder();
-        string gName = "";
+        SocketGuild g = Program._client.Guilds.FirstOrDefault(x => x.Name.ToLower() == guildName.ToLower());
 
+        if (g == null) { throw new Exception("Specified guild not found."); }
 
-        foreach (var guild in Program._client.Guilds)
+        try
         {
-            try
-            {
-                if (guild.Id.ToString() == guildID)
-                {
-                    //Gets first channel in the server and generates an invite link
-                    INestedChannel chnl = (INestedChannel)guild.TextChannels.First();
-                    var invite = await chnl.CreateInviteAsync();
+            //Gets first channel in the server and generates an invite link
+            INestedChannel chnl = (INestedChannel)g.TextChannels.First();
+            var invite = await chnl.CreateInviteAsync();
 
-                    gName = guild.Name;
-
-                    //Appends invite link to message
-                    sb.Append("" + invite.Url);
-                }
-            }
-            catch (Exception)
-            {
-                await ReplyAsync("No links found");
-                return;
-            }
+            //Appends invite link to message
+            sb.Append("" + invite.Url);
+        }
+        catch (Exception)
+        {
+            await ReplyAsync("No links found");
+            return;
         }
 
 
@@ -125,7 +115,7 @@ public class GuildList : ModuleBase<SocketCommandContext>
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
 
         eb.WithTitle($"Invite");
-        eb.AddField($"{gName}", sb.ToString());
+        eb.AddField($"{g.Name}", sb.ToString());
         eb.WithColor(Color.Blue);
         eb.WithFooter(fb);
 
