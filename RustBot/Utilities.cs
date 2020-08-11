@@ -418,7 +418,7 @@ namespace SSRPBalanceBot
                 {
                     page = await wc.DownloadStringTaskAsync(new Uri($"http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v2/?appid=252490&key={apiKey}&steamid={steamID64}&include_appinfo=1&format=xml"));
                 }
-                catch (WebException e)
+                catch (WebException)
                 {
                     return null;
                 }
