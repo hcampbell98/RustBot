@@ -17,7 +17,7 @@ public class CreateTeam : InteractiveBase
 {
     [Command("createteam", RunMode = RunMode.Async)]
     [Summary("Creates a team with the mentioned users")]
-    [Remarks("Team")]
+    [Remarks("Team Leader")]
     public async Task SendRoll([Remainder]string mentions)
     {
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
@@ -29,7 +29,7 @@ public class CreateTeam : InteractiveBase
 
         foreach(var mention in mentionedUsers)
         {
-            members.Add(mention.Id);
+            if (TeamUtils.userSettings.FirstOrDefault(x => x.DiscordID == mention.Id) == default(UserSettings) || TeamUtils.userSettings.FirstOrDefault(x => x.DiscordID == mention.Id).InvitesEnabled) { members.Add(mention.Id); }
         }
 
         ulong[] teamMembers = members.ToArray();
@@ -49,7 +49,7 @@ public class CreateTeam : InteractiveBase
         if (!TeamUtils.CreateTeam(Context.User.Id, teamMembers, teamRole, Context.Guild, notifications)) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Creation", "Unsuccessful", "Team creation failed. You or one of your team members may already be apart of a team. Please leave your current team to continue.", Context.User, Color.Red)); await Context.Guild.GetRole(teamRole.Id).DeleteAsync(); return; }
 
         //Assign the team role to every member
-        foreach(SocketUser u in mentionedUsers)
+        foreach (SocketUser u in mentionedUsers)
         {
             await (u as IGuildUser).AddRoleAsync(teamRole);
         }

@@ -11,7 +11,8 @@ namespace RustBot.Users.Teams
 {
     class TeamUtils
     {
-        public static List<Team> teamData = LoadTeams();
+        public static List<Team> teamData;
+        public static List<UserSettings> userSettings;
 
         public static bool CreateTeam(ulong teamLeader, ulong[] teamMembers, IRole role, SocketGuild guild, bool notifications = true, string baseCoords = "Not yet set.")
         {
@@ -58,17 +59,56 @@ namespace RustBot.Users.Teams
             return true;
         }
 
-        static List<Team> LoadTeams()
+        public static List<Team> LoadTeams()
         {
             List<Team> teams = new List<Team> { };
+            if (!Directory.Exists("Users/Teams")) { Directory.CreateDirectory("Users/Teams"); }
 
-            foreach(var team in Directory.GetFiles("Users/Teams"))
+            foreach (var team in Directory.GetFiles("Users/Teams"))
             {
                 teams.Add(Utilities.ReadFromJsonFile<Team>(File.ReadAllText(team)));
             }
 
             return teams;
         }
+
+        public static List<UserSettings> LoadSettings()
+        {
+            List<UserSettings> users = new List<UserSettings> { };
+            if (!Directory.Exists("Users/Teams/UserSettings")) { Directory.CreateDirectory("Users/Teams/UserSettings"); }
+
+            foreach (var user in Directory.GetFiles("Users/Teams/UserSettings"))
+            {
+                users.Add(Utilities.ReadFromJsonFile<UserSettings>(File.ReadAllText(user)));
+            }
+
+            return users;
+        }
+
+        public static void UpdateSettings(ulong discordID, bool? notifications = null, bool? invites = null)
+        {
+            foreach(UserSettings u in userSettings)
+            {
+                if (u.DiscordID == discordID) 
+                {
+                    if (notifications == null) { notifications = u.NotificationsEnabled; }
+                    else if (invites == null) { invites = u.InvitesEnabled; }
+
+                    userSettings.Remove(u); 
+                    break; 
+                }
+            }
+
+            if (notifications == null) { notifications = true; }
+            else if (invites == null) { invites = true; }
+
+            UserSettings s = new UserSettings() { DiscordID = discordID, InvitesEnabled = (bool)invites, NotificationsEnabled = (bool)notifications };
+
+            userSettings.Add(s);
+            if (File.Exists($"Users/Teams/UserSettings/{discordID}.json")) { File.Delete($"Users/Teams/UserSettings/{discordID}.json"); }
+            Utilities.WriteToJsonFile<UserSettings>($"Users/Teams/UserSettings/{discordID}.json", s);
+        }
+
 
         static bool CheckIfInTeam(ulong discordID)
         {
@@ -107,6 +147,14 @@ namespace RustBot.Users.Teams
         public ulong GuildID { get; set; }
         public bool Notifications { get; set; }
         public string BaseCoords { get; set; }
+
+    }
+
+    public class UserSettings
+    {
+        public ulong DiscordID { get; set; }
+        public bool NotificationsEnabled { get; set; }
+        public bool InvitesEnabled { get; set; }
 
     }
 }

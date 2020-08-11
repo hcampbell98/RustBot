@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using RustBot.Logging;
 using System.Diagnostics;
 using System.Linq;
+using RustBot.Users.Teams;
 
 namespace SSRPBalanceBot
 {
@@ -31,7 +32,6 @@ namespace SSRPBalanceBot
 
         public static List<NextRoll> nextRolls = new List<NextRoll> { };
 
-
         public async Task MainAsync()
         {
             _client = new DiscordSocketClient();
@@ -49,6 +49,9 @@ namespace SSRPBalanceBot
 
             await _client.LoginAsync(TokenType.Bot, token);
             await _client.StartAsync();
+
+            TeamUtils.teamData = TeamUtils.LoadTeams();
+            TeamUtils.userSettings = TeamUtils.LoadSettings();
 
             await Task.Delay(-1);
         }

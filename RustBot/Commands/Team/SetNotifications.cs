@@ -13,29 +13,17 @@ using System.IO;
 public class UpdateNotifications : ModuleBase<SocketCommandContext>
 {
     [Command("notifications", RunMode = RunMode.Async)]
-    [Summary("Toggles notifications on/off.")]
+    [Summary("Opts in/out of team notifications")]
     [Remarks("Team")]
     public async Task ToggleNotifications()
     {
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
 
-        Team team = TeamUtils.GetTeam(Context.User.Id);
+        bool status;
 
-        //If the user isn't in a team or isn't the team leader, display an error message
-        if (team == null) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Notifications", "Error", "You are not a member of a team. Please create one using r!createteam", Context.User, Color.Red)); return; }
-        if (team.TeamLeader != Context.User.Id) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Notifications", "Error", "You are not the team leader.", Context.User, Color.Red)); return; }
+        if (TeamUtils.userSettings.FirstOrDefault(x => x.DiscordID == Context.User.Id) != null && TeamUtils.userSettings.FirstOrDefault(x => x.DiscordID == Context.User.Id).NotificationsEnabled) { TeamUtils.UpdateSettings(Context.User.Id, false); status = false; }
+        else { TeamUtils.UpdateSettings(Context.User.Id, true); status = true; }
 
-        //Create a new team based on the original and update the notification status
-        Team updatedTeam = team;
-        if (team.Notifications) { updatedTeam.Notifications = false; }
-        else { updatedTeam.Notifications = true; }
-
-        //Delete the team file, write the new team file, and update the teams list with the new team
-        File.Delete($"Users/Teams/{team.TeamLeader}.json");
-        Utilities.WriteToJsonFile<Team>($"Users/Teams/{team.TeamLeader}.json", updatedTeam);
-        TeamUtils.teamData.Remove(team);
-        TeamUtils.teamData.Add(updatedTeam);
-
-        await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Notifications", "Updated", $"Team Notifications Enabled: {updatedTeam.Notifications.ToString()}", Context.User, Color.Red)); return;
+        await ReplyAsync("", false, Utilities.GetEmbedMessage("Notifications", "Updated", $" Notifications Enabled: {status.ToString()}", Context.User, Color.Red)); return;
     }
 }
