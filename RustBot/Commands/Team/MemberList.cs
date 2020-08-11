@@ -14,6 +14,7 @@ public class TeamMembers : ModuleBase<SocketCommandContext>
 {
     [Command("members", RunMode = RunMode.Async)]
     [Summary("Lists all the members in your current team.")]
+    [Remarks("Team")]
     public async Task SendMembers()
     {
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
