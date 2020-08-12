@@ -17,7 +17,7 @@ namespace RustBot.Users.Guilds
             GuildSettings s = new GuildSettings() { GuildID = guildID, ServerSearch = search};
 
             guildData.Add(s);
-            if (File.Exists($"Users/Teams/UserSettings/{guildID}.json")) { File.Delete($"Users/Guilds/{guildID}.json"); }
+            if (File.Exists($"Users/Guilds/{guildID}.json")) { File.Delete($"Users/Guilds/{guildID}.json"); }
             Utilities.WriteToJsonFile<GuildSettings>($"Users/Guilds/{guildID}.json", s);
         }
 
