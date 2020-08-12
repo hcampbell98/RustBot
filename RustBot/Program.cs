@@ -12,6 +12,7 @@ using RustBot.Logging;
 using System.Diagnostics;
 using System.Linq;
 using RustBot.Users.Teams;
+using RustBot.Users.Guilds;
 
 namespace SSRPBalanceBot
 {
@@ -52,6 +53,7 @@ namespace SSRPBalanceBot
 
             TeamUtils.teamData = TeamUtils.LoadTeams();
             TeamUtils.userSettings = TeamUtils.LoadSettings();
+            GuildUtils.guildData = GuildUtils.LoadSettings();
 
             await Task.Delay(-1);
         }

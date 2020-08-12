@@ -5,6 +5,7 @@ using SSRPBalanceBot;
 using SSRPBalanceBot.Permissions;
 using System.Linq;
 using Discord;
+using RustBot.Users.Guilds;
 
 // Keep in mind your module **must** be public and inherit ModuleBase.
 // If it isn't, it will not be discovered by AddModulesAsync!
@@ -16,6 +17,7 @@ public class ServersInfo : ModuleBase<SocketCommandContext>
     public async Task GetServers()
     {
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
+        if (!GuildUtils.GetSettings(Context.Guild.Id).ServerSearch) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Rust Servers", "Error", "This server has disabled the ability to search for servers.", Context.User, Color.Red)); return; }
 
         var s = await Utilities.GetServers();
 
@@ -42,6 +44,7 @@ public class ServersInfo : ModuleBase<SocketCommandContext>
     public async Task GetServer([Remainder]string search)
     {
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
+        if (!GuildUtils.GetSettings(Context.Guild.Id).ServerSearch) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Rust Servers", "Error", "This server has disabled the ability to search for servers.", Context.User, Color.Red)); return; }
 
         var server = await Utilities.GetServer(search);
 
