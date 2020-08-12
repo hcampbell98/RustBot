@@ -28,7 +28,7 @@ namespace RustBot.Users.Guilds
 
             guildData.Remove(guild);
             guildData.Add(updatedGuild);
-            if (File.Exists($"Users/Teams/UserSettings/{updatedGuild}.json")) { File.Delete($"Users/Guilds/{updatedGuild}.json"); }
+            if (File.Exists($"Users/Guilds/{updatedGuild}.json")) { File.Delete($"Users/Guilds/{updatedGuild}.json"); }
             Utilities.WriteToJsonFile<GuildSettings>($"Users/Guilds/{updatedGuild}.json", updatedGuild);
         }
 
