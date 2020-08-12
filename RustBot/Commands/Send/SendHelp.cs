@@ -39,7 +39,7 @@ public class Help : ModuleBase<SocketCommandContext>
         eb.WithFooter(fb);
         eb.AddField("Info", "Type r!help and then the name of the command to see information about each individual command.");
 
-        foreach(var c in commands.GroupBy(x => x.Remarks).Select(x => x))
+        foreach(var c in commands.OrderBy(x => x.Remarks).GroupBy(x => x.Remarks).Select(x => x))
         {
             //If the command is admin related, continue. We don't want admin commands mixed in with non-admin commands
             if (c.ElementAt(0).Remarks == "Admin") { continue; }
@@ -68,7 +68,7 @@ public class Help : ModuleBase<SocketCommandContext>
             eb.AddField($"{c.ElementAt(0).Remarks} - {c.Count() - removedCommands}", $"```css\n{sb.ToString()}```", true);
         }
 
-        eb.AddField("Links", $"[Invite](https://discord.com/oauth2/authorize?client_id=732215647135727716&scope=bot&permissions=207873) | [GitHub](https://github.com/bunnyslippers69/RustBot)");
+        eb.AddField("Links", $"[Invite](https://discord.com/oauth2/authorize?client_id=732215647135727716&scope=bot&permissions=207873) | [GitHub](https://github.com/bunnyslippers69/RustBot) | [top.gg](https://top.gg/bot/732215647135727716) | [Vote](https://top.gg/bot/732215647135727716/vote)");
         sw.Stop();
         fb.WithText($"Called by {Context.Message.Author.Username} | Completed in {sw.ElapsedMilliseconds}ms");
 
