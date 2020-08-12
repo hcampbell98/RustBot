@@ -14,6 +14,7 @@ public class Module : InteractiveBase
 {
     [Command("teamserver", RunMode = RunMode.Async)]
     [Summary("Sets the server of the team. You can specify the IP address of the server or the server name. E.g r!server 127.0.0.1, r!server Generic-Server-Name")]
+    [Remarks("Team Leader")]
     public async Task SendRoll([Remainder]string search)
     {
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }

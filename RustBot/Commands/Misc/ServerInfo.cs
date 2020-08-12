@@ -50,7 +50,7 @@ public class ServersInfo : ModuleBase<SocketCommandContext>
 
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
 
-        eb.WithTitle($"Top 5 Servers");
+        eb.WithTitle($"Search");
         eb.WithColor(Color.Red);
         eb.WithFooter(fb);
 
