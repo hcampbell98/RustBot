@@ -14,7 +14,7 @@ using Discord.Net;
 public class TeamAlerter : ModuleBase<SocketCommandContext>
 {
     [Command("teamalert", RunMode = RunMode.Async)]
-    [Summary("cmdSummary")]
+    [Summary("Sends a message to each team member.")]
     [Remarks("Team Leader")]
     public async Task TeamAlert([Remainder]string message)
     {
@@ -32,7 +32,7 @@ public class TeamAlerter : ModuleBase<SocketCommandContext>
             try
             {
                 //If the user has notifications disabled, the message won't be sent
-                if(TeamUtils.userSettings.FirstOrDefault(x => x.DiscordID == u) == default(UserSettings) || TeamUtils.userSettings.FirstOrDefault(x => x.DiscordID == u).NotificationsEnabled)
+                if(TeamUtils.GetSettings(u).NotificationsEnabled)
                     await Program._client.GetUser(u).SendMessageAsync($"<@!{u}>", false, Utilities.GetEmbedMessage("Team Notifications", "Team Alert", $"{message}", Context.User, Color.Red));
             }
             catch (HttpException)

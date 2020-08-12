@@ -13,6 +13,7 @@ namespace RustBot.Users.Teams
     {
         public static List<Team> teamData;
         public static List<UserSettings> userSettings;
+        public static Dictionary<ulong, Team> pendingInvites = new Dictionary<ulong, Team> { };
 
         public static bool CreateTeam(ulong teamLeader, ulong[] teamMembers, IRole role, SocketGuild guild, bool notifications = true, string baseCoords = "Not yet set.")
         {
@@ -72,6 +73,28 @@ namespace RustBot.Users.Teams
             return teams;
         }
 
+        public static async void AddToTeam(Team team, ulong newMember)
+        {
+            List<ulong> memberList = new List<ulong> { };
+
+            foreach(ulong member in team.Members)
+            {
+                memberList.Add(member);
+            }
+
+            memberList.Add(newMember);
+            Team updatedTeam = team;
+            updatedTeam.Members = memberList.ToArray();
+
+            teamData.Remove(team);
+            teamData.Add(updatedTeam);
+
+            await Program._client.GetGuild(updatedTeam.GuildID).GetUser(newMember).AddRoleAsync(Program._client.GetGuild(updatedTeam.GuildID).GetRole(updatedTeam.RoleID));
+
+            if (File.Exists($"Users/Teams/{updatedTeam.TeamLeader}.json")) { File.Delete($"Users/Teams/{updatedTeam.TeamLeader}.json"); }
+            Utilities.WriteToJsonFile<Team>($"Users/Teams/{updatedTeam.TeamLeader}.json", updatedTeam);
+        }
+
         public static List<UserSettings> LoadSettings()
         {
             List<UserSettings> users = new List<UserSettings> { };
@@ -110,7 +133,7 @@ namespace RustBot.Users.Teams
         }
 
 
-        static bool CheckIfInTeam(ulong discordID)
+        public static bool CheckIfInTeam(ulong discordID)
         {
             foreach(Team team in teamData)
             {
@@ -136,6 +159,20 @@ namespace RustBot.Users.Teams
                 }
             }
             return null;
+        }
+
+        public static UserSettings GetSettings(ulong discordID)
+        {
+            UserSettings u = userSettings.FirstOrDefault(x => x.DiscordID == discordID);
+
+            if(u == default(UserSettings))
+            {
+                return new UserSettings() { NotificationsEnabled = true, InvitesEnabled = true, DiscordID = discordID};
+            }
+            else
+            {
+                return u;
+            }
         }
     }
 
