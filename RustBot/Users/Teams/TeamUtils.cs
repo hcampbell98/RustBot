@@ -95,6 +95,18 @@ namespace RustBot.Users.Teams
             Utilities.WriteToJsonFile<Team>($"Users/Teams/{updatedTeam.TeamLeader}.json", updatedTeam);
         }
 
+        public static void SetServer(Team team, ServerInfo server)
+        {
+            Team updatedTeam = team;
+            updatedTeam.Server = server;
+
+            teamData.Remove(team);
+            teamData.Add(updatedTeam);
+
+            if (File.Exists($"Users/Teams/{updatedTeam.TeamLeader}.json")) { File.Delete($"Users/Teams/{updatedTeam.TeamLeader}.json"); }
+            Utilities.WriteToJsonFile<Team>($"Users/Teams/{updatedTeam.TeamLeader}.json", updatedTeam);
+        }
+
         public static List<UserSettings> LoadSettings()
         {
             List<UserSettings> users = new List<UserSettings> { };
@@ -184,6 +196,7 @@ namespace RustBot.Users.Teams
         public ulong GuildID { get; set; }
         public bool Notifications { get; set; }
         public string BaseCoords { get; set; }
+        public ServerInfo Server { get; set; }
 
     }
 

@@ -31,6 +31,6 @@ public class Raid : ModuleBase<SocketCommandContext>
             mentions.Append($"<@!{member}>, ");
         }
 
-        await ReplyAsync($"<@!{team.TeamLeader}>, {mentions.ToString()}", false, Utilities.GetEmbedMessage("Team Notifications", "Raid", $"Attention, we are currently being raided. Base Coords: {team.BaseCoords}", Context.User, Color.Red));
+        await ReplyAsync($"<@!{team.TeamLeader}>, {mentions.ToString()}", false, Utilities.GetEmbedMessage("Team Notifications", "Raid", $"Attention, we are currently being raided. Base Coords: {team.BaseCoords}, Server IP: {team.Server.IP}:{team.Server.Port}", Context.User, Color.Red));
     }
 }

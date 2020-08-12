@@ -6,11 +6,14 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text.Encodings.Web;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -127,6 +130,8 @@ namespace SSRPBalanceBot
         {
             using (WebClient wc = new WebClient())
             {
+                if (itemCache.ContainsKey(item.ItemName)) { return itemCache[item.ItemName]; }
+
                 string page = await wc.DownloadStringTaskAsync(new Uri(item.URL + "#sort=3,1,0"));
 
                 List<ItemInfoRow> infoTableStats = new List<ItemInfoRow> { };
@@ -510,6 +515,88 @@ namespace SSRPBalanceBot
             await Task.Delay(ExecutionTime.Subtract(DateTime.Now));
             action();
         }
+
+        public static async Task<List<ServerInfo>> GetServers()
+        {
+            using (WebClient wc = new WebClient())
+            {
+                List<ServerInfo> serverInfo = new List<ServerInfo>() { };
+                string page = await wc.DownloadStringTaskAsync(new Uri("https://api.battlemetrics.com/servers?filter[game]=rust&page[size]=5&sort=rank"));
+
+                dynamic json = JsonConvert.DeserializeObject(page);
+                
+                /*
+                foreach(var server in json.data)
+                {
+                    Console.WriteLine(server.attributes["name"]);
+                }
+                */
+                
+                foreach(var server in json.data)
+                {
+                    ServerInfo si = new ServerInfo()
+                    {
+                        ServerName = server.attributes["name"],
+                        IP = server.attributes["ip"],
+                        Port = server.attributes["port"],
+                        MaxPlayers = server.attributes["maxPlayers"],
+                        CurrentPlayers = server.attributes["players"],
+                        ServerType = server.attributes["details"]["rust_type"],
+                        Map = server.attributes["details"]["map"],
+                        MapSize = server.attributes["details"]["rust_world_size"],
+                        LastWipe = server.attributes["details"]["rust_last_wipe"],
+                        Rank = server.attributes["rank"]
+                    };
+
+                    serverInfo.Add(si);
+                }
+                
+
+                return serverInfo;
+            }
+        }
+
+        public static async Task<ServerInfo> GetServer(string searchQuery)
+        {
+            using (WebClient wc = new WebClient())
+            {
+                string page = await wc.DownloadStringTaskAsync(new Uri($"https://api.battlemetrics.com/servers?filter[search]=%22{HttpUtility.UrlEncode(searchQuery)}%22&filter[game]=rust&sort=rank"));
+
+                dynamic json = JsonConvert.DeserializeObject(page);
+
+                var server = json.data[0];
+
+                ServerInfo si = new ServerInfo()
+                {
+                    ServerName = server.attributes["name"],
+                    IP = server.attributes["ip"],
+                    Port = server.attributes["port"],
+                    MaxPlayers = server.attributes["maxPlayers"],
+                    CurrentPlayers = server.attributes["players"],
+                    ServerType = server.attributes["details"]["rust_type"],
+                    Map = server.attributes["details"]["map"],
+                    MapSize = server.attributes["details"]["rust_world_size"],
+                    LastWipe = server.attributes["details"]["rust_last_wipe"],
+                    Rank = server.attributes["rank"]
+                };
+
+                return si;
+            }
+        }
+    }
+
+    public class ServerInfo
+    {
+        public string ServerName { get; set; }
+        public string IP { get; set; }
+        public int Port { get; set; }
+        public int MaxPlayers { get; set; }
+        public int CurrentPlayers { get; set; }
+        public string ServerType { get; set;}
+        public string Map { get; set; }
+        public int MapSize { get; set; }
+        public string LastWipe { get; set; }
+        public int Rank { get; set; }
     }
 
     public class PlayerStat
