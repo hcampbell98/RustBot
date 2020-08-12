@@ -38,7 +38,7 @@ namespace RustBot.Users.Guilds
 
             if (u == default(GuildSettings))
             {
-                return new GuildSettings() { ServerSearch = true, GuildID = guildID};
+                return new GuildSettings() { ServerSearch = true, GuildID = guildID, ChannelID = default(ulong)};
             }
             else
             {
