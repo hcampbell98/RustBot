@@ -12,13 +12,24 @@ namespace RustBot.Users.Guilds
     {
         public static List<GuildSettings> guildData = new List<GuildSettings> { };
 
-        public static void UpdateSettings(ulong guildID, bool search = true)
+        public static void UpdateSearch(ulong guildID, bool search = true)
         {
             GuildSettings s = new GuildSettings() { GuildID = guildID, ServerSearch = search};
 
             guildData.Add(s);
             if (File.Exists($"Users/Teams/UserSettings/{guildID}.json")) { File.Delete($"Users/Guilds/{guildID}.json"); }
             Utilities.WriteToJsonFile<GuildSettings>($"Users/Guilds/{guildID}.json", s);
+        }
+
+        public static void SetBotChannel(GuildSettings guild, ulong channelID)
+        {
+            GuildSettings updatedGuild = guild;
+            guild.ChannelID = channelID;
+
+            guildData.Remove(guild);
+            guildData.Add(updatedGuild);
+            if (File.Exists($"Users/Teams/UserSettings/{updatedGuild}.json")) { File.Delete($"Users/Guilds/{updatedGuild}.json"); }
+            Utilities.WriteToJsonFile<GuildSettings>($"Users/Guilds/{updatedGuild}.json", updatedGuild);
         }
 
         public static GuildSettings GetSettings(ulong guildID)
@@ -53,5 +64,6 @@ namespace RustBot.Users.Guilds
     {
         public ulong GuildID { get; set; }
         public bool ServerSearch { get; set; }
+        public ulong ChannelID { get; set; }
     }
 }

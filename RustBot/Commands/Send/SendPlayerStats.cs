@@ -30,6 +30,9 @@ public class Stats : ModuleBase<SocketCommandContext>
         if (steamID == null)
         {
             steamID64 = SteamLink.GetSteam(Context.User.Id.ToString());
+
+            if (steamID64 == null) { await ReplyAsync("It appears your steam account isn't linked to your Discord account. Please run r!link"); }
+
             playerStats = await Utilities.GetPlayerInfo(steamID64);
         }
         else if (steamID.StartsWith("<"))

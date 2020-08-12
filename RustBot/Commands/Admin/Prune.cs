@@ -17,9 +17,10 @@ public class Purge : ModuleBase<SocketCommandContext>
     [Summary("Deletes messages.")]
     [Remarks("Admin")]
     [RequireBotPermission(ChannelPermission.ManageMessages)]
+    [RequireUserPermission(GuildPermission.ManageMessages)]
     public async Task PurgeChannel(int toDelete = -1)
     {
-        if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.Admin) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
+        if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
 
         if (toDelete == -1) { await ReplyAsync("Specify the number of messages to purge. !purge [toDelete]"); }
 

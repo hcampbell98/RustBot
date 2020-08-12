@@ -128,6 +128,9 @@ namespace SSRPBalanceBot
                 message.HasMentionPrefix(_client.CurrentUser, ref argPos)))
                 return;
 
+            ulong channelID = GuildUtils.GetSettings(context.Guild.Id).ChannelID;
+            if (channelID != default(ulong)) { if (context.Message.Channel.Id != channelID) { await context.Channel.SendMessageAsync($"The bot only responds to commands in channel: <#{channelID}>"); return; } }
+
             if (!await CheckCooldown(message))
             {
                 var result = await _commands.ExecuteAsync(
