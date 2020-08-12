@@ -28,8 +28,8 @@ namespace RustBot.Users.Guilds
 
             guildData.Remove(guild);
             guildData.Add(updatedGuild);
-            if (File.Exists($"Users/Guilds/{updatedGuild}.json")) { File.Delete($"Users/Guilds/{updatedGuild}.json"); }
-            Utilities.WriteToJsonFile<GuildSettings>($"Users/Guilds/{updatedGuild}.json", updatedGuild);
+            if (File.Exists($"Users/Guilds/{updatedGuild.GuildID}.json")) { File.Delete($"Users/Guilds/{updatedGuild.GuildID}.json"); }
+            Utilities.WriteToJsonFile<GuildSettings>($"Users/Guilds/{updatedGuild.GuildID}.json", updatedGuild);
         }
 
         public static GuildSettings GetSettings(ulong guildID)
