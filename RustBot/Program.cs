@@ -91,7 +91,6 @@ namespace SSRPBalanceBot
 
         private async Task<Task> _client_Ready()
         {
-            await LoggingUtils.UpdateStats();
             await _client.SetGameAsync($"{prefix}help | {_client.Guilds.Count} Servers");
             return Task.CompletedTask;
         }

@@ -59,7 +59,7 @@ namespace SSRPBalanceBot
 
         public static async Task UpdateStats()
         {
-            AuthDiscordBotListApi DblApi = new AuthDiscordBotListApi(732215647135727716, apiKey);
+            AuthDiscordBotListApi DblApi = new AuthDiscordBotListApi(Program._client.CurrentUser.Id, apiKey);
 
             var me = await DblApi.GetMeAsync();
             // Update stats sharded   indexShard shardCount shards
