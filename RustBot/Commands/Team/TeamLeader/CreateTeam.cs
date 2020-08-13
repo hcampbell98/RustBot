@@ -16,8 +16,9 @@ using Discord.WebSocket;
 public class CreateTeam : InteractiveBase
 {
     [Command("createteam", RunMode = RunMode.Async)]
-    [Summary("Creates a team with the mentioned users")]
+    [Summary("Creates a team. You can invite members to your team with r!teaminvite.")]
     [Remarks("Team Leader")]
+    [RequireBotPermission(GuildPermission.ManageRoles)]
     public async Task SendRoll()
     {
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
