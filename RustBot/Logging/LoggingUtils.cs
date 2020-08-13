@@ -5,6 +5,14 @@ using System.IO;
 using Discord.WebSocket;
 using System.Threading.Tasks;
 using Discord;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Linq;
+using System.Net.Http.Headers;
+using DiscordBotsList.Api;
+using DiscordBotsList;
+using DiscordBotsList.Api.Objects;
+using Discord.Webhook;
 
 namespace SSRPBalanceBot
 {
@@ -13,6 +21,8 @@ namespace SSRPBalanceBot
         static SocketGuild destGuild = Program._client.GetGuild(701178110485463152);
         public static SocketGuild livelogGuild;
         public static SocketTextChannel livelogOutput;
+
+        public static string apiKey;
 
         public static async Task Log(SocketUserMessage message, DateTime date, bool isPrivate)
         {
@@ -44,6 +54,18 @@ namespace SSRPBalanceBot
         {
             SocketTextChannel destChannel = destGuild.GetTextChannel(701178110933991466);
             await destChannel.SendMessageAsync("", false, Utilities.GetEmbedMessage("Guild Joined", $"Joined Guild: {g.Name}", $"Owner: {g.Owner.Username}\nGuild ID: {g.Id}\nUsers: {g.MemberCount}", null, Color.Red));
+        }
+
+        public static async Task UpdateStats()
+        {
+            AuthDiscordBotListApi DblApi = new AuthDiscordBotListApi(732215647135727716, apiKey);
+
+            var me = await DblApi.GetMeAsync();
+            // Update stats sharded   indexShard shardCount shards
+            //await me.UpdateStatsAsync(24, 50, new[] { 12, 421, 62, 241, 524, 534 });
+
+            // Update stats           guildCount
+            await me.UpdateStatsAsync(Program._client.Guilds.Count());
         }
     }
 }

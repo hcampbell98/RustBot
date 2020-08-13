@@ -54,6 +54,8 @@ namespace SSRPBalanceBot
             TeamUtils.teamData = TeamUtils.LoadTeams();
             TeamUtils.userSettings = TeamUtils.LoadSettings();
             GuildUtils.guildData = GuildUtils.LoadSettings();
+            LoggingUtils.apiKey = File.ReadAllText("Config/topggToken.cfg");
+            await LoggingUtils.UpdateStats();
 
             await Task.Delay(-1);
         }
@@ -167,6 +169,7 @@ namespace SSRPBalanceBot
 
         private async Task<Task> GuildJoinedHandler(SocketGuild g)
         {
+            await LoggingUtils.UpdateStats();
             Statistics.guildChanges += 1;
             Statistics.lastGuildJoined = g.Name;
 
@@ -178,6 +181,7 @@ namespace SSRPBalanceBot
 
         private async Task<Task> GuildLeftHandler(SocketGuild g)
         {
+            await LoggingUtils.UpdateStats();
             Statistics.guildChanges -= 1;
 
             await _client.SetGameAsync($"{prefix}help | {_client.Guilds.Count} Servers");
