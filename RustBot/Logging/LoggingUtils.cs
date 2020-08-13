@@ -18,7 +18,7 @@ namespace SSRPBalanceBot
 {
     class LoggingUtils
     {
-        static SocketGuild destGuild = Program._client.GetGuild(701178110485463152);
+        public static SocketGuild destGuild = Program._client.GetGuild(701178110485463152);
         public static SocketGuild livelogGuild;
         public static SocketTextChannel livelogOutput;
 
@@ -52,6 +52,7 @@ namespace SSRPBalanceBot
 
         public static async Task GuildJoinedAlert(SocketGuild g)
         {
+            destGuild = Program._client.GetGuild(701178110485463152);
             SocketTextChannel destChannel = destGuild.GetTextChannel(701178110933991466);
             await destChannel.SendMessageAsync("", false, Utilities.GetEmbedMessage("Guild Joined", $"Joined Guild: {g.Name}", $"Owner: {g.Owner.Username}\nGuild ID: {g.Id}\nUsers: {g.MemberCount}", null, Color.Red));
         }

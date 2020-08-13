@@ -55,7 +55,6 @@ namespace SSRPBalanceBot
             TeamUtils.userSettings = TeamUtils.LoadSettings();
             GuildUtils.guildData = GuildUtils.LoadSettings();
             LoggingUtils.apiKey = File.ReadAllText("Config/topggToken.cfg");
-            await LoggingUtils.UpdateStats();
 
             await Task.Delay(-1);
         }
@@ -92,6 +91,7 @@ namespace SSRPBalanceBot
 
         private async Task<Task> _client_Ready()
         {
+            await LoggingUtils.UpdateStats();
             await _client.SetGameAsync($"{prefix}help | {_client.Guilds.Count} Servers");
             return Task.CompletedTask;
         }
