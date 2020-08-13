@@ -57,16 +57,14 @@ namespace SSRPBalanceBot
             await destChannel.SendMessageAsync("", false, Utilities.GetEmbedMessage("Guild Joined", $"Joined Guild: {g.Name}", $"Owner: {g.Owner.Username}\nGuild ID: {g.Id}\nUsers: {g.MemberCount}", null, Color.Red));
         }
 
-        public static async Task UpdateStats()
+        public static async Task UpdateStats(ulong selfId)
         {
-            AuthDiscordBotListApi DblApi = new AuthDiscordBotListApi(Program._client.CurrentUser.Id, apiKey);
+            AuthDiscordBotListApi DblApi = new AuthDiscordBotListApi(selfId, apiKey);
 
             var me = await DblApi.GetMeAsync();
-            // Update stats sharded   indexShard shardCount shards
-            //await me.UpdateStatsAsync(24, 50, new[] { 12, 421, 62, 241, 524, 534 });
 
             // Update stats           guildCount
-            await me.UpdateStatsAsync(Program._client.Guilds.Count());
+            await me.UpdateStatsAsync(Program._client.Guilds.Count);
         }
     }
 }

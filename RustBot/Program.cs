@@ -92,6 +92,7 @@ namespace SSRPBalanceBot
         private async Task<Task> _client_Ready()
         {
             await _client.SetGameAsync($"{prefix}help | {_client.Guilds.Count} Servers");
+            await LoggingUtils.UpdateStats(732215647135727716);
             return Task.CompletedTask;
         }
 
@@ -168,7 +169,7 @@ namespace SSRPBalanceBot
 
         private async Task<Task> GuildJoinedHandler(SocketGuild g)
         {
-            await LoggingUtils.UpdateStats();
+            await LoggingUtils.UpdateStats(732215647135727716);
             Statistics.guildChanges += 1;
             Statistics.lastGuildJoined = g.Name;
 
@@ -180,7 +181,7 @@ namespace SSRPBalanceBot
 
         private async Task<Task> GuildLeftHandler(SocketGuild g)
         {
-            await LoggingUtils.UpdateStats();
+            await LoggingUtils.UpdateStats(732215647135727716);
             Statistics.guildChanges -= 1;
 
             await _client.SetGameAsync($"{prefix}help | {_client.Guilds.Count} Servers");
