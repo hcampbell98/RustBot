@@ -13,6 +13,8 @@ using DiscordBotsList.Api;
 using DiscordBotsList;
 using DiscordBotsList.Api.Objects;
 using Discord.Webhook;
+using System.Threading;
+using System.Net;
 
 namespace SSRPBalanceBot
 {
@@ -65,6 +67,43 @@ namespace SSRPBalanceBot
 
             // Update stats           guildCount
             await me.UpdateStatsAsync(Program._client.Guilds.Count);
+        }
+        public static void RunServer()
+        {
+            var prefix = "http://192.168.1.65:25565/";
+            HttpListener listener = new HttpListener();
+            listener.Prefixes.Add(prefix);
+            try
+            {
+                listener.Start();
+            }
+            catch (HttpListenerException)
+            {
+                return;
+            }
+            while (listener.IsListening)
+            {
+                ThreadPool.QueueUserWorkItem(Process, listener.GetContext());
+            }
+            listener.Close();
+        }
+        static void Process(object o)
+        {
+            var context = o as HttpListenerContext;
+
+            // Get the data from the HTTP stream
+            var body = new StreamReader(context.Request.InputStream).ReadToEnd();
+
+            byte[] b = Encoding.UTF8.GetBytes("true");
+            context.Response.StatusCode = 200;
+            context.Response.KeepAlive = false;
+            context.Response.ContentLength64 = b.Length;
+
+            var output = context.Response.OutputStream;
+            output.Write(b, 0, b.Length);
+            context.Response.Close();
+
+            Console.WriteLine("Received: " + body);
         }
     }
 }

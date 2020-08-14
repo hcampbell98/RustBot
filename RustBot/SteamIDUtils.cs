@@ -55,6 +55,24 @@ namespace SSRPBalanceBot
                 return null;
             }
         }
+
+        public static async Task<string> GetHoursPlayed(string steamID64)
+        {
+            using (WebClient wc = new WebClient())
+            {
+                dynamic j = JsonConvert.DeserializeObject(await wc.DownloadStringTaskAsync($"http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key={Utilities.apiKey}&steamid={steamID64}&format=json"));
+
+                foreach(var game in j.response.games)
+                {
+                    if(game.appid == "252490")
+                    {
+                        return Convert.ToString(game.playtime_forever);
+                    }
+                }
+
+                return null;
+            }
+        }
     }
 
     public class ProfileInfo

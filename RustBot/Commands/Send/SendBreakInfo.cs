@@ -78,6 +78,9 @@ public class Break : InteractiveBase
         if (Utilities.breakCache.ContainsKey(sb.ItemName)) { bi = Utilities.breakCache[sb.ItemName]; }
         else { bi = await Utilities.GetBreakableInfo(sb, attack, side); }
 
+        //If item isn't placeable
+        if (bi == null) { await ReplyAsync("Structure/Placeable not found."); return; }
+
         //Removes the attack info message
         await aInfoMsg.DeleteAsync();
         //Removes the structure info message

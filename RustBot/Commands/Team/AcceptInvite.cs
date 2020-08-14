@@ -27,7 +27,7 @@ public class AcceptInvite : ModuleBase<SocketCommandContext>
         }
         else
         {
-            await ReplyAsync($"<@!{Context.Message.MentionedUsers.First().Id}>", false, Utilities.GetEmbedMessage("Team Invite", $"{Context.User.Username}'s Team", $"You have no pending invites.", Context.User, Color.Red));
+            await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Invite", $"{Context.User.Username}'s Team", $"You have no pending invites.", Context.User, Color.Red));
         }
     }
 }

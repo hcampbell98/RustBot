@@ -55,9 +55,11 @@ namespace SSRPBalanceBot
             TeamUtils.userSettings = TeamUtils.LoadSettings();
             GuildUtils.guildData = GuildUtils.LoadSettings();
             LoggingUtils.apiKey = File.ReadAllText("Config/topggToken.cfg");
+            //LoggingUtils.RunServer();
 
             await Task.Delay(-1);
         }
+
 
         private Task _commands_CommandExecuted(Optional<CommandInfo> command, ICommandContext context, IResult arg3)
         {

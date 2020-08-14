@@ -108,7 +108,7 @@ namespace SSRPBalanceBot
                     foreach(HtmlNode row in parsePage.DocumentNode.SelectNodes("/html/body/div[1]/div/div/table/tbody/tr"))
                     {
                         //If the item is a skin, skip
-                        if (row.GetAttributeValue("data-group2", "") == "skins") { continue; }
+                        if (row.GetAttributeValue("data-group2", "") != "items") { continue; }
 
                         HtmlNodeCollection cells = row.SelectNodes("td");
 
@@ -245,7 +245,7 @@ namespace SSRPBalanceBot
                 //Placeable items
                 else 
                 {
-                    if (searchPlaceCache == null) { page = await wc.DownloadStringTaskAsync(new Uri("https://rustlabs.com/group=build")); searchPlaceCache = page; ScheduleAction(delegate () { searchBlockCache = null; }, DateTime.Now.AddHours(12)); }
+                    if (searchPlaceCache == null) { page = await wc.DownloadStringTaskAsync(new Uri("https://rustlabs.com/group=itemList")); searchPlaceCache = page; ScheduleAction(delegate () { searchBlockCache = null; }, DateTime.Now.AddHours(12)); }
                     else { page = searchPlaceCache; }
 
                     var parsePage = new HtmlDocument();
@@ -285,10 +285,12 @@ namespace SSRPBalanceBot
                 List<AttackDurability> attacksList = new List<AttackDurability> { }; 
 
                 //System to obtain the HP of the item
-                string hpTable = parsePage.DocumentNode.SelectSingleNode("/html/body/div[1]/div[1]/div[1]/div[2]/table").InnerHtml;
+                HtmlNode hpTable = parsePage.DocumentNode.SelectSingleNode("/html/body/div[1]/div[1]/div[1]/div[2]/table");
+
+                if (hpTable == null) { return null; }
 
                 var hpParsed = new HtmlDocument();
-                hpParsed.LoadHtml(hpTable);
+                hpParsed.LoadHtml(hpTable.InnerText);
 
                 itemHP = hpParsed.DocumentNode.SelectNodes("tbody/tr/td")[1].InnerText;
 
