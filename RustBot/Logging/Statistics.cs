@@ -1,4 +1,5 @@
-﻿using SSRPBalanceBot;
+﻿using Discord.Commands;
+using SSRPBalanceBot;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,6 +15,13 @@ namespace RustBot.Logging
         public static int messagesRead = 0;
         public static int guildChanges = 0;
         public static string lastGuildJoined = "";
+        public static Dictionary<string, int> commandStats = new Dictionary<string, int> { };
+
+        public static void UpdateCommandStats(string c)
+        {
+            commandStats.TryGetValue(c, out var currentCount);
+            commandStats[c] = currentCount + 1;
+        }
 
         public static int GetTotalUsers()
         {

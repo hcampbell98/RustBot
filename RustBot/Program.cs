@@ -63,7 +63,6 @@ namespace SSRPBalanceBot
 
         private Task _commands_CommandExecuted(Optional<CommandInfo> command, ICommandContext context, IResult arg3)
         {
-            Statistics.runCommands += 1;
             Stopwatch sw = new Stopwatch();
             sw.Start();
 
@@ -76,19 +75,28 @@ namespace SSRPBalanceBot
                 context.Channel.SendMessageAsync("", false, eb); 
                 return Task.CompletedTask; 
             }
+            else if (arg3.IsSuccess)
+            {
+                Statistics.runCommands += 1;
+                Statistics.UpdateCommandStats(command.Value.Name);
 
-            SocketCommandContext cntxt = context as SocketCommandContext;
-            string serverName;
+                SocketCommandContext cntxt = context as SocketCommandContext;
+                string serverName;
 
-            //Ff the source channel is a DM
-            if (cntxt.IsPrivate) { serverName = "Private Channel"; }
-            else { serverName = context.Guild.Name; }
+                //Ff the source channel is a DM
+                if (cntxt.IsPrivate) { serverName = "Private Channel"; }
+                else { serverName = context.Guild.Name; }
 
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"Time: {DateTime.Now} | Ran command: [{command.Value.Name}] | Called by: {context.Message.Author} | Server: {serverName}");
-            Console.ForegroundColor = ConsoleColor.Gray;
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"Time: {DateTime.Now} | Ran command: [{command.Value.Name}] | Called by: {context.Message.Author} | Server: {serverName}");
+                Console.ForegroundColor = ConsoleColor.Gray;
 
-            return Task.CompletedTask;
+                return Task.CompletedTask;
+            }
+            else
+            {
+                return Task.CompletedTask;
+            }
         }
 
         private async Task<Task> _client_Ready()
