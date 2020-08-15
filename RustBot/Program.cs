@@ -13,6 +13,8 @@ using System.Diagnostics;
 using System.Linq;
 using RustBot.Users.Teams;
 using RustBot.Users.Guilds;
+using RustBot.Users.Blueprints;
+using System.Text;
 
 namespace SSRPBalanceBot
 {
@@ -69,8 +71,14 @@ namespace SSRPBalanceBot
             if (!arg3.IsSuccess && arg3.ErrorReason != "Unknown command.") 
             { 
                 Console.WriteLine($"{arg3.ErrorReason}");
+                StringBuilder args = new StringBuilder();
 
-                Embed eb = Utilities.GetEmbedMessage("Error", "Reason", $"{arg3.ErrorReason} Try r!help {command.Value.Name}.", (SocketUser)context.User, Color.Red, Utilities.GetFooter((SocketUser)context.User, sw));
+                foreach (Discord.Commands.ParameterInfo param in command.Value.Parameters)
+                {
+                    args.Append($" [{param.Name}]");
+                }
+
+                Embed eb = Utilities.GetEmbedMessage("Error", "Reason", $"{arg3.ErrorReason} Correct usage of the command is `{prefix}{command.Value.Name}{args}`. Try `r!help {command.Value.Name}`.", (SocketUser)context.User, Color.Red, Utilities.GetFooter((SocketUser)context.User, sw));
 
                 context.Channel.SendMessageAsync("", false, eb); 
                 return Task.CompletedTask; 
@@ -103,6 +111,8 @@ namespace SSRPBalanceBot
         {
             await _client.SetGameAsync($"{prefix}help | {_client.Guilds.Count} Servers");
             await LoggingUtils.UpdateStats(732215647135727716);
+            BlueprintUtils.allBlueprints = await BlueprintUtils.GetAllBlueprints();
+
             return Task.CompletedTask;
         }
 
