@@ -18,18 +18,22 @@ public class BotInvide : ModuleBase<SocketCommandContext>
     [Remarks("Misc")]
     public async Task SendHSendBotInvite()
     {
+        Stopwatch sw = new Stopwatch();
+        sw.Start();
+
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
 
         EmbedBuilder eb = new EmbedBuilder();
         EmbedFooterBuilder fb = new EmbedFooterBuilder();
 
 
-        fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
 
         eb.WithTitle($"Invite");
         eb.WithDescription("[Click here to add the bot to your own server!](https://discord.com/oauth2/authorize?client_id=732215647135727716&scope=bot&permissions=268643345)");
         eb.WithThumbnailUrl("https://imgur.com/vwT3DuL.png");
-        eb.WithColor(Color.Red);
+        eb.WithColor(Color.Red);;
+        fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
+        fb.WithText($"Called by {Context.User.Username} | Completed in {sw.ElapsedMilliseconds}ms");
         eb.WithFooter(fb);
 
         await ReplyAsync($"{Context.Message.Author.Mention}\n", false, eb.Build());

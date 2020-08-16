@@ -18,6 +18,9 @@ public class VoteLink : ModuleBase<SocketCommandContext>
     [Remarks("Misc")]
     public async Task SendVoteLink()
     {
+        Stopwatch sw = new Stopwatch();
+        sw.Start();
+
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
 
         EmbedBuilder eb = new EmbedBuilder();
@@ -30,6 +33,7 @@ public class VoteLink : ModuleBase<SocketCommandContext>
         eb.WithDescription("[Click here to vote for the bot!](https://top.gg/bot/732215647135727716/vote)");
         eb.WithThumbnailUrl("https://top.gg/images/logotrans.png");
         eb.WithColor(Color.Red);
+        fb.WithText($"Called by {Context.User.Username} | Completed in {sw.ElapsedMilliseconds}ms");
         eb.WithFooter(fb);
 
         await ReplyAsync($"{Context.Message.Author.Mention}\n", false, eb.Build());
