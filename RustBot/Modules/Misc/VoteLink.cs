@@ -27,7 +27,7 @@ public class VoteLink : ModuleBase<SocketCommandContext>
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
 
         eb.WithTitle($"Vote");
-        eb.WithDescription("https://top.gg/bot/732215647135727716/vote");
+        eb.WithDescription("[Click here to vote for the bot!](https://top.gg/bot/732215647135727716/vote)");
         eb.WithThumbnailUrl("https://top.gg/images/logotrans.png");
         eb.WithColor(Color.Red);
         eb.WithFooter(fb);
