@@ -27,7 +27,7 @@ public class BotInvide : ModuleBase<SocketCommandContext>
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
 
         eb.WithTitle($"Invite");
-        eb.WithDescription("[Click here to add the bot to your own server!]https://discord.com/oauth2/authorize?client_id=732215647135727716&scope=bot&permissions=268643345()");
+        eb.WithDescription("[Click here to add the bot to your own server!](https://discord.com/oauth2/authorize?client_id=732215647135727716&scope=bot&permissions=268643345)");
         eb.WithThumbnailUrl("https://imgur.com/vwT3DuL.png");
         eb.WithColor(Color.Red);
         eb.WithFooter(fb);
