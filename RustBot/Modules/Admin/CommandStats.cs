@@ -29,6 +29,6 @@ public class CommandStatistics : ModuleBase<SocketCommandContext>
             sb.Append($"{p.Key} - {p.Value}\n");
         }
 
-        await ReplyAsync("", false, Utilities.GetEmbedMessage("Command Information", "Statistics", $"{sb}", Context.User, Color.Red));
+        await ReplyAsync("", false, Utilities.GetEmbedMessage("Command Information", "Statistics", $"```css\n{sb}```", Context.User, Color.Red));
     }
 }

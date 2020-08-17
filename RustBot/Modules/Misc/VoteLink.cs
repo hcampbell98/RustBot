@@ -15,7 +15,7 @@ public class VoteLink : ModuleBase<SocketCommandContext>
 {
     [Command("vote", RunMode = RunMode.Async)]
     [Summary("Sends a link to vote for the bot.")]
-    [Remarks("Misc")]
+    [Remarks("Info")]
     public async Task SendVoteLink()
     {
         Stopwatch sw = new Stopwatch();

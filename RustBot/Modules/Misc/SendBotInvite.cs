@@ -15,7 +15,7 @@ public class BotInvide : ModuleBase<SocketCommandContext>
 {
     [Command("invite", RunMode = RunMode.Async)]
     [Summary("Sends a link to invite the bot.")]
-    [Remarks("Misc")]
+    [Remarks("Info")]
     public async Task SendHSendBotInvite()
     {
         Stopwatch sw = new Stopwatch();

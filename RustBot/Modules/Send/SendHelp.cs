@@ -15,7 +15,7 @@ public class Help : ModuleBase<SocketCommandContext>
 {
     [Command("help", RunMode = RunMode.Async)]
     [Summary("Sends help info")]
-    [Remarks("Misc")]
+    [Remarks("Info")]
     public async Task SendHelpMessage()
     {
         Stopwatch sw = new Stopwatch();
@@ -78,7 +78,7 @@ public class Help : ModuleBase<SocketCommandContext>
 
     [Command("help", RunMode = RunMode.Async)]
     [Summary("Sends help info")]
-    [Remarks("Misc")]
+    [Remarks("Info")]
     public async Task SendCommandHelpMessage(string cmdName)
     {
         Stopwatch sw = new Stopwatch();
@@ -114,7 +114,7 @@ public class Help : ModuleBase<SocketCommandContext>
     [Command("guildhelp", RunMode = RunMode.Async)]
     [Summary("Sends help info useful for server owners")]
     [RequireUserPermission(GuildPermission.Administrator)]
-    [Remarks("Misc")]
+    [Remarks("Info")]
     public async Task SendGuildHelp()
     {
         Stopwatch sw = new Stopwatch();

@@ -13,7 +13,7 @@ public class BotStats : ModuleBase<SocketCommandContext>
 {
     [Command("botstats", RunMode = RunMode.Async)]
     [Summary("Returns various bot statistics.")]
-    [Remarks("Misc")]
+    [Remarks("Info")]
     public async Task SendBotStats()
     {
         Stopwatch sw = new Stopwatch();

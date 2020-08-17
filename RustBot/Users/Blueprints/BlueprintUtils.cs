@@ -5,12 +5,48 @@ using System.Net;
 using HtmlAgilityPack;
 using System.Threading.Tasks;
 using System.Linq;
+using System.IO;
+using SSRPBalanceBot;
 
 namespace RustBot.Users.Blueprints
 {
     class BlueprintUtils
     {
         public static Dictionary<string, Blueprint> allBlueprints;
+        public static List<PlayerBlueprints> playerBlueprints;
+
+        public static bool SaveBlueprints(ulong discordID)
+        {
+            if (playerBlueprints.FirstOrDefault(x => x.DiscordID == discordID) == default(PlayerBlueprints)) { return false; }
+
+            //If the file already exists, delete it
+            File.Delete($"Users/Blueprints/{discordID}.json");
+            //Obtain the players blueprints
+            PlayerBlueprints bps = playerBlueprints.FirstOrDefault(x => x.DiscordID == discordID);
+            //Write the blueprints to a file
+            Utilities.WriteToJsonFile($"Users/Blueprints/{discordID}.json", bps);
+
+            return true;
+        }
+
+        public static void UpdateBlueprints(ulong discordID, PlayerBlueprints newbps)
+        {
+            PlayerBlueprints oldbps = playerBlueprints.FirstOrDefault(x => x.DiscordID == discordID);
+
+            if(oldbps == default(PlayerBlueprints))
+            {
+                playerBlueprints.Add(newbps);
+                SaveBlueprints(discordID);
+            }
+            else
+            {
+                playerBlueprints.Remove(oldbps);
+                playerBlueprints.Add(newbps);
+
+                SaveBlueprints(discordID);
+            }
+        }
+
 
         public static Blueprint GetBlueprint(string input) 
         {
