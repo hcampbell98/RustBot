@@ -53,27 +53,26 @@ public class GuildList : ModuleBase<SocketCommandContext>
         StringBuilder sb = new StringBuilder();
         SocketGuild g = Program._client.Guilds.FirstOrDefault(x => x.Name.ToLower() == guildName.ToLower());
 
-        if (g != null)
-        {
-            foreach (var member in g.Users)
-            {
-                sb.Append(member.Username + "\n");
-            }
-        }
-        else { throw new Exception("Specified guild not found."); }
-
-        if (sb.ToString().Count() > 1024) { sb.Clear().Append("Too many users to display."); }
+        if (g == null) { throw new Exception("Specified guild not found."); }
 
         EmbedBuilder eb = new EmbedBuilder();
         EmbedFooterBuilder fb = new EmbedFooterBuilder();
 
+        int totalBots = TotalBotsAsync(g);
 
         fb.WithText($"Called by {Context.Message.Author.Username}");
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
 
-        eb.WithTitle($"Guild List");
-        eb.AddField($"{g.Name} | {g.MemberCount}", sb.ToString());
-        eb.WithColor(Color.Blue);
+        eb.WithTitle($"Guild Information");
+        eb.AddField($"{g.Name}", $"Guild Owner: {g.Owner.Nickname}" +
+            $"Total Members: {g.MemberCount}" +
+            $"Bots: {totalBots}" +
+            $"Users: {g.MemberCount - totalBots}" +
+            $"Text Channels: {g.TextChannels.Count}" +
+            $"Voice Channels: {g.VoiceChannels.Count}" +
+            $"Server Region: {g.VoiceRegionId}" +
+            $"Created At: {g.CreatedAt}");
+        eb.WithColor(Color.Red);
         eb.WithFooter(fb);
 
 
@@ -122,5 +121,18 @@ public class GuildList : ModuleBase<SocketCommandContext>
 
 
         await ReplyAsync("", false, eb.Build());
+    }
+
+    public static async Task<int> TotalBotsAsync(SocketGuild g)
+    {
+        int total = 0;
+        await g.DownloadUsersAsync();
+
+        foreach (SocketGuildUser u in  g.Users)
+        {
+            if (u.IsBot) { total++; }
+        }
+
+        return total;
     }
 }
