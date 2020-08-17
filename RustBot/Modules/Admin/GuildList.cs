@@ -58,7 +58,7 @@ public class GuildList : ModuleBase<SocketCommandContext>
         EmbedBuilder eb = new EmbedBuilder();
         EmbedFooterBuilder fb = new EmbedFooterBuilder();
 
-        int totalBots = TotalBotsAsync(g);
+        int totalBots = await TotalBotsAsync(g);
 
         fb.WithText($"Called by {Context.Message.Author.Username}");
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
