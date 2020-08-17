@@ -64,14 +64,14 @@ public class GuildList : ModuleBase<SocketCommandContext>
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
 
         eb.WithTitle($"Guild Information");
-        eb.AddField($"{g.Name}", $"Guild Owner: {g.Owner.Nickname}" +
-            $"Total Members: {g.MemberCount}" +
-            $"Bots: {totalBots}" +
-            $"Users: {g.MemberCount - totalBots}" +
-            $"Text Channels: {g.TextChannels.Count}" +
-            $"Voice Channels: {g.VoiceChannels.Count}" +
-            $"Server Region: {g.VoiceRegionId}" +
-            $"Created At: {g.CreatedAt}");
+        eb.AddField($"{g.Name}", $"**Guild Owner:** {g.Owner.Nickname}\n" +
+            $"**Total Members:** {g.MemberCount}\n" +
+            $"**Bots:** {totalBots}\n" +
+            $"**Users:** {g.MemberCount - totalBots}\n" +
+            $"**Text Channels:** {g.TextChannels.Count}\n" +
+            $"**Voice Channels:** {g.VoiceChannels.Count}\n" +
+            $"**Server Region:** {g.VoiceRegionId}\n" +
+            $"**Created At:** {g.CreatedAt}\n");
         eb.WithColor(Color.Red);
         eb.WithFooter(fb);
 
