@@ -7,6 +7,8 @@ using Discord;
 using System.Text;
 using System.Linq;
 using Discord.WebSocket;
+using System.Collections;
+using System.Collections.Generic;
 
 // Keep in mind your module **must** be public and inherit ModuleBase.
 // If it isn't, it will not be discovered by AddModulesAsync!
@@ -20,13 +22,14 @@ public class GuildList : ModuleBase<SocketCommandContext>
     {
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
 
-        StringBuilder sb = new StringBuilder();
-        int totalMembers = 0;
+        List<SocketGuild> orderedGuilds = Program._client.Guilds.OrderByDescending(x => x.MemberCount).ToList();
 
-        foreach(var guild in Program._client.Guilds)
+        Console.WriteLine(orderedGuilds.Count());
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < 5; i++)
         {
-            sb.Append($"{guild.Name} | {guild.MemberCount}\n");
-            totalMembers += guild.MemberCount;
+            sb.Append($"**{orderedGuilds[i].Name}** - {orderedGuilds[i].MemberCount}\n");
         }
 
 
@@ -38,7 +41,7 @@ public class GuildList : ModuleBase<SocketCommandContext>
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
 
         eb.WithTitle($"Guild List");
-        eb.AddField($"{Program._client.Guilds.Count} | {totalMembers}", sb.ToString());
+        eb.AddField($"{Program._client.Guilds.Count} - Top 5", sb.ToString());
         eb.WithColor(Color.Blue);
         eb.WithFooter(fb);
 
