@@ -11,3 +11,4 @@ RustBot/obj/Debug/netcoreapp3.1/RustBot.dll
 RustBot/obj/Debug/netcoreapp3.1/RustBot.csproj.CoreCompileInputs.cache
 RustBot/Config/battlemetricsApi.cfg
 /RustBot/Config/topggToken.cfg
+/RustBot/Config/config.cfg

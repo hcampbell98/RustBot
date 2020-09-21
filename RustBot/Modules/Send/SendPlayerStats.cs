@@ -44,7 +44,7 @@ public class Stats : ModuleBase<SocketCommandContext>
         {
             if (steamID.Contains("https://steamcommunity.com")) { steamID64 = Utilities.GetNumbers(steamID); }
             else if (steamID.Contains("STEAM") || steamID.StartsWith("7656119")) { steamID64 = SteamIDUtils.RetrieveID(steamID); }
-            else { await ReplyAsync("Make sure the input is a valid SteamID/SteamID64 (e.g. 76561198254673414)."); return; }
+            else { await ReplyAsync("Make sure the input is a valid SteamID/SteamID64 (e.g. 76561198254673414). You can also r!link your account which allows you to see your stats simply by typing r!stats."); return; }
 
             playerStats = await Utilities.GetPlayerInfo(steamID64);
         }
@@ -111,6 +111,7 @@ public class Stats : ModuleBase<SocketCommandContext>
         eb.AddField("Weapon Hits", $"```css\nBuilding Hits: {bullet_hit_building}\nBear Hits: {bullet_hit_bear}\nHorse Hits: {bullet_hit_horse}\nStag Hits: {bullet_hit_stag}\nWolf Hits: {bullet_hit_wolf}\nBoar Hits: {bullet_hit_boar}```", true);
         eb.AddField("Harvested", $"```css\nStone: {harvest_stones}\nWood: {harvest_wood}\nCloth: {harvest_cloth}```", true);
         eb.AddField("Misc", $"```css\nItems Dropped: {item_drop}\nBlueprints Studied: {blueprint_studied}\nSuicides: {death_suicide}\nInventory Opened: {inventory_opened}\nTime Speaking: {Math.Round(seconds_speaking, 2)}s\nCalories Consumed: {calories_consumed}\nBlocks Placed: {placed_blocks}\nRockets Fired: {rocket_fired}```");
+        eb.AddField("Steam Link", "You can link your Steam account by running r!link. This allows you to see your stats simply by typing r!stats.", false);
 
         sw.Stop();
         eb.WithFooter(Utilities.GetFooter(Context.User, sw));

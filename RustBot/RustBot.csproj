@@ -14,12 +14,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Config\" />
     <Folder Include="Permissions\" />
     <Folder Include="Users\Teams\UserSettings\" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="Aliases\itemAliases.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Config\config.cfg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Config\steamApiKey.cfg">
