@@ -33,7 +33,10 @@ public class GuildList : ModuleBase<SocketCommandContext>
         {
             eb.AddField($"{guilds[i].Name}", $"Members - {guilds[i].MemberCount}");
         }
+        eb.WithColor(Color.Red);
+        eb.WithFooter(fb);
 
+        await ReplyAsync("", false, eb.Build());
     }
 
 
