@@ -7,12 +7,36 @@ using Discord;
 using System.Text;
 using System.Linq;
 using Discord.WebSocket;
+using System.Collections.Generic;
 
 // Keep in mind your module **must** be public and inherit ModuleBase.
 // If it isn't, it will not be discovered by AddModulesAsync!
 [Group("admin")]
 public class GuildList : ModuleBase<SocketCommandContext>
 {
+    [Command("guildlist", RunMode = RunMode.Async)]
+    [Summary("Returns guild information")]
+    [Remarks("Admin")]
+    public async Task SendGuildList()
+    {
+        EmbedBuilder eb = new EmbedBuilder();
+        EmbedFooterBuilder fb = new EmbedFooterBuilder();
+
+        fb.WithText($"Called by {Context.Message.Author.Username}");
+        fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
+
+        eb.WithTitle($"Guild List");
+
+        List<SocketGuild> guilds = Program._client.Guilds.OrderByDescending(x => x.MemberCount).ToList();
+
+        for (int i = 0; i < 5; i++)
+        {
+            eb.AddField($"{guilds[i].Name}", $"Members - {guilds[i].MemberCount}");
+        }
+
+    }
+
+
     [Command("guildlist", RunMode = RunMode.Async)]
     [Summary("Returns guild information")]
     [Remarks("Admin")]
