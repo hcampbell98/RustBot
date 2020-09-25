@@ -1,8 +1,8 @@
 ﻿using Discord.Commands;
 using System;
 using System.Threading.Tasks;
-using SSRPBalanceBot;
-using SSRPBalanceBot.Permissions;
+using RustBot;
+using RustBot.Permissions;
 using Discord;
 using RustBot.Logging;
 using System.Diagnostics;

@@ -1,8 +1,8 @@
 ﻿using Discord.Commands;
 using System;
 using System.Threading.Tasks;
-using SSRPBalanceBot;
-using SSRPBalanceBot.Permissions;
+using RustBot;
+using RustBot.Permissions;
 
 // Keep in mind your module **must** be public and inherit ModuleBase.
 // If it isn't, it will not be discovered by AddModulesAsync!

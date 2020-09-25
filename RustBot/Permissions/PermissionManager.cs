@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 
-namespace SSRPBalanceBot.Permissions
+namespace RustBot.Permissions
 {
     class PermissionManager
     {

@@ -1,5 +1,5 @@
 ﻿using Discord.Commands;
-using SSRPBalanceBot;
+using RustBot;
 using System;
 using System.Collections.Generic;
 using System.Text;

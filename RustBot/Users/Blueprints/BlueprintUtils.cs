@@ -6,7 +6,7 @@ using HtmlAgilityPack;
 using System.Threading.Tasks;
 using System.Linq;
 using System.IO;
-using SSRPBalanceBot;
+using RustBot;
 
 namespace RustBot.Users.Blueprints
 {

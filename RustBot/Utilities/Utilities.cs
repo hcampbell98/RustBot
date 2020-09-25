@@ -17,7 +17,7 @@ using System.Web;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace SSRPBalanceBot
+namespace RustBot
 {
     class Utilities
     {

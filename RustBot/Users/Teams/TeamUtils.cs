@@ -1,4 +1,4 @@
-﻿using SSRPBalanceBot;
+﻿using RustBot;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

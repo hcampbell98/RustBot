@@ -16,7 +16,7 @@ using Discord.Webhook;
 using System.Threading;
 using System.Net;
 
-namespace SSRPBalanceBot
+namespace RustBot
 {
     class LoggingUtils
     {

@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 using System.Collections;
 using System.Threading.Tasks;
 
-namespace SSRPBalanceBot
+namespace RustBot
 {
     public class SteamIDUtils
     {

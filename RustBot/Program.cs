@@ -16,7 +16,7 @@ using RustBot.Users.Guilds;
 using RustBot.Users.Blueprints;
 using System.Text;
 
-namespace SSRPBalanceBot
+namespace RustBot
 {
     class Program
     {

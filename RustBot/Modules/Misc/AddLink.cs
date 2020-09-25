@@ -1,7 +1,7 @@
 ﻿using Discord.Commands;
 using System;
 using System.Threading.Tasks;
-using SSRPBalanceBot.Permissions;
+using RustBot.Permissions;
 using System.Text;
 using RustBot;
 

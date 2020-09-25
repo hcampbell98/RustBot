@@ -1,8 +1,8 @@
 ﻿using Discord.Commands;
 using System;
 using System.Threading.Tasks;
-using SSRPBalanceBot;
-using SSRPBalanceBot.Permissions;
+using RustBot;
+using RustBot.Permissions;
 using Discord;
 using System.Text;
 using System.Linq;
@@ -43,10 +43,10 @@ public class GuildList : ModuleBase<SocketCommandContext>
     [Command("guildlist", RunMode = RunMode.Async)]
     [Summary("Returns guild information")]
     [Remarks("Admin")]
-    public async Task SendGuildList(string guildName)
+    public async Task SendGuildList(string guildId)
     {
         StringBuilder sb = new StringBuilder();
-        SocketGuild g = Program._client.Guilds.FirstOrDefault(x => x.Name.ToLower() == guildName.ToLower());
+        SocketGuild g = Program._client.Guilds.FirstOrDefault(x => x.Id.ToString() == guildId);
 
         if (g == null) { throw new Exception("Specified guild not found."); }
 
@@ -78,10 +78,10 @@ public class GuildList : ModuleBase<SocketCommandContext>
     [Command("guildlist", RunMode = RunMode.Async)]
     [Summary("Returns members of a guild")]
     [Remarks("Admin")]
-    public async Task SendGuildList(string guildName, bool genInvite)
+    public async Task SendGuildList(string guildId, bool genInvite)
     {
         StringBuilder sb = new StringBuilder();
-        SocketGuild g = Program._client.Guilds.FirstOrDefault(x => x.Name.ToLower() == guildName.ToLower());
+        SocketGuild g = Program._client.Guilds.FirstOrDefault(x => x.Id.ToString() == guildId);
 
         if (g == null) { throw new Exception("Specified guild not found."); }
 

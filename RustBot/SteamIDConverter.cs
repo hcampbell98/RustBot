@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace SSRPBalanceBot
+namespace RustBot
 {
     /// <summary>
     /// Auth type enumeration, From SourcePawn's Clients.inc
