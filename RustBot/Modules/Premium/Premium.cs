@@ -30,7 +30,9 @@ public class Premium : ModuleBase<SocketCommandContext>
         eb.WithThumbnailUrl("https://i.imgur.com/VA6V7Dn.png");
 
         eb.WithDescription("Consider [buying Premium](https://donatebot.io/checkout/701178110485463152) to support the development of the bot and gain access to some cool Premium benefits. Every penny spent goes straight back into keeping the bot up and running, and helps fund the development costs of new features. Thank you for your kindness. [Click here](https://donatebot.io/checkout/701178110485463152) to purchase a tier!");
-        eb.AddField("High Quality Tier", $"This tier grants you access to the following benefits:\n{bulletPoint} Random Message Embed Colour\n{bulletPoint} A Spot on the r!thanks List\n{bulletPoint} Premium Embed Footer");
+        eb.AddField("High Quality Tier", $"This tier grants you access to the following benefits:\n{bulletPoint} Random Message Embed Colour\n{bulletPoint} A Spot on the r!thanks List\n{bulletPoint} Premium Embed Footer\n{bulletPoint} Stats Leaderboard");
+        eb.AddField("Wooden Tier", $"This tier grants you access to the following benefits:\n{bulletPoint} Random Message Embed Colour\n{bulletPoint} A Spot on the r!thanks List\n{bulletPoint} Premium Embed Footer\n{bulletPoint} Stats Leaderboard");
+        eb.AddField("Cloth Tier", $"This tier grants you access to the following benefits:\n{bulletPoint} Random Message Embed Colour\n{bulletPoint} A Spot on the r!thanks List\n{bulletPoint} Premium Embed Footer");
 
         fb.WithText(PremiumUtils.SelectFooterEmbedText(Context.User));
         eb.WithFooter(fb);
