@@ -435,10 +435,15 @@ namespace RustBot
                 XmlNodeList stats = xmlDoc.SelectNodes("/playerstats/stats/stat");
 
                 Dictionary<string, string> playerStats = new Dictionary<string, string> { };
-                statCache.Add(steamID64, playerStats);
-                ScheduleAction(delegate () { statCache.Remove(steamID64); }, DateTime.Now.AddHours(2));
+                
+                ScheduleAction(delegate () { statCache.Remove(steamID64); }, DateTime.Now.AddHours(24));
+                ProfileInfo profileInfo = await SteamIDUtils.GetProfileInfo(steamID64);
 
-                foreach(XmlNode stat in stats)
+                playerStats.Add("player_name", profileInfo.ProfileName);
+                playerStats.Add("player_avatar", profileInfo.AvatarMedium);
+                playerStats.Add("player_profileurl", profileInfo.ProfileURL);
+
+                foreach (XmlNode stat in stats)
                 {
                     string name = stat.SelectSingleNode("name").InnerText;
                     string value = stat.SelectSingleNode("value").InnerText;
@@ -446,25 +451,28 @@ namespace RustBot
                     playerStats.Add(name, value);
                 }
 
+                statCache.Add(steamID64, playerStats);
+
                 return playerStats;
             }
         }
 
 
-        public static Embed GetEmbedMessage(string messageTitle, string fieldTitle, string fieldContents, SocketUser user, Color messageColor, EmbedFooterBuilder fb = null)
+        public static Embed GetEmbedMessage(string messageTitle, string fieldTitle, string fieldContents, SocketUser user, EmbedFooterBuilder fb = null)
         {
             EmbedBuilder eb = new EmbedBuilder();
 
             if(fb == null && user != null)
             {
                 fb = new EmbedFooterBuilder();
-                fb.WithText($"Called by {user.Username}");
+                fb.WithText(PremiumUtils.SelectFooterEmbedText(user));;
                 fb.WithIconUrl(user.GetAvatarUrl());
             }
 
             eb.WithTitle($"{messageTitle}");
             eb.AddField($"{fieldTitle}", $"{fieldContents}");
-            eb.WithColor(messageColor);
+
+            eb.WithColor(PremiumUtils.SelectEmbedColour(user));
             eb.WithFooter(fb);
 
             return eb.Build();
@@ -474,7 +482,7 @@ namespace RustBot
         {
             EmbedFooterBuilder fb = new EmbedFooterBuilder();
 
-            fb.WithText($"Called by {user.Username} | Completed in {sw.ElapsedMilliseconds}ms");
+            fb.WithText(PremiumUtils.SelectFooterEmbedText(user, sw));
             fb.WithIconUrl(user.GetAvatarUrl());
 
             return fb;

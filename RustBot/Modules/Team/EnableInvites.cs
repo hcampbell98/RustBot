@@ -23,6 +23,6 @@ public class ToggleInvite : ModuleBase<SocketCommandContext>
         if (TeamUtils.userSettings.FirstOrDefault(x => x.DiscordID == Context.User.Id) != null && TeamUtils.userSettings.FirstOrDefault(x => x.DiscordID == Context.User.Id).InvitesEnabled) { TeamUtils.UpdateSettings(Context.User.Id, invites: false); status = false; }
         else { TeamUtils.UpdateSettings(Context.User.Id, invites: true); status = true; }
 
-        await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Invites", "Updated", $"Team Invites Enabled: {status.ToString()}", Context.User, Color.Red)); return;
+        await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Invites", "Updated", $"Team Invites Enabled: {status.ToString()}", Context.User)); return;
     }
 }

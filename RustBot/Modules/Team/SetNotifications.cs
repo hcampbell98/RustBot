@@ -24,6 +24,6 @@ public class UpdateNotifications : ModuleBase<SocketCommandContext>
         if (TeamUtils.userSettings.FirstOrDefault(x => x.DiscordID == Context.User.Id) != null && TeamUtils.userSettings.FirstOrDefault(x => x.DiscordID == Context.User.Id).NotificationsEnabled) { TeamUtils.UpdateSettings(Context.User.Id, false); status = false; }
         else { TeamUtils.UpdateSettings(Context.User.Id, true); status = true; }
 
-        await ReplyAsync("", false, Utilities.GetEmbedMessage("Notifications", "Updated", $" Notifications Enabled: {status.ToString()}", Context.User, Color.Red)); return;
+        await ReplyAsync("", false, Utilities.GetEmbedMessage("Notifications", "Updated", $" Notifications Enabled: {status.ToString()}", Context.User)); return;
     }
 }

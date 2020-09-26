@@ -35,7 +35,7 @@ public class Help : ModuleBase<SocketCommandContext>
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
 
         eb.WithTitle($"Help");
-        eb.WithColor(Color.Red);
+        eb.WithColor(PremiumUtils.SelectEmbedColour(Context.User));
         eb.WithFooter(fb);
         eb.AddField("Info", "Type r!help and then the name of the command to see information about each individual command.");
 
@@ -71,7 +71,7 @@ public class Help : ModuleBase<SocketCommandContext>
 
         eb.AddField("Links", $"[Donate](https://www.paypal.me/HJ718) | [Invite](https://discord.com/oauth2/authorize?client_id=732215647135727716&scope=bot&permissions=207873) | [GitHub](https://github.com/bunnyslippers69/RustBot) | [top.gg](https://top.gg/bot/732215647135727716) | [Vote](https://top.gg/bot/732215647135727716/vote)");
         sw.Stop();
-        fb.WithText($"Called by {Context.Message.Author.Username} | Completed in {sw.ElapsedMilliseconds}ms");
+        fb.WithText(PremiumUtils.SelectFooterEmbedText(Context.User, sw));;
 
         await ReplyAsync($"{Context.Message.Author.Mention}\n", false, eb.Build());
     }
@@ -103,7 +103,7 @@ public class Help : ModuleBase<SocketCommandContext>
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
 
         eb.WithTitle($"{Program.prefix}{command.Name}");
-        eb.WithColor(Color.Red);
+        eb.WithColor(PremiumUtils.SelectEmbedColour(Context.User));
         eb.WithDescription($"{command.Summary}");
         eb.AddField($"Usage", $"{Program.prefix}{command.Name} {args.ToString()}");
 
@@ -134,7 +134,7 @@ public class Help : ModuleBase<SocketCommandContext>
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
 
         eb.WithTitle($"Help");
-        eb.WithColor(Color.Red);
+        eb.WithColor(PremiumUtils.SelectEmbedColour(Context.User));
         eb.WithFooter(fb);
         eb.AddField("Info", "Type r!help and then the name of the command to see information about each individual command.");
 
@@ -169,7 +169,7 @@ public class Help : ModuleBase<SocketCommandContext>
 
         eb.AddField("Links", $"[Invite](https://discord.com/oauth2/authorize?client_id=732215647135727716&scope=bot&permissions=207873) | [GitHub](https://github.com/bunnyslippers69/RustBot) | [top.gg](https://top.gg/bot/732215647135727716) | [Vote](https://top.gg/bot/732215647135727716/vote)");
         sw.Stop();
-        fb.WithText($"Called by {Context.Message.Author.Username} | Completed in {sw.ElapsedMilliseconds}ms");
+        fb.WithText(PremiumUtils.SelectFooterEmbedText(Context.User, sw));;
 
         await ReplyAsync($"{Context.Message.Author.Mention}\n", false, eb.Build());
     }

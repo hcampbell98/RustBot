@@ -20,6 +20,6 @@ public class DisableServerSearch : ModuleBase<SocketCommandContext>
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
 
         GuildUtils.UpdateSearch(Context.Guild.Id, GuildUtils.GetSettings(Context.Guild.Id).ServerSearch ^= true);
-        await ReplyAsync("", false, Utilities.GetEmbedMessage("Toggle Search", "Response", $"Server Search Enabled: {GuildUtils.GetSettings(Context.Guild.Id).ServerSearch}", Context.User, Color.Red));
+        await ReplyAsync("", false, Utilities.GetEmbedMessage("Toggle Search", "Response", $"Server Search Enabled: {GuildUtils.GetSettings(Context.Guild.Id).ServerSearch}", Context.User));
     }
 }

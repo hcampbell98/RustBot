@@ -256,9 +256,9 @@ public class Smelting : InteractiveBase
         EmbedFooterBuilder fb = new EmbedFooterBuilder();
 
 
-        fb.WithText($"Called by {Context.Message.Author.Username}");
+        fb.WithText(PremiumUtils.SelectFooterEmbedText(Context.User));;
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
-        eb.WithColor(Color.Red);
+        eb.WithColor(PremiumUtils.SelectEmbedColour(Context.User));
 
         eb.WithThumbnailUrl("https://rustlabs.com/img/items180/furnace.png");
         eb.WithTitle($"Small Furnace");
@@ -274,9 +274,9 @@ public class Smelting : InteractiveBase
         EmbedFooterBuilder fb = new EmbedFooterBuilder();
 
 
-        fb.WithText($"Called by {Context.Message.Author.Username}");
+        fb.WithText(PremiumUtils.SelectFooterEmbedText(Context.User));;
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
-        eb.WithColor(Color.Red);
+        eb.WithColor(PremiumUtils.SelectEmbedColour(Context.User));
 
         eb.WithThumbnailUrl("https://rustlabs.com/img/items180/furnace.large.png");
         eb.WithTitle($"Large Furnace");

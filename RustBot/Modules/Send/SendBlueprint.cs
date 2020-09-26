@@ -35,9 +35,9 @@ public class FindBlueprint : ModuleBase<SocketCommandContext>
         eb.WithTitle("Blueprint");
         eb.AddField($"{bp.Name}", $"{sb}");
         eb.WithThumbnailUrl(bp.Icon);
-        eb.WithColor(Color.Red);
+        eb.WithColor(PremiumUtils.SelectEmbedColour(Context.User));
 
-        fb.WithText($"Called by {Context.User.Username} | Completed in {sw.ElapsedMilliseconds}ms");
+        fb.WithText(PremiumUtils.SelectFooterEmbedText(Context.User, sw));;
         fb.WithIconUrl(Context.User.GetAvatarUrl());
         eb.WithFooter(fb);
 

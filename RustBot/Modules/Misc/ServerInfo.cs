@@ -17,7 +17,7 @@ public class ServersInfo : ModuleBase<SocketCommandContext>
     public async Task GetServers()
     {
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
-        if (!GuildUtils.GetSettings(Context.Guild.Id).ServerSearch) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Rust Servers", "Error", "This server has disabled the ability to search for servers.", Context.User, Color.Red)); return; }
+        if (!GuildUtils.GetSettings(Context.Guild.Id).ServerSearch) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Rust Servers", "Error", "This server has disabled the ability to search for servers.", Context.User)); return; }
 
         var s = await Utilities.GetServers();
 
@@ -27,7 +27,7 @@ public class ServersInfo : ModuleBase<SocketCommandContext>
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
 
         eb.WithTitle($"Top 5 Servers");
-        eb.WithColor(Color.Red);
+        eb.WithColor(PremiumUtils.SelectEmbedColour(Context.User));
         eb.WithFooter(fb);
 
         foreach (var server in s)
@@ -44,7 +44,7 @@ public class ServersInfo : ModuleBase<SocketCommandContext>
     public async Task GetServer([Remainder]string search)
     {
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
-        if (!GuildUtils.GetSettings(Context.Guild.Id).ServerSearch) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Rust Servers", "Error", "This server has disabled the ability to search for servers.", Context.User, Color.Red)); return; }
+        if (!GuildUtils.GetSettings(Context.Guild.Id).ServerSearch) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Rust Servers", "Error", "This server has disabled the ability to search for servers.", Context.User)); return; }
 
         var server = await Utilities.GetServer(search);
 
@@ -54,7 +54,7 @@ public class ServersInfo : ModuleBase<SocketCommandContext>
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
 
         eb.WithTitle($"Search");
-        eb.WithColor(Color.Red);
+        eb.WithColor(PremiumUtils.SelectEmbedColour(Context.User));
         eb.WithFooter(fb);
 
         eb.AddField($"{server.ServerName}", $"```css\nIP/Port: {server.IP}:{server.Port}\nPlayers: {server.CurrentPlayers}/{server.MaxPlayers}\nMap: {server.Map}\nMap Size: {server.MapSize}\nLast Wipe: {DateTime.Parse(server.LastWipe)}\nRank: {server.Rank}```");

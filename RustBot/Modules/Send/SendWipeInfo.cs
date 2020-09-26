@@ -24,7 +24,7 @@ public class Wipe : ModuleBase<SocketCommandContext>
         DateTime nextWipe = GetNextWeekday(DayOfWeek.Thursday);
         DateTime nextForceWipe = GetForceWipe(firstDayNextMonth);
 
-        await ReplyAsync("", false, Utilities.GetEmbedMessage("Wipe Information", "Wipes", $"Next Force Wipe is on {nextForceWipe.ToString("MMMM dd")}, {Math.Ceiling(nextForceWipe.Subtract(DateTime.Now).TotalDays)} days away.\nNext weekly wipe is on {nextWipe.ToString("MMMM dd")}, {Math.Ceiling(nextWipe.Subtract(DateTime.Now).TotalDays)} days away.", Context.Message.Author, Color.Red));
+        await ReplyAsync("", false, Utilities.GetEmbedMessage("Wipe Information", "Wipes", $"Next Force Wipe is on {nextForceWipe.ToString("MMMM dd")}, {Math.Ceiling(nextForceWipe.Subtract(DateTime.Now).TotalDays)} days away.\nNext weekly wipe is on {nextWipe.ToString("MMMM dd")}, {Math.Ceiling(nextWipe.Subtract(DateTime.Now).TotalDays)} days away.", Context.Message.Author));
     }
 
     static DateTime GetNextWeekday(DayOfWeek day)

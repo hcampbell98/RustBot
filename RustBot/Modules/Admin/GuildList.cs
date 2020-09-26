@@ -22,7 +22,7 @@ public class GuildList : ModuleBase<SocketCommandContext>
         EmbedBuilder eb = new EmbedBuilder();
         EmbedFooterBuilder fb = new EmbedFooterBuilder();
 
-        fb.WithText($"Called by {Context.Message.Author.Username}");
+        fb.WithText(PremiumUtils.SelectFooterEmbedText(Context.User));;
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
 
         eb.WithTitle($"Guild List");
@@ -33,7 +33,7 @@ public class GuildList : ModuleBase<SocketCommandContext>
         {
             eb.AddField($"{guilds[i].Name}", $"Members - {guilds[i].MemberCount}");
         }
-        eb.WithColor(Color.Red);
+        eb.WithColor(PremiumUtils.SelectEmbedColour(Context.User));
         eb.WithFooter(fb);
 
         await ReplyAsync("", false, eb.Build());
@@ -55,7 +55,7 @@ public class GuildList : ModuleBase<SocketCommandContext>
 
         int totalBots = await TotalBotsAsync(g);
 
-        fb.WithText($"Called by {Context.Message.Author.Username}");
+        fb.WithText(PremiumUtils.SelectFooterEmbedText(Context.User));;
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
 
         eb.WithTitle($"Guild Information");
@@ -67,7 +67,7 @@ public class GuildList : ModuleBase<SocketCommandContext>
             $"**Voice Channels:** {g.VoiceChannels.Count}\n" +
             $"**Server Region:** {g.VoiceRegionId}\n" +
             $"**Created At:** {g.CreatedAt}\n");
-        eb.WithColor(Color.Red);
+        eb.WithColor(PremiumUtils.SelectEmbedColour(Context.User));
         eb.WithFooter(fb);
 
 
@@ -105,7 +105,7 @@ public class GuildList : ModuleBase<SocketCommandContext>
         EmbedFooterBuilder fb = new EmbedFooterBuilder();
 
 
-        fb.WithText($"Called by {Context.Message.Author.Username}");
+        fb.WithText(PremiumUtils.SelectFooterEmbedText(Context.User));;
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
 
         eb.WithTitle($"Invite");

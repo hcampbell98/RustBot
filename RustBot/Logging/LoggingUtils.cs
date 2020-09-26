@@ -56,7 +56,7 @@ namespace RustBot
         {
             destGuild = Program._client.GetGuild(701178110485463152);
             SocketTextChannel destChannel = destGuild.GetTextChannel(701178110933991466);
-            await destChannel.SendMessageAsync("", false, Utilities.GetEmbedMessage("Guild Joined", $"Joined Guild: {g.Name}", $"Owner: {g.Owner.Username}\nGuild ID: {g.Id}\nUsers: {g.MemberCount}", null, Color.Red));
+            await destChannel.SendMessageAsync("", false, Utilities.GetEmbedMessage("Guild Joined", $"Joined Guild: {g.Name}", $"Owner: {g.Owner.Username}\nGuild ID: {g.Id}\nUsers: {g.MemberCount}", null));
         }
 
         public static async Task UpdateStats(ulong selfId)

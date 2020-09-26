@@ -19,8 +19,8 @@ public class LeaveTeam : ModuleBase<SocketCommandContext>
     {
         if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
 
-        if (!TeamUtils.LeaveTeam(Context.User.Id)) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Notifications", "Error", "You are not a member of a team.", Context.User, Color.Red)); return; }
+        if (!TeamUtils.LeaveTeam(Context.User.Id)) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Notifications", "Error", "You are not a member of a team.", Context.User)); return; }
         
-        await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Notifications", "Left Team", "You left your current team.", Context.User, Color.Red));
+        await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Notifications", "Left Team", "You left your current team.", Context.User));
     }
 }

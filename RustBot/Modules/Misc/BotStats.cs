@@ -42,7 +42,7 @@ public class BotStats : ModuleBase<SocketCommandContext>
             $"Guilds Since Boot: {Statistics.guildChanges}\n" +
             $"Last Guild Joined: {Statistics.lastGuildJoined}\n" +
             $"Latency: {Program._client.Latency}ms\n" +
-            $"```", Context.User, Color.Red, Utilities.GetFooter(Context.User, sw));
+            $"```", Context.User, Utilities.GetFooter(Context.User, sw));
 
         await ReplyAsync("", false, msg);
     }

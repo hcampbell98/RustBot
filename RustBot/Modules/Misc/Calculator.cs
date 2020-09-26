@@ -24,7 +24,7 @@ public class Calculator : ModuleBase<SocketCommandContext>
         EmbedFooterBuilder fb = new EmbedFooterBuilder();
 
 
-        fb.WithText($"Called by {Context.Message.Author.Username}");
+        fb.WithText(PremiumUtils.SelectFooterEmbedText(Context.User));;
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
 
         eb.WithTitle($"{new DataTable().Compute(math, null).ToString()}");

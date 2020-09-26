@@ -22,23 +22,23 @@ public class Module : InteractiveBase
         Team team = TeamUtils.GetTeam(Context.User.Id);
 
         //Checks whether the player is in a team, and whether or not they own it
-        if (team == null) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Notifications", "Error", "You are not a member of a team. Please create one using r!createteam", Context.User, Color.Red)); return; }
-        if (team.TeamLeader != Context.User.Id) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Notifications", "Error", "You are not the team leader.", Context.User, Color.Red)); return; }
+        if (team == null) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Notifications", "Error", "You are not a member of a team. Please create one using r!createteam", Context.User)); return; }
+        if (team.TeamLeader != Context.User.Id) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Notifications", "Error", "You are not the team leader.", Context.User)); return; }
 
         //Grabs the server
         ServerInfo s = await Utilities.GetServer(search);
         bool correct;
 
         //Asks whether or not the server is correct
-        await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Server", $"Add **{s.ServerName}** as this team's server?", "1. Yes\n2. No\n\n**Please type the number of your answer.**", Context.User, Color.Red));
+        await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Server", $"Add **{s.ServerName}** as this team's server?", "1. Yes\n2. No\n\n**Please type the number of your answer.**", Context.User));
         var response = await NextMessageAsync();
 
         if (response.Content == "1") { correct = true; }
         else if (response.Content == "2") { correct = false; }
-        else { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Server", "Error", "Please type the number of your answer. E.g: 1 for yes, 2 for no.", Context.User, Color.Red)); return; }
+        else { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Server", "Error", "Please type the number of your answer. E.g: 1 for yes, 2 for no.", Context.User)); return; }
 
         //If correct, add team and display success message, else display unsuccessful message
-        if (correct) { TeamUtils.SetServer(team, s); await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Server", "Success", $"Successfully added **{s.ServerName}** as this team's server.", Context.User, Color.Red)); }
-        else { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Server", "Unsuccessful", "Please try a less broad search term and try again.", Context.User, Color.Red)); }
+        if (correct) { TeamUtils.SetServer(team, s); await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Server", "Success", $"Successfully added **{s.ServerName}** as this team's server.", Context.User)); }
+        else { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Server", "Unsuccessful", "Please try a less broad search term and try again.", Context.User)); }
     }
 }

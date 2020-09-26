@@ -50,10 +50,7 @@ public class Stats : ModuleBase<SocketCommandContext>
         }
 
         //If the profile is private, handle the exception.
-        if (playerStats == null) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Player Stats", "Error", "The profile specified may be private. If this profile is yours, please change to public and try again.", Context.User, Color.Red, Utilities.GetFooter(Context.User, sw))); return; }
-
-        ProfileInfo profileInfo = await SteamIDUtils.GetProfileInfo(steamID64);
-        PlayerStat defStat = new PlayerStat { Name = "Default", Value = "0" };
+        if (playerStats == null) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Player Stats", "Error", "The profile specified may be private. If this profile is yours, please change to public and try again.", Context.User, Utilities.GetFooter(Context.User, sw))); return; }
 
         //PvP Statistics
         double deaths = int.Parse(playerStats.GetValueOrDefault("deaths", "0"));
@@ -103,10 +100,10 @@ public class Stats : ModuleBase<SocketCommandContext>
 
         EmbedBuilder eb = new EmbedBuilder();
 
-        eb.WithTitle($"{profileInfo.ProfileName}");
-        eb.WithUrl($"{profileInfo.ProfileURL}");
-        eb.WithThumbnailUrl(profileInfo.AvatarMedium);
-        eb.WithColor(Color.Red);
+        eb.WithTitle($"{playerStats.GetValueOrDefault("player_name", "0")}");
+        eb.WithUrl($"{playerStats.GetValueOrDefault("player_profileurl", "0")}");
+        eb.WithThumbnailUrl(playerStats.GetValueOrDefault("player_avatar", "0"));
+        eb.WithColor(PremiumUtils.SelectEmbedColour(Context.User));
         eb.AddField("PvP Info", $"```css\nKills: {kill_player}\nDeaths: {deaths}\nK/D Ratio: {Math.Round(kdRatio, 2)}\nHeadshots: {Math.Round(headshotPercentage * 100, 2)}%\nAccuracy: {Math.Round(rifleAccuracy * 100, 2)}%```", true);
         eb.AddField("Weapon Hits", $"```css\nBuilding Hits: {bullet_hit_building}\nBear Hits: {bullet_hit_bear}\nHorse Hits: {bullet_hit_horse}\nStag Hits: {bullet_hit_stag}\nWolf Hits: {bullet_hit_wolf}\nBoar Hits: {bullet_hit_boar}```", true);
         eb.AddField("Harvested", $"```css\nStone: {harvest_stones}\nWood: {harvest_wood}\nCloth: {harvest_cloth}```", true);

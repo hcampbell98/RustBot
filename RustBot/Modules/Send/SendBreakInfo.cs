@@ -31,7 +31,7 @@ public class Break : InteractiveBase
 
         //-----------------------Structure Type------------------------
         sw.Stop();
-        var sInfoMsg = await ReplyAsync("", false, Utilities.GetEmbedMessage("Break Info", "Structure Type", "1. Building Block\n2. Placeable/Door/Window\n\n**Please type the number of the structure type.**", Context.Message.Author, Color.Red));
+        var sInfoMsg = await ReplyAsync("", false, Utilities.GetEmbedMessage("Break Info", "Structure Type", "1. Building Block\n2. Placeable/Door/Window\n\n**Please type the number of the structure type.**", Context.Message.Author));
         var response = await NextMessageAsync();
         sw.Start();
         //If structure
@@ -44,7 +44,7 @@ public class Break : InteractiveBase
         sw.Stop();
 
         //-----------------------Attack Type------------------------
-        var aInfoMsg = await ReplyAsync("", false, Utilities.GetEmbedMessage("Break Info", "Attack Type", "1. Explosive\n2. Melee\n3. Guns\n4. Throw\n\n**Please type the number of the attack type.**", Context.Message.Author, Color.Red));
+        var aInfoMsg = await ReplyAsync("", false, Utilities.GetEmbedMessage("Break Info", "Attack Type", "1. Explosive\n2. Melee\n3. Guns\n4. Throw\n\n**Please type the number of the attack type.**", Context.Message.Author));
         var attackType = await NextMessageAsync();
         sw.Start();
 
@@ -60,7 +60,7 @@ public class Break : InteractiveBase
         string side = null;
         if (response.Content == "1")
         {
-            var sideMessage = await ReplyAsync("", false, Utilities.GetEmbedMessage("Break Info", "Block Side", "1. Hard\n2. Soft\n\n**Please type the number of the attack type.**", Context.Message.Author, Color.Red));
+            var sideMessage = await ReplyAsync("", false, Utilities.GetEmbedMessage("Break Info", "Block Side", "1. Hard\n2. Soft\n\n**Please type the number of the attack type.**", Context.Message.Author));
             var sideType = await NextMessageAsync();
             sw.Start();
 
@@ -92,7 +92,7 @@ public class Break : InteractiveBase
         }
         catch (Exception)
         {
-            await ReplyAsync("", false, Utilities.GetEmbedMessage("Break Info", "Error", $"There are too many results to fit into a Discord Embed, please click [here]({bi.URL}) to see your results.", Context.Message.Author, Color.Red));
+            await ReplyAsync("", false, Utilities.GetEmbedMessage("Break Info", "Error", $"There are too many results to fit into a Discord Embed, please click [here]({bi.URL}) to see your results.", Context.Message.Author));
         }
 
     }
@@ -103,9 +103,9 @@ public class Break : InteractiveBase
         EmbedFooterBuilder fb = new EmbedFooterBuilder();
 
         sw.Stop();
-        fb.WithText($"Called by {Context.Message.Author.Username} | Completed in {sw.ElapsedMilliseconds}ms");
+        fb.WithText(PremiumUtils.SelectFooterEmbedText(Context.User, sw));;
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
-        eb.WithColor(Color.Red);
+        eb.WithColor(PremiumUtils.SelectEmbedColour(Context.User));
         eb.WithThumbnailUrl(breakable.Icon);
         eb.WithTitle($"{breakable.ItemName}");
         eb.WithFooter(fb);

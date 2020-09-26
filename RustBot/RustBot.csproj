@@ -16,6 +16,7 @@
   <ItemGroup>
     <Folder Include="Config\" />
     <Folder Include="Permissions\" />
+    <Folder Include="Users\Premium\" />
     <Folder Include="Users\Teams\UserSettings\" />
   </ItemGroup>
 

@@ -22,7 +22,7 @@ public class TeamMembers : ModuleBase<SocketCommandContext>
         Team team = TeamUtils.GetTeam(Context.User.Id);
 
         //If the user isn't in a team, display an error message
-        if (team == null) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Notifications", "Error", "You are not a member of a team. Please create one using r!createteam", Context.User, Color.Red)); return; }
+        if (team == null) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Notifications", "Error", "You are not a member of a team. Please create one using r!createteam", Context.User)); return; }
 
         StringBuilder sb = new StringBuilder();
 
@@ -31,6 +31,6 @@ public class TeamMembers : ModuleBase<SocketCommandContext>
             sb.Append($"{Program._client.GetUser(member).Username}\n");
         }
 
-        await ReplyAsync("", false, Utilities.GetEmbedMessage("Team List", $"{Program._client.GetUser(team.TeamLeader).Username}'s Team", $"{sb.ToString()}", Context.User, Color.Red));
+        await ReplyAsync("", false, Utilities.GetEmbedMessage("Team List", $"{Program._client.GetUser(team.TeamLeader).Username}'s Team", $"{sb.ToString()}", Context.User));
     }
 }

@@ -32,7 +32,7 @@ public class ItemStore : ModuleBase<SocketCommandContext>
         EmbedFooterBuilder fb = new EmbedFooterBuilder();
 
         fb.WithIconUrl(Context.Message.Author.GetAvatarUrl());
-        eb.WithColor(Color.Red);
+        eb.WithColor(PremiumUtils.SelectEmbedColour(Context.User));
         eb.WithTitle($"Item Store");
         eb.WithFooter(fb);
 
@@ -42,7 +42,7 @@ public class ItemStore : ModuleBase<SocketCommandContext>
         }
 
         sw.Stop();
-        fb.WithText($"Called by {Context.Message.Author.Username} | Completed in {sw.ElapsedMilliseconds}ms");
+        fb.WithText(PremiumUtils.SelectFooterEmbedText(Context.User, sw));;
 
         await ReplyAsync("", false, eb.Build());
     }

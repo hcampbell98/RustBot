@@ -52,6 +52,6 @@ public class HoursPlayed : ModuleBase<SocketCommandContext>
             pi = await SteamIDUtils.GetProfileInfo(steamID64);
         }
 
-        await ReplyAsync("", false, Utilities.GetEmbedMessage("Hours Played", $"{pi.ProfileName}", $"Hours Played: {Convert.ToInt32(hoursPlayed) / 60}", Context.User, Color.Red, Utilities.GetFooter(Context.User, sw)));
+        await ReplyAsync("", false, Utilities.GetEmbedMessage("Hours Played", $"{pi.ProfileName}", $"Hours Played: {Convert.ToInt32(hoursPlayed) / 60}", Context.User, Utilities.GetFooter(Context.User, sw)));
     }
 }

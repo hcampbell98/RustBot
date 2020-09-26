@@ -55,7 +55,7 @@ public class Craft : InteractiveBase
                 si.Append("\n**Please type the number of the item you are looking for.**");
 
                 sw.Stop();
-                await ReplyAsync("", false, Utilities.GetEmbedMessage("Search Results", "Multiple Results", si.ToString(), Context.Message.Author, Color.Red));
+                await ReplyAsync("", false, Utilities.GetEmbedMessage("Search Results", "Multiple Results", si.ToString(), Context.Message.Author));
 
 
                 var response = await NextMessageAsync();
@@ -66,7 +66,7 @@ public class Craft : InteractiveBase
                     Item i = await Utilities.GetItemInfo(itemInfo[Convert.ToInt32(response.Content) - 1]);
 
                     //If the item isn't craftable, send an error message and return
-                    if (i.Ingredients.Count < 1) { await ReplyAsync("", false, Utilities.GetEmbedMessage($"{i.ItemName}", "Not Craftable", "This item cannot be crafted.", Context.Message.Author, Color.Red)); return; }
+                    if (i.Ingredients.Count < 1) { await ReplyAsync("", false, Utilities.GetEmbedMessage($"{i.ItemName}", "Not Craftable", "This item cannot be crafted.", Context.Message.Author)); return; }
 
                     await ReplyAsync("", false, GenMessage(i, number));
                 }
@@ -79,7 +79,7 @@ public class Craft : InteractiveBase
                 Item i = await Utilities.GetItemInfo(itemInfo[0]);
 
                 //If the item isn't craftable, send an error message and return
-                if (i.Ingredients.Count < 1) { await ReplyAsync("", false, Utilities.GetEmbedMessage($"{i.ItemName}", "Not Craftable", "This item cannot be crafted.", Context.Message.Author, Color.Red)); return; }
+                if (i.Ingredients.Count < 1) { await ReplyAsync("", false, Utilities.GetEmbedMessage($"{i.ItemName}", "Not Craftable", "This item cannot be crafted.", Context.Message.Author)); return; }
 
                 await ReplyAsync("", false, GenMessage(i, number));
             }
@@ -121,9 +121,9 @@ public class Craft : InteractiveBase
         }
 
         sw.Stop();
-        fb.WithText($"Called by {Context.Message.Author.Username} | Completed in {sw.ElapsedMilliseconds}ms");
+        fb.WithText(PremiumUtils.SelectFooterEmbedText(Context.User, sw));;
 
-        eb.WithColor(Color.Red);
+        eb.WithColor(PremiumUtils.SelectEmbedColour(Context.User));
         eb.WithFooter(fb);
 
         return eb.Build();

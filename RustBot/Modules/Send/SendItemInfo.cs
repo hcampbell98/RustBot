@@ -51,7 +51,7 @@ public class ItemInfo : InteractiveBase
                 si.Append("\n**Please type the number of the item you are looking for.**");
                 sw.Stop();
 
-                await ReplyAsync("", false, Utilities.GetEmbedMessage("Search Results", "Multiple Results", si.ToString(), Context.Message.Author, Color.Red));
+                await ReplyAsync("", false, Utilities.GetEmbedMessage("Search Results", "Multiple Results", si.ToString(), Context.Message.Author));
 
                 
                 var response = await NextMessageAsync();
@@ -135,9 +135,9 @@ public class ItemInfo : InteractiveBase
         }
 
         sw.Stop();
-        fb.WithText($"Called by {Context.Message.Author.Username} | Completed in {sw.ElapsedMilliseconds}ms");
+        fb.WithText(PremiumUtils.SelectFooterEmbedText(Context.User, sw));;
 
-        eb.WithColor(Color.Red);
+        eb.WithColor(PremiumUtils.SelectEmbedColour(Context.User));
         eb.WithFooter(Utilities.GetFooter(Context.User, sw));
 
         return eb.Build();

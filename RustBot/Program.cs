@@ -53,6 +53,7 @@ namespace RustBot
             await _client.LoginAsync(TokenType.Bot, token);
             await _client.StartAsync();
 
+            PremiumUtils.LoadRanks();
             TeamUtils.teamData = TeamUtils.LoadTeams();
             TeamUtils.userSettings = TeamUtils.LoadSettings();
             GuildUtils.guildData = GuildUtils.LoadSettings();
@@ -78,7 +79,7 @@ namespace RustBot
                     args.Append($" [{param.Name}]");
                 }
 
-                Embed eb = Utilities.GetEmbedMessage("Error", "Reason", $"{arg3.ErrorReason} Correct usage of the command is `{prefix}{command.Value.Name}{args}`. Try `r!help {command.Value.Name}`.", (SocketUser)context.User, Color.Red, Utilities.GetFooter((SocketUser)context.User, sw));
+                Embed eb = Utilities.GetEmbedMessage("Error", "Reason", $"{arg3.ErrorReason} Correct usage of the command is `{prefix}{command.Value.Name}{args}`. Try `r!help {command.Value.Name}`.", (SocketUser)context.User, Utilities.GetFooter((SocketUser)context.User, sw));
 
                 context.Channel.SendMessageAsync("", false, eb); 
                 return Task.CompletedTask; 

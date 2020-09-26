@@ -32,8 +32,8 @@ public class VoteLink : ModuleBase<SocketCommandContext>
         eb.WithTitle($"Vote");
         eb.WithDescription("[Click here to vote for the bot!](https://top.gg/bot/732215647135727716/vote)");
         eb.WithThumbnailUrl("https://top.gg/images/logotrans.png");
-        eb.WithColor(Color.Red);
-        fb.WithText($"Called by {Context.User.Username} | Completed in {sw.ElapsedMilliseconds}ms");
+        eb.WithColor(PremiumUtils.SelectEmbedColour(Context.User));
+        fb.WithText(PremiumUtils.SelectFooterEmbedText(Context.User, sw));;
         eb.WithFooter(fb);
 
         await ReplyAsync($"{Context.Message.Author.Mention}\n", false, eb.Build());

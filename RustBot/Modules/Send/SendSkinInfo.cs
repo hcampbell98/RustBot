@@ -32,21 +32,21 @@ public class Skin : InteractiveBase
         string orderDirection;
 
         //Asks user for the desired order type
-        await ReplyAndDeleteAsync("", false, Utilities.GetEmbedMessage("Skin Information", "Order By", "**1. New**\n**2. Price**\n**3. Discount**\n**4. Exclusive**\n**5. Market Price**\n**6. Name**\n**7. Item**\n\n**Please type the number of the sort type desired.**", Context.Message.Author, Color.Red), TimeSpan.FromSeconds(20));
+        await ReplyAndDeleteAsync("", false, Utilities.GetEmbedMessage("Skin Information", "Order By", "**1. New**\n**2. Price**\n**3. Discount**\n**4. Exclusive**\n**5. Market Price**\n**6. Name**\n**7. Item**\n\n**Please type the number of the sort type desired.**", Context.Message.Author), TimeSpan.FromSeconds(20));
         var orderByResponse = await NextMessageAsync();
         
         if(!Int32.TryParse(Utilities.GetNumbers(orderByResponse.Content), out int order)) { await ReplyAsync("Make sure to type just the number of your choice."); return; }
         orderBy = sortType[order - 1];
 
         //Asks the user for the desired sort direction - asc, desc
-        await ReplyAndDeleteAsync("", false, Utilities.GetEmbedMessage("Skin Information", "Order Direction", "**1. Ascending**\n**2. Descending**\n\n *Please type the number of the sort direction desired.*", Context.Message.Author, Color.Red), TimeSpan.FromSeconds(20));
+        await ReplyAndDeleteAsync("", false, Utilities.GetEmbedMessage("Skin Information", "Order Direction", "**1. Ascending**\n**2. Descending**\n\n *Please type the number of the sort direction desired.*", Context.Message.Author), TimeSpan.FromSeconds(20));
         var sortDirectionResponse = await NextMessageAsync();
 
         if (!Int32.TryParse(Utilities.GetNumbers(sortDirectionResponse.Content), out int sortDirection)) { await ReplyAsync("Make sure to type just the number of your choice."); return; }
         orderDirection = sortDir[sortDirection - 1];
 
         //Asks the user for their search query
-        await ReplyAndDeleteAsync("", false, Utilities.GetEmbedMessage("Skin Information", "Awaiting Search", "**Please type your search query.**", Context.Message.Author, Color.Red), TimeSpan.FromSeconds(20));
+        await ReplyAndDeleteAsync("", false, Utilities.GetEmbedMessage("Skin Information", "Awaiting Search", "**Please type your search query.**", Context.Message.Author), TimeSpan.FromSeconds(20));
         var searchQueryResponse = await NextMessageAsync();
 
         List<SkinInfo> skinList = await Utilities.GetSkinInfo(searchQueryResponse.Content, orderBy, orderDirection);

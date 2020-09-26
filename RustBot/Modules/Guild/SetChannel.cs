@@ -22,12 +22,12 @@ public class SetChannel : ModuleBase<SocketCommandContext>
         if (channelMention == "null") 
         { 
             GuildUtils.SetBotChannel(GuildUtils.GetSettings(Context.Guild.Id), default(ulong));
-            await ReplyAsync("", false, Utilities.GetEmbedMessage("Set Channel", "Channel set", $"Bot channel is now: any", Context.User, Color.Red));
+            await ReplyAsync("", false, Utilities.GetEmbedMessage("Set Channel", "Channel set", $"Bot channel is now: any", Context.User));
         }
         else 
         { 
             GuildUtils.SetBotChannel(GuildUtils.GetSettings(Context.Guild.Id), Context.Message.MentionedChannels.First().Id);
-            await ReplyAsync("", false, Utilities.GetEmbedMessage("Set Channel", "Channel set", $"Bot channel is now: <#{Context.Message.MentionedChannels.First().Id}>", Context.User, Color.Red));
+            await ReplyAsync("", false, Utilities.GetEmbedMessage("Set Channel", "Channel set", $"Bot channel is now: <#{Context.Message.MentionedChannels.First().Id}>", Context.User));
         }
 
     }
