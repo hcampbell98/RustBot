@@ -31,7 +31,7 @@ public class GuildList : ModuleBase<SocketCommandContext>
 
         for (int i = 0; i < 5; i++)
         {
-            eb.AddField($"{guilds[i].Name}", $"Members - {guilds[i].MemberCount}");
+            eb.AddField($"{guilds[i].Name}", $"Members - {guilds[i].MemberCount}\n ID - {guilds[i].Id}");
         }
         eb.WithColor(PremiumUtils.SelectEmbedColour(Context.User));
         eb.WithFooter(fb);
