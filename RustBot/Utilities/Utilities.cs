@@ -436,7 +436,8 @@ namespace RustBot
 
                 Dictionary<string, string> playerStats = new Dictionary<string, string> { };
                 
-                ScheduleAction(delegate () { statCache.Remove(steamID64); }, DateTime.Now.AddHours(24));
+                //Every 4 hours, the result is re-searched and cached again as to keep it up to date
+                ScheduleAction(async delegate () { statCache.Remove(steamID64); await GetPlayerInfo(steamID64); }, DateTime.Now.AddHours(4));
                 ProfileInfo profileInfo = await SteamIDUtils.GetProfileInfo(steamID64);
 
                 playerStats.Add("player_name", profileInfo.ProfileName);

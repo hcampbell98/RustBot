@@ -52,6 +52,7 @@ public class Leaderboard : ModuleBase<SocketCommandContext>
                 EmbedFooterBuilder fb = new EmbedFooterBuilder();
 
                 eb.WithTitle($"Leaderboard");
+                eb.WithThumbnailUrl("http://i.nickgor.com/3r0fx3g4.png");
                 fb.WithIconUrl(Context.User.GetAvatarUrl());
 
                 StringBuilder sb = new StringBuilder();
@@ -83,26 +84,24 @@ public class Leaderboard : ModuleBase<SocketCommandContext>
 
     public Dictionary<string, string> GetPlayers(string board, int numOfPlayers)
     {
+        //If the specified board doesn't exist, then return null
         if (!validBoards.Contains(board)) { return null; }
 
-        Dictionary<string, string> basePlayers = new Dictionary<string, string> { };
+        //Declares the Dictionary that will store a players stats for the specified board
+        //Key = Player's Name | Value = Statistic
+        Dictionary<string, string> basePlayers = new Dictionary<string, string> { }; 
 
+        //Loops through each cached player
         foreach (KeyValuePair<string, Dictionary<string, string>> player in Utilities.statCache)
         {
-
+            //Adds the player and statistic to the Dictionary
             basePlayers.Add(player.Value["player_name"], player.Value[board]);
         }
 
-        List<KeyValuePair<string, string>> sortedList = basePlayers.ToList();
-        sortedList.Sort(
-            delegate (KeyValuePair<string, string> pair1,
-            KeyValuePair<string, string> pair2)
-                {
-                    return Convert.ToDouble(pair2.Value).CompareTo(Convert.ToDouble(pair1.Value));
-                });
+        //Converts the Dictionary to a list of KeyValuePair's and sorts descending
+        List<KeyValuePair<string, string>> sortedList = SortPlayerDictionary(basePlayers);
 
-        basePlayers.OrderByDescending(x => Convert.ToDouble(x.Value));
-
+        //
         Dictionary<string, string> selectedPlayers = new Dictionary<string, string> { };
 
         if (basePlayers.Count < numOfPlayers) { numOfPlayers = basePlayers.Count; }
@@ -116,5 +115,18 @@ public class Leaderboard : ModuleBase<SocketCommandContext>
 
         return selectedPlayers;
 
+    }
+
+    public List<KeyValuePair<string, string>> SortPlayerDictionary(Dictionary<string, string> basePlayers)
+    {
+        List<KeyValuePair<string, string>> sortedList = basePlayers.ToList();
+        sortedList.Sort(
+            delegate (KeyValuePair<string, string> pair1,
+            KeyValuePair<string, string> pair2)
+            {
+                return Convert.ToDouble(pair2.Value).CompareTo(Convert.ToDouble(pair1.Value));
+            });
+
+        return sortedList;
     }
 }
