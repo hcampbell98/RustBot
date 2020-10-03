@@ -463,20 +463,35 @@ namespace RustBot
         {
             EmbedBuilder eb = new EmbedBuilder();
 
-            if(fb == null && user != null)
+            if (user != null)
             {
-                fb = new EmbedFooterBuilder();
-                fb.WithText(PremiumUtils.SelectFooterEmbedText(user));;
-                fb.WithIconUrl(user.GetAvatarUrl());
+                if (fb == null && user != null)
+                {
+                    fb = new EmbedFooterBuilder();
+                    fb.WithText(PremiumUtils.SelectFooterEmbedText(user)); ;
+                    fb.WithIconUrl(user.GetAvatarUrl());
+                }
+
+                eb.WithTitle($"{messageTitle}");
+                eb.AddField($"{fieldTitle}", $"{fieldContents}");
+
+
+                eb.WithColor(PremiumUtils.SelectEmbedColour(user));
+                eb.WithFooter(fb);
+
+                return eb.Build();
             }
+            else
+            {
+                eb.WithTitle($"{messageTitle}");
+                eb.AddField($"{fieldTitle}", $"{fieldContents}");
 
-            eb.WithTitle($"{messageTitle}");
-            eb.AddField($"{fieldTitle}", $"{fieldContents}");
 
-            eb.WithColor(PremiumUtils.SelectEmbedColour(user));
-            eb.WithFooter(fb);
+                eb.WithColor(Color.Red);
+                eb.WithFooter(fb);
 
-            return eb.Build();
+                return eb.Build();
+            }
         }
 
         public static EmbedFooterBuilder GetFooter(SocketUser user, Stopwatch sw)
