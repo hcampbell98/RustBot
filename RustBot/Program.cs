@@ -34,6 +34,7 @@ namespace RustBot
         public static string prefix = "r!";
 
         public static List<NextRoll> nextRolls = new List<NextRoll> { };
+        
 
         public async Task MainAsync()
         {
@@ -41,24 +42,31 @@ namespace RustBot
             _commands = new CommandService();
             _services = ConfigureServices();
 
+            //Add all required EventHandlers
             _client.Log += Log;
             _client.JoinedGuild += GuildJoinedHandler;
             _client.LeftGuild += GuildLeftHandler;
             _client.Ready += _client_Ready;
             _commands.CommandExecuted += _commands_CommandExecuted;
 
+            //Installs all command modules
             await InstallCommandsAsync();
+
+            //Loads the bot token from the token config file
             var token = File.ReadAllText("Config/token.cfg");
 
+            //Logs in to the bot account and starts the client
             await _client.LoginAsync(TokenType.Bot, token);
             await _client.StartAsync();
 
+            //Loads various stored data
             PremiumUtils.LoadRanks();
             TeamUtils.teamData = TeamUtils.LoadTeams();
             TeamUtils.userSettings = TeamUtils.LoadSettings();
             GuildUtils.guildData = GuildUtils.LoadSettings();
+
+            //Loads the Top.GG API key from the topggToken config file
             LoggingUtils.apiKey = File.ReadAllText("Config/topggToken.cfg");
-            //LoggingUtils.RunServer();
 
             await Task.Delay(-1);
         }

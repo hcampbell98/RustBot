@@ -21,7 +21,7 @@ namespace RustBot
         {
             using (WebClient wc = new WebClient())
             {
-                string page = await wc.DownloadStringTaskAsync(new Uri($"https://nickgor.com/rustbot/donations/CheckDonated.php?id={transId}"));
+                string page = await wc.DownloadStringTaskAsync(new Uri($"https://bunnyslippers.dev/rustbot/donations/CheckDonated.php?id={transId}"));
 
                 if (page == "null\n") { return null; }
                 else

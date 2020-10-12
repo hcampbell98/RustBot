@@ -18,7 +18,7 @@ namespace RustBot
             {
                 using (WebClient wc = new WebClient())
                 {
-                    dynamic json = JsonConvert.DeserializeObject(wc.DownloadString($"https://nickgor.com/scripts/get_link.php?discordID={id}"));
+                    dynamic json = JsonConvert.DeserializeObject(wc.DownloadString($"https://bunnyslippers.dev/scripts/get_link.php?discordID={id}"));
 
                     idCache.Add(id, Convert.ToString(json.steamID));
                     return json.steamID;

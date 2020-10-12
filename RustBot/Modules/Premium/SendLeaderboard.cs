@@ -52,7 +52,7 @@ public class Leaderboard : ModuleBase<SocketCommandContext>
                 EmbedFooterBuilder fb = new EmbedFooterBuilder();
 
                 eb.WithTitle($"Leaderboard");
-                eb.WithThumbnailUrl("http://i.nickgor.com/3r0fx3g4.png");
+                eb.WithThumbnailUrl("http://i.bunnyslippers.dev/3r0fx3g4.png");
                 fb.WithIconUrl(Context.User.GetAvatarUrl());
 
                 StringBuilder sb = new StringBuilder();

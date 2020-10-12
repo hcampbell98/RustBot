@@ -22,7 +22,7 @@ public class AddLink : ModuleBase<SocketCommandContext>
         Console.WriteLine(idBytes);
         string encodedID = Convert.ToBase64String(idBytes);
 
-        await Discord.UserExtensions.SendMessageAsync(u, $"Click here to link your account: https://nickgor.com/SteamAuth.php?DiscordID={Reverse(encodedID)}");
+        await Discord.UserExtensions.SendMessageAsync(u, $"Click here to link your account: https://bunnyslippers.dev/SteamAuth.php?DiscordID={Reverse(encodedID)}");
         await ReplyAsync("Check your DMs");
     }
 
