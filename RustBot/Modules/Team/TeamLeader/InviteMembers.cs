@@ -21,10 +21,10 @@ public class InviteMembers : ModuleBase<SocketCommandContext>
 
         Team team = TeamUtils.GetTeam(Context.User.Id);
 
-        if (team == null) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Invitation", "Error", "You are not a member of a team. Please create one using r!createteam", Context.User)); return; }
-        if (TeamUtils.CheckIfInTeam(Context.Message.MentionedUsers.First().Id)) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Invitation", "Error", "This person is already a member of a team. If they wish to leave, they can run r!leaveteam", Context.User)); return; }
-        if (!TeamUtils.GetSettings(Context.Message.MentionedUsers.First().Id).InvitesEnabled) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Invitation", "Error", "This user has team invites disabled. They can re-enable them by running r!toggleinvites", Context.User)); return; }
-        if (TeamUtils.pendingInvites.ContainsKey(Context.Message.MentionedUsers.First().Id)) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Invitation", "Error", "This user already has a pending team invite. They can decline this by running r!decline", Context.User)); return; }
+        if (team == null) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Invitation", "Error", Language.Team_Error_No_Team, Context.User)); return; }
+        if (TeamUtils.CheckIfInTeam(Context.Message.MentionedUsers.First().Id)) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Invitation", "Error", Language.Team_Error_Has_Team, Context.User)); return; }
+        if (!TeamUtils.GetSettings(Context.Message.MentionedUsers.First().Id).InvitesEnabled) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Invitation", "Error", Language.Team_Invite_Disabled, Context.User)); return; }
+        if (TeamUtils.pendingInvites.ContainsKey(Context.Message.MentionedUsers.First().Id)) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Invitation", "Error", Language.Team_Invite_Pending, Context.User)); return; }
 
         try
         {

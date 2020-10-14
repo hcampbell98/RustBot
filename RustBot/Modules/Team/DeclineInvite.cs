@@ -20,12 +20,12 @@ public class Decline : ModuleBase<SocketCommandContext>
 
         if (TeamUtils.pendingInvites.ContainsKey(Context.User.Id))
         {
-            await ReplyAsync($"<@!{Context.Message.MentionedUsers.First().Id}>", false, Utilities.GetEmbedMessage("Team Invite", $"{Context.User.Username}'s Team", $"You declined the team invite.", Context.User));
+            await ReplyAsync($"<@!{Context.Message.MentionedUsers.First().Id}>", false, Utilities.GetEmbedMessage("Team Invite", $"{Context.User.Username}'s Team", Language.Team_Invite_Decline, Context.User));
             TeamUtils.pendingInvites.Remove(Context.User.Id);
         }
         else
         {
-            await ReplyAsync($"<@!{Context.Message.MentionedUsers.First().Id}>", false, Utilities.GetEmbedMessage("Team Invite", $"{Context.User.Username}'s Team", $"You have no pending invites.", Context.User));
+            await ReplyAsync($"<@!{Context.Message.MentionedUsers.First().Id}>", false, Utilities.GetEmbedMessage("Team Invite", $"{Context.User.Username}'s Team", Language.Team_Invite_None, Context.User));
         }
     }
 }

@@ -22,7 +22,7 @@ public class Coinflip : ModuleBase<SocketCommandContext>
         string oppID = Utilities.GetNumbers(opponent);
 
         //Checks if the user was mentioned correctly. If not, displays an error message and returns.
-        if (Context.Guild.Users.FirstOrDefault(user => user.Id.ToString() == oppID) == null) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Coinflip", "Error", "You need to @mention your opponent.", Context.Message.Author)); return; }
+        if (Context.Guild.Users.FirstOrDefault(user => user.Id.ToString() == oppID) == null) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Coinflip", "Error", Language.Coinflip_Error_No_Mention, Context.Message.Author)); return; }
 
         string[] players = { Context.Message.Author.Id.ToString(), oppID };
 

@@ -21,9 +21,9 @@ public class Raid : ModuleBase<SocketCommandContext>
 
         Team team = TeamUtils.GetTeam(Context.User.Id);
 
-        if (team == null) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Notifications", "Error", "You are not a member of a team. Please create one using r!createteam", Context.User)); return; }
-        if (!team.Notifications) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Notifications", "Error", "This team has notifications disabled.", Context.User)); return; }
-        if (Context.Guild != Program._client.GetGuild(team.GuildID)) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Notifications", "Error", "This command should be run in the server the group was created.", Context.User)); return; }
+        if (team == null) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Notifications", "Error", Language.Team_Error_No_Team, Context.User)); return; }
+        if (!team.Notifications) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Notifications", "Error", Language.Team_Error_Notifications_Disabled, Context.User)); return; }
+        if (Context.Guild != Program._client.GetGuild(team.GuildID)) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Notifications", "Error", Language.Team_Error_Wrong_Guild, Context.User)); return; }
 
         StringBuilder mentions = new StringBuilder();
         foreach(ulong member in team.Members)

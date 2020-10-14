@@ -23,9 +23,9 @@ public class TeamAlerter : ModuleBase<SocketCommandContext>
         Team team = TeamUtils.GetTeam(Context.User.Id);
 
         //If the user isn't in a team or isn't the team leader, display an error message
-        if (team == null) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Notifications", "Error", "You are not a member of a team. Please create one using r!createteam", Context.User)); return; }
-        if (team.TeamLeader != Context.User.Id) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Notifications", "Error", "You are not the team leader.", Context.User)); return; }
-        if (!team.Notifications) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Notifications", "Error", "Notifications are disabled.", Context.User)); return; }
+        if (team == null) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Notifications", "Error", Language.Team_Error_No_Team, Context.User)); return; }
+        if (team.TeamLeader != Context.User.Id) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Notifications", "Error", Language.Team_Error_Not_Leader, Context.User)); return; }
+        if (!team.Notifications) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Notifications", "Error", Language.Team_Error_Notifications_Disabled, Context.User)); return; }
 
         foreach (ulong u in team.Members)
         {

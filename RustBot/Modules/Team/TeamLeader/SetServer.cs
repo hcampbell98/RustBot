@@ -22,8 +22,8 @@ public class Module : InteractiveBase
         Team team = TeamUtils.GetTeam(Context.User.Id);
 
         //Checks whether the player is in a team, and whether or not they own it
-        if (team == null) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Notifications", "Error", "You are not a member of a team. Please create one using r!createteam", Context.User)); return; }
-        if (team.TeamLeader != Context.User.Id) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Notifications", "Error", "You are not the team leader.", Context.User)); return; }
+        if (team == null) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Notifications", "Error", Language.Team_Error_No_Team, Context.User)); return; }
+        if (team.TeamLeader != Context.User.Id) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Notifications", "Error", Language.Team_Error_Not_Leader, Context.User)); return; }
 
         //Grabs the server
         ServerInfo s = await Utilities.GetServer(search);
@@ -35,10 +35,10 @@ public class Module : InteractiveBase
 
         if (response.Content == "1") { correct = true; }
         else if (response.Content == "2") { correct = false; }
-        else { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Server", "Error", "Please type the number of your answer. E.g: 1 for yes, 2 for no.", Context.User)); return; }
+        else { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Server", "Error", Language.Team_Creation_Error_Invalid, Context.User)); return; }
 
         //If correct, add team and display success message, else display unsuccessful message
         if (correct) { TeamUtils.SetServer(team, s); await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Server", "Success", $"Successfully added **{s.ServerName}** as this team's server.", Context.User)); }
-        else { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Server", "Unsuccessful", "Please try a less broad search term and try again.", Context.User)); }
+        else { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Server", "Unsuccessful", Language.Team_Server_Error_Broad, Context.User)); }
     }
 }

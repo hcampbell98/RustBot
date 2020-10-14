@@ -25,7 +25,7 @@ public class Verify : ModuleBase<SocketCommandContext>
         
         if(p == null || !PremiumUtils.AssignPremiumRank(Context.User, p))
         {
-            await ReplyAsync("", false, Utilities.GetEmbedMessage("Premium Verification", "Verification Failed", "It appears you haven't purchased a premium rank. Please check your transaction ID is correct and try again. If you haven't bought a rank yet, you can do so by typing r!premium.", Context.User));
+            await ReplyAsync("", false, Utilities.GetEmbedMessage("Premium Verification", "Verification Failed", Language.Premium_Verification_Error_Failed, Context.User));
         }
         else
         {

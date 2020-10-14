@@ -46,7 +46,7 @@ public class Leaderboard : ModuleBase<SocketCommandContext>
             {
                 Dictionary<string, string> selectedPlayers = GetPlayers(board, 10);
 
-                if (selectedPlayers == null) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Leaderboard", "Error", "The specified board could not be found. Please double check you've typed it correctly and try again. You can view all available boards by running `r!leaderboard`.", Context.User, Utilities.GetFooter(Context.User, sw))); return; }
+                if (selectedPlayers == null) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Leaderboard", "Error", Language.Leaderboard_Error_Not_Found, Context.User, Utilities.GetFooter(Context.User, sw))); return; }
 
                 EmbedBuilder eb = new EmbedBuilder();
                 EmbedFooterBuilder fb = new EmbedFooterBuilder();
@@ -75,7 +75,7 @@ public class Leaderboard : ModuleBase<SocketCommandContext>
             }
             else
             {
-                await ReplyAsync("", false, Utilities.GetEmbedMessage("Premium Error", "Leaderboard", "This command is a Wood Tier or higher feature. If you would like access to this command, type r!premium and purchase a tier. Thank you!", Context.User, Utilities.GetFooter(Context.User, sw)));
+                await ReplyAsync("", false, Utilities.GetEmbedMessage("Premium Error", "Leaderboard", Language.Premium_Verification_Error_Failed, Context.User, Utilities.GetFooter(Context.User, sw)));
             }
         }
     }

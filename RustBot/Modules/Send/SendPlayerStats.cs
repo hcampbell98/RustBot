@@ -50,7 +50,7 @@ public class Stats : ModuleBase<SocketCommandContext>
         }
 
         //If the profile is private, handle the exception.
-        if (playerStats == null) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Player Stats", "Error", "The profile specified may be private. If this profile is yours, please change to public and try again.", Context.User, Utilities.GetFooter(Context.User, sw))); return; }
+        if (playerStats == null) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Player Stats", "Error", Language.PlayerStats_Error_Private, Context.User, Utilities.GetFooter(Context.User, sw))); return; }
 
         //PvP Statistics
         double deaths = int.Parse(playerStats.GetValueOrDefault("deaths", "0"));

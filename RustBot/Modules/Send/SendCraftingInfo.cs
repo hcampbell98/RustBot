@@ -66,7 +66,7 @@ public class Craft : InteractiveBase
                     Item i = await Utilities.GetItemInfo(itemInfo[Convert.ToInt32(response.Content) - 1]);
 
                     //If the item isn't craftable, send an error message and return
-                    if (i.Ingredients.Count < 1) { await ReplyAsync("", false, Utilities.GetEmbedMessage($"{i.ItemName}", "Not Craftable", "This item cannot be crafted.", Context.Message.Author)); return; }
+                    if (i.Ingredients.Count < 1) { await ReplyAsync("", false, Utilities.GetEmbedMessage($"{i.ItemName}", "Not Craftable", Language.Crafting_Cannot_Craft, Context.Message.Author)); return; }
 
                     await ReplyAsync("", false, GenMessage(i, number));
                 }
@@ -79,7 +79,7 @@ public class Craft : InteractiveBase
                 Item i = await Utilities.GetItemInfo(itemInfo[0]);
 
                 //If the item isn't craftable, send an error message and return
-                if (i.Ingredients.Count < 1) { await ReplyAsync("", false, Utilities.GetEmbedMessage($"{i.ItemName}", "Not Craftable", "This item cannot be crafted.", Context.Message.Author)); return; }
+                if (i.Ingredients.Count < 1) { await ReplyAsync("", false, Utilities.GetEmbedMessage($"{i.ItemName}", "Not Craftable", Language.Crafting_Cannot_Craft, Context.Message.Author)); return; }
 
                 await ReplyAsync("", false, GenMessage(i, number));
             }

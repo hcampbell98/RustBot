@@ -23,11 +23,11 @@ public class BaseCoords : ModuleBase<SocketCommandContext>
         Team team = TeamUtils.GetTeam(Context.User.Id);
 
         //If the input is not a valid coordinate, display an error and return.
-        if (!Regex.Match(coords, @"^[a-zA-Z]{1,2}\d{1,2}$").Success) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Coordinates", "Error", "The input was an invalid coordinate. Examples of valid coordinated: D12, a14, c1, B28", Context.User)); return; }
+        if (!Regex.Match(coords, @"^[a-zA-Z]{1,2}\d{1,2}$").Success) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Coordinates", "Error", Language.Team_Coordinates_Error_Invalid, Context.User)); return; }
 
         //If the user isn't in a team or isn't the team leader, display an error message
-        if (team == null) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Coordinates", "Error", "You are not a member of a team. Please create one using r!createteam", Context.User)); return; }
-        if (team.TeamLeader != Context.User.Id) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Notifications", "Error", "You are not the team leader.", Context.User)); return; }
+        if (team == null) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Coordinates", "Error", Language.Team_Error_No_Team, Context.User)); return; }
+        if (team.TeamLeader != Context.User.Id) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Notifications", "Error", Language.Team_Error_Not_Leader, Context.User)); return; }
 
         //Create a new team based on the original and update the base coordinates
         Team updatedTeam = team;
