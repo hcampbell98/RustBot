@@ -14,7 +14,7 @@ public class AddLink : ModuleBase<SocketCommandContext>
     [Remarks("Misc")]
     public async Task LinkAccount()
     {
-        if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
+        
         if (SteamLink.GetSteam(Context.Message.Author.Id.ToString()) != null) { await Context.Channel.SendMessageAsync("Account already linked"); return; }
 
         var u = Context.Message.Author;

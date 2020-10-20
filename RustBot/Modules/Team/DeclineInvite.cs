@@ -16,8 +16,6 @@ public class Decline : ModuleBase<SocketCommandContext>
     [Remarks("Team")]
     public async Task DeclineInvite()
     {
-        if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
-
         if (TeamUtils.pendingInvites.ContainsKey(Context.User.Id))
         {
             await ReplyAsync($"<@!{Context.Message.MentionedUsers.First().Id}>", false, Utilities.GetEmbedMessage("Team Invite", $"{Context.User.Username}'s Team", Language.Team_Invite_Decline, Context.User));

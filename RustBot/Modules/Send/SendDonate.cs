@@ -15,7 +15,7 @@ public class Donate : ModuleBase<SocketCommandContext>
     [Remarks("Support")]
     public async Task SendDonate()
     {
-        if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
+        
 
         EmbedBuilder eb = new EmbedBuilder();
         EmbedFooterBuilder fb = new EmbedFooterBuilder();

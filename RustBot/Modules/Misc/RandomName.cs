@@ -15,7 +15,7 @@ public class RandomName : ModuleBase<SocketCommandContext>
     [Remarks("Fun")]
     public async Task SendRandomName([Remainder]string input)
     {
-        if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
+        
 
         //Removes spaces before and after commas
         string whitespaceRemovedInput = Regex.Replace(input, " *, *", ",");

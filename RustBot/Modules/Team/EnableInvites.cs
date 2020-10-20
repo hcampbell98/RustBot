@@ -16,7 +16,7 @@ public class ToggleInvite : ModuleBase<SocketCommandContext>
     [Remarks("Team")]
     public async Task Toggle()
     {
-        if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
+        
 
         bool status;
 

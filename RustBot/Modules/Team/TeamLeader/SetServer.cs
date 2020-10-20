@@ -17,7 +17,7 @@ public class Module : InteractiveBase
     [Remarks("Team Leader")]
     public async Task SendRoll([Remainder]string search)
     {
-        if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
+        
 
         Team team = TeamUtils.GetTeam(Context.User.Id);
 

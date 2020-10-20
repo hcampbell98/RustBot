@@ -26,7 +26,7 @@ public class Skin : InteractiveBase
         Stopwatch sw = new Stopwatch();
         sw.Start();
 
-        if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
+        
 
         string orderBy;
         string orderDirection;

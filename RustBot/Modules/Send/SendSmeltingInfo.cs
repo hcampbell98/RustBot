@@ -27,7 +27,7 @@ public class Smelting : InteractiveBase
     [Remarks("Tools")]
     public async Task SendFurnace(string oreType, int amount)
     {
-        if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
+        
 
         if (amount > 3000) { await ReplyAsync("The max value allowed is 3000."); return; }
         if (amount < 0) { await ReplyAsync("You can't smelt nothing retard."); return; }
@@ -141,7 +141,7 @@ public class Smelting : InteractiveBase
     [Remarks("Tools")]
     public async Task SendLFurnace(string oreType, int amount)
     {
-        if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
+        
 
         if (amount > 15000) { await ReplyAsync("The max value allowed is 15,000."); return; }
         if (amount < 0) { await ReplyAsync("You can't smelt nothing retard."); return; }

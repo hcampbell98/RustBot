@@ -19,7 +19,7 @@ public class BotStats : ModuleBase<SocketCommandContext>
         Stopwatch sw = new Stopwatch();
         sw.Start();
 
-        if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
+        
 
         int totalUsers = 0;
         foreach (var guild in Program._client.Guilds)

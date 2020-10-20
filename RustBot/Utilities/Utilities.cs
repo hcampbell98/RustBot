@@ -27,6 +27,8 @@ namespace RustBot
         public static Dictionary<string, Dictionary<string, string>> statCache = new Dictionary<string, Dictionary<string, string>> { };
         public static Dictionary<string, ProfileInfo> profileInfoCache = new Dictionary<string, ProfileInfo> { };
 
+        public static Dictionary<string, DateTime> adServers = new Dictionary<string, DateTime> { };
+
         public static string searchPlaceCache;
         public static string searchBlockCache;
 

@@ -17,7 +17,7 @@ public class SetChannel : ModuleBase<SocketCommandContext>
     [RequireUserPermission(GuildPermission.Administrator)]
     public async Task SetCommandsChannel([Remainder]string channelMention)
     {
-        if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
+        
 
         if (channelMention == "null") 
         { 

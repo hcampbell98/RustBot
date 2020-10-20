@@ -17,7 +17,7 @@ public class InviteMembers : ModuleBase<SocketCommandContext>
     [Remarks("Team Leader")]
     public async Task TeamInvite([Remainder]string mention)
     {
-        if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
+        
 
         Team team = TeamUtils.GetTeam(Context.User.Id);
 

@@ -17,8 +17,6 @@ public class TeamMembers : ModuleBase<SocketCommandContext>
     [Remarks("Team")]
     public async Task SendMembers()
     {
-        if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
-
         Team team = TeamUtils.GetTeam(Context.User.Id);
 
         //If the user isn't in a team, display an error message
@@ -26,9 +24,16 @@ public class TeamMembers : ModuleBase<SocketCommandContext>
 
         StringBuilder sb = new StringBuilder();
 
-        foreach(ulong member in team.Members)
+        if(team.Members.Length == 0)
         {
-            sb.Append($"{Program._client.GetUser(member).Username}\n");
+            sb.Append("No members.");
+        }
+        else
+        {
+            foreach (ulong member in team.Members)
+            {
+                sb.Append($"{Program._client.GetUser(member).Username}\n");
+            }
         }
 
         await ReplyAsync("", false, Utilities.GetEmbedMessage("Team List", $"{Program._client.GetUser(team.TeamLeader).Username}'s Team", $"{sb.ToString()}", Context.User));

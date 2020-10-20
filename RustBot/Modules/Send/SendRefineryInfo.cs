@@ -21,7 +21,7 @@ public class Refinery : InteractiveBase
     [Remarks("Tools")]
     public async Task SendRefinery(int amount)
     {
-        if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
+        
 
         if (amount > 3000) { await ReplyAsync("The max value allowed is 3000."); return; }
         if (amount < 0) { await ReplyAsync("You can't smelt nothing retard."); return; }

@@ -21,7 +21,7 @@ public class CreateTeam : InteractiveBase
     [RequireBotPermission(GuildPermission.ManageRoles)]
     public async Task SendRoll()
     {
-        if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
+        
 
         bool notifications;
 

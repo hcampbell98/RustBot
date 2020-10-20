@@ -23,7 +23,7 @@ public class ItemInfo : InteractiveBase
     public async Task SendItemInfo([Remainder]string item)
     {
         sw.Start();
-        if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
+        
 
         //Stops people spamming characters as to lag the bot
         if (item.Length > 100) { await ReplyAsync("Please use a shorter item name."); return; }

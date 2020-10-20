@@ -17,7 +17,7 @@ public class LeaveTeam : ModuleBase<SocketCommandContext>
     [Remarks("Team")]
     public async Task LeaveCurrentTeam()
     {
-        if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
+        
 
         if (!TeamUtils.LeaveTeam(Context.User.Id)) { await ReplyAsync("", false, Utilities.GetEmbedMessage("Team Notifications", "Error", Language.Team_Error_No_Team, Context.User)); return; }
         

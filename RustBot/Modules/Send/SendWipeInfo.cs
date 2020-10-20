@@ -15,7 +15,7 @@ public class Wipe : ModuleBase<SocketCommandContext>
     [Remarks("Tools")]
     public async Task SendWipeInfo()
     {
-        if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
+        
 
         //Gets the first day of next month
         DateTime dt = DateTime.Now;

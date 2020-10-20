@@ -17,7 +17,7 @@ public class UpdateNotifications : ModuleBase<SocketCommandContext>
     [Remarks("Team")]
     public async Task ToggleNotifications()
     {
-        if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
+        
 
         bool status;
 

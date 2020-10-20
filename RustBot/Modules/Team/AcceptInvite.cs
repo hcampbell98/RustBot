@@ -16,8 +16,6 @@ public class AcceptInvite : ModuleBase<SocketCommandContext>
     [Remarks("Team")]
     public async Task Accept()
     {
-        if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
-
         if (TeamUtils.pendingInvites.ContainsKey(Context.User.Id)) 
         {
             TeamUtils.AddToTeam(TeamUtils.pendingInvites[Context.User.Id], Context.User.Id);

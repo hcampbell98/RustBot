@@ -23,7 +23,7 @@ public class Help : ModuleBase<SocketCommandContext>
 
         Program p = new Program();
 
-        if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
+        
 
         //Grabs a list of all commands and sorts them alphabetically by name
         List<CommandInfo> commands = Program._commands.Commands.ToList();
@@ -84,7 +84,7 @@ public class Help : ModuleBase<SocketCommandContext>
         Stopwatch sw = new Stopwatch();
         sw.Start();
 
-        if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
+        
 
         cmdName = cmdName.Replace("r!", "").ToLower();
 
@@ -122,7 +122,7 @@ public class Help : ModuleBase<SocketCommandContext>
 
         Program p = new Program();
 
-        if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
+        
 
         //Grabs a list of all commands and sorts them alphabetically by name
         List<CommandInfo> commands = Program._commands.Commands.ToList();

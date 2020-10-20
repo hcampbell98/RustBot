@@ -23,7 +23,7 @@ public class Break : InteractiveBase
     public async Task SendBreakInfo([Remainder] string placeable)
     {
         sw.Start();
-        if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
+        
 
         SearchBreakable sb;
 

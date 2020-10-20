@@ -17,7 +17,7 @@ public class Premium : ModuleBase<SocketCommandContext>
     {
         string bulletPoint = "<:small_blue_diamond:759438353057316866>";
 
-        if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
+        
 
         EmbedBuilder eb = new EmbedBuilder();
         EmbedFooterBuilder fb = new EmbedFooterBuilder();

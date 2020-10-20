@@ -42,6 +42,8 @@ namespace RustBot
 
             //ServerInfo
             ServerInfo_Disabled = "This server has disabled the ability to search for servers.",
+            ServerInfo_AddedAd = "Advertisement Added Successfully",
+            ServerInfo_RemovedAd = "Advertisement Removed Successfully",
 
             //SendLeaderboard
             Leaderboard_Error_Not_Found = "The specified board could not be found. Please double check you've typed it correctly and try again. You can view all available boards by running `r!leaderboard`.",

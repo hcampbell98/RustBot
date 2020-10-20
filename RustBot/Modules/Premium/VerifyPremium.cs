@@ -19,7 +19,7 @@ public class Verify : ModuleBase<SocketCommandContext>
         Stopwatch sw = new Stopwatch();
         sw.Start();
 
-        if (PermissionManager.GetPerms(Context.Message.Author.Id) < PermissionConfig.User) { await Context.Channel.SendMessageAsync("Not authorised to run this command."); return; }
+        
 
         PremiumRank p = await PremiumUtils.VerifyPremium(transactionId, Context.User.Id);
         
