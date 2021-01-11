@@ -100,7 +100,7 @@ public class ItemInfo : InteractiveBase
             StringBuilder sb = new StringBuilder();
             foreach (var info in i.ItemInfoTable)
             {
-                sb.Append($"**{info.Stat.Replace("\n", "")}** - {info.Value.Replace("\n", "")}\n");
+                sb.Append($"**{info.Stat.Replace("\n", "")}**: {info.Value.Replace("\n", "")}\n");
             }
 
             eb.AddField("Item Info", $"{sb.ToString()}", true);
